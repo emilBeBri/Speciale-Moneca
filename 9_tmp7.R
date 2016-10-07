@@ -1,0 +1,620 @@
+
+
+view(data)
+data <- read.csv("http://protzkeule.de/data.csv")
+p <- ggplot(data=data, aes(x=variable, y=meas)) + geom_tile(aes(fill=value))
+
+p + scale_fill_gradient2(low="blue", mid="white", high="red", guide="colorbar", limits=c(-.1,.1))
+
+p + scale_fill_gradient2(low="blue", mid="white", high="red", guide="colorbar", limits=c(-.1,.3))
+
+
+library("scales")
+p + scale_fill_gradientn(colours = c("blue","white","red"), 
+                         values = rescale(c(-.1,0,.3)),
+                         guide = "colorbar", limits=c(-.1,.3))
+
+
+
+
+############ stack exchange hjælp 
+
+rname <- c("subject one", "subject two", "subject three", "subject four","subject five")
+var_percent <- c(0.51, 0.60, 0.70,0.86,0.9)
+var_count <- seq(5,25,5)
+mat <- cbind(var_percent, var_count)
+mat <- cbind(var_percent, rname)
+mat <- tbl_df(mat)
+mat$var_percent <-  as.numeric(mat$var_percent)
+
+
+p <- ggplot(data=mat, aes(x=var_count,y=rname,fill=var_percent)) + geom_tile(aes(fill=var_percent)) 
+
+p + scale_fill_gradientn(colours = c("indianred","white","darkseagreen"), values=rescale(c(0.51,0.55,0.6,0.65,0.9))                       ,  guide = "colorbar")
+
+view(mat)
+
+
+
+
+
+ledbeskaeft.hist.count <- ggplot(hist.led,aes(x=factor(disco),y=ledbeskaeft.gns,fill=ledbeskaeft.gns)) + geom_bar(stat="identity") +
+  coord_flip() + geom_text(aes(label = ledbeskaeft.gns), size = 2, hjust = -0.1, position = "dodge") +
+  scale_fill_gradientn(colours = c("#4A4A4A", "darkorange"), guide = "none", breaks = c(0.9, 0.75, 0.5, 0.25, 0.1)) +
+  theme(text = element_text(size=9),axis.text.y = element_text(angle=0, vjust=0, size=4)) 
+
+
+
+ggplot(data=mat, aes(mat$var_count)) + geom_histogram() + 
+scale_fill_gradientn(colours=c("red","white","green"),)
+
+
+
+
+
+scale_fill_gradientn(colours = getPalette(length(unique(discodata$within.mob.seg))), name = "intern mobilitet i segment", breaks=intern.mob.seg_num, labels=intern.mob.seg_lab, 
+                     guide="legend", values= rescale(c(0.1,0.2))   )        #)     #  guide = ""colorbar"", )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+############### forsøg med select af udvalgte variable
+
+
+
+test <- 
+
+is.matrix(mob.mat2)
+
+
+
+
+view(test)
+
+view(mob.mat.df)
+
+library(circlize)
+
+mob.mat2 <- mob.mat 
+mob.mat.df <- as.data.frame(mob.mat2)
+
+
+cut.off.default <-  1 #skal måske ikke være 1 her jo
+wm1            <- weight.matrix(mob.mat2, cut.off = cut.off.default, symmetric = FALSE, small.cell.reduction = small.cell.default, diagonal=TRUE)
+wm1[is.na(wm1)] <- 0
+view(wm1)
+wm1  <-  round(wm1, digits=0)
+circlelist <-  seg$segment.list[[3]][[14]]
+segmentcircle <- wm1[circlelist,circlelist]
+# view(segmentcircle)
+g <- graph.adjacency(segmentcircle,weighted=TRUE)
+df <- get.data.frame(g)
+# chordDiagram(x = df)
+# farve <-  brewer.pal(length(circlelist),"Set1")
+chordDiagram(x = df, 
+  # grid.col = farve, 
+  transparency = 0.25,
+             directional = 1,
+             direction.type = c("arrows", "diffHeight"), diffHeight  = -0.04,
+             link.arr.type = "big.arrow", link.sort = TRUE, link.largest.ontop = TRUE)
+# view(df)
+
+# getPalette = colorRampPalette(brewer.pal(12,"Paired"))
+# farve <-  getPalette(length(circlelist))
+  
+
+########## forsøg med alle grupper 
+
+
+circos.clear()
+circos.par(start.degree = 90, gap.degree = 0.8, track.margin = c(-0.1, 0.1), points.overflow.warning = FALSE)
+par(mar = rep(0, 4))
+
+
+getPalette = colorRampPalette(brewer.pal(12,"Paired"))
+
+
+
+
+
+
+wm1            <- weight.matrix(mob.mat2, cut.off = cut.off.default, symmetric = TRUE, small.cell.reduction = small.cell.default, diagonal=NULL)
+wm1[is.na(wm1)] <- 0
+# wm1  <-  round(wm1, digits=3)
+
+# view(segmentcircle)
+g <- graph.adjacency(segmentcircle,weighted=TRUE)
+df <- get.data.frame(g)
+chordDiagram(x = df)
+
+farve <-  getPalette(144)
+
+
+chordDiagram(x = df, grid.col = farve, transparency = 0.25,
+             directional = 1,
+             direction.type = c("arrows", "diffHeight"), diffHeight  = -0.04,
+             link.arr.type = "big.arrow", link.sort = TRUE, link.largest.ontop = TRUE)
+
+
+
+
+
+
+##################### forsøg med circle ############
+
+
+library("circlize")
+##
+##default chord diagram
+##
+
+
+
+
+
+
+########################################################
+
+
+
+view(test)
+
+wm2 <-  cbind(wm1,label.short[-144])
+view(wm2)
+
+
+seg
+
+   seg$segment.list[[4]][[5]]
+
+
+length(seg$segment.list[[4]])
+
+
+ rownames(mob.mat2)
+
+
+######################
+
+
+
+
+2 2 2
+
+
+
+d_1 <-  discodata$disco_1cifret 
+
+
+view(d_1)
+
+
+
+
+
+mob.mat         <- rbind(mob.mat, totalbeskaeft1997.2009)
+
+view(mob.mat)
+
+
+
+
+totalbeskaeft1996.2008[144] <- 0
+# Her januar 2016: problemer med at cbind og rbind ikke længere vil 
+
+
+
+
+mob.mat          <- cbind(mob.mat, totalbeskaeft1996.2008)
+
+
+
+mob.mat      <- read.csv("./statistik/R/moneca/vores/voresdata/mobilitymatrix_1cifret_disco_udenmili.csv", row.names = 1, header = TRUE, sep = ',', fileEncoding  ="UTF-8", check.names = FALSE)
+
+
+
+view(mob.mat2)
+view(mob.mat)
+
+
+
+
+
+
+wm2 <- wm1 
+
+
+cut.off.default          <- 0.1
+small.cell.default       <- 5
+
+
+
+wm1            <- weight.matrix(mob.mat, cut.off = cut.off.default, symmetric = TRUE, small.cell.reduction = small.cell.default, diagonal=TRUE)
+
+
+
+
+
+
+help(weight.matrix)
+view(wm1)
+view(wm2)
+
+
+
+
+
+
+
+
+ungkort.dk
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##########################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+new_column_order <- c(144,1:143) 
+wm1 <- wm1[,new_column_order] 
+
+
+view(wm1)
+
+head(wm1)
+
+library(igraph) 
+
+
+g <-  get.edgelist(g)
+
+
+view(df)
+
+
+view(g)
+
+
+
+
+
+
+
+
+<- rearrange(wm1,V144, all())
+
+
+wm1 <-  wm1 %>%
+  select(V144,everything())
+
+
+is.matrix(wm1)
+
+View(test)
+
+  <-  label.short
+
+
+library(data.table)
+
+
+setDT(wm1, keep.rownames = TRUE)[]
+
+
+
+get.data.frame(wm1)
+
+
+
+library(igraph)
+set.seed(1)                # for reproducible example
+myAdjacencyMatrix <- matrix(runif(400),nc=20,nr=20)
+View(myAdjacencyMatrix)
+is.matrix(myAdjacencyMatrix)
+
+
+g  <- graph.adjacency(myAdjacencyMatrix,weighted=TRUE)
+
+View(g)
+
+
+ x <-  graph.data.frame(g)
+
+
+
+
+view(g)
+
+df <- get.data.frame(x)
+
+
+head(df)
+view(df)
+
+
+
+
+library("migest")
+
+cfplot_reg2
+
+demo(cfplot_reg2, package = "migest", ask = FALSE)
+
+
+
+1
+2
+dev.copy2pdf(file = "cfplot_reg2.pdf", height=10, width=10)
+
+
+
+
+
+
+file.show("cfplot_reg2.pdf")
+
+
+
+
+
+
+help(weight.matrix)
+
+weight.matrix(seg, cut.off=)
+
+##
+##install packages if not already done so (uncomment)
+##
+# install.packages("circlize")
+
+library("circlize")
+
+##
+##load data (df0: 2010-15 global flows, df1: meta data for plot)
+##global flow data based on estimates from:
+##
+#
+# Abel, G.J. (2016) Estimates of global bilateral migration glows by gender between 1960 and 2015. 
+# Vienna Institute of Demography Working Papers 2/2016.
+#
+
+df0 <- read.csv(system.file("vidwp", "reg_flow.csv", package = "migest"), stringsAsFactors=FALSE)
+df1 <- read.csv(system.file("vidwp", "reg_plot.csv", package = "migest"), stringsAsFactors=FALSE)
+
+
+
+view(df1)
+
+##
+##default chord diagram
+##
+
+chordDiagram(x = df0)
+
+##
+##plot parameters
+##
+
+circos.clear()
+circos.par(start.degree = 90, gap.degree = 4, track.margin = c(-0.1, 0.1), points.overflow.warning = FALSE)
+par(mar = rep(0, 4))
+
+#increasing the gaps between sectors, start at 12 o'clock, ensure no gap between the chord and the sector at the begining
+# subdue warning messages and have no margins in the plot
+
+##
+##chord diagram with user selected adjustments for bilateral migration flow data
+##
+
+chordDiagram(x = df0, grid.col = df1$col, transparency = 0.25,
+             order = df1$region, directional = 1,
+             direction.type = c("arrows", "diffHeight"), diffHeight  = -0.04,
+             annotationTrack = "grid", annotationTrackHeight = c(0.05, 0.1),
+             link.arr.type = "big.arrow", link.sort = TRUE, link.largest.ontop = TRUE)
+
+# First line of arguments reads in the data (df0) and sets the colours base on the meta data (df1).
+# Second line provides the order of outer sectors and indicates that chords should be directional.
+# Third line indicates that the direction of the chords will be illustrated by both arrows and a difference in height. The
+#  height difference is negative to make the chord shorter at the end (with the arrow head).
+# Fourth line ensures the annotations outside the sectors are not plotted, but provides a track measures to later add 
+#  annotatinos such as labels and axis (see below).
+# Fifth line indicates the plot should use big arrows, sort the chords left to right in each sector and 
+#  plots the smallest chords first.
+
+##
+##add in labels and axis
+##
+
+circos.trackPlotRegion(
+  track.index = 1, 
+  bg.border = NA, 
+  panel.fun = function(x, y) {
+    xlim = get.cell.meta.data("xlim")
+    sector.index = get.cell.meta.data("sector.index")
+    reg1 = df1$reg1[df1$region == sector.index]
+    reg2 = df1$reg2[df1$region == sector.index]
+    
+    circos.text(x = mean(xlim), y = ifelse(test = nchar(reg2) == 0, yes = 5.2, no = 6.0), 
+                labels = reg1, facing = "bending", cex = 1.2)
+    circos.text(x = mean(xlim), y = 4.4, 
+                labels = reg2, facing = "bending", cex = 1.2)
+    circos.axis(h = "top", 
+                major.at = seq(from = 0, to = xlim[2], by = ifelse(test = xlim[2]>10, yes = 2, no = 1)), 
+                minor.ticks = 1, major.tick.percentage = 0.5,
+                labels.niceFacing = FALSE)
+  }
+)
+
+# First line indicates that first track (rather than any other that may have been created) will be used.
+# Second line ensures no borders are plotted on the track.
+# Third line adds a track.
+# Fourth and fifth line collect individual track meta data from plot object.
+# Sixth and seventh line collect matching name information from plot data frame (df1).
+# The first circos.text adds text from (reg1) either at y = 6 (if there is a second part of the name in reg2) or 5.2.
+# The second circost.text adds text (reg2).
+# The circos.axis add axis with major and minor ticks, without flipping the axis labels in the bottom half.
+
+##
+##Printing
+##
+
+# text(x = -1.1, y = -1, pos = 4, cex = 0.6, 
+#      labels = "Based on estimates from:")
+# text(x = -1.1, y = -1 - 1*0.03, pos = 4, cex = 0.6, 
+#      labels = expression(paste(
+#        plain(" Abel G.J. (2016) "), italic("Estimates of Global Bilateral Migration Flows by Gender")
+#      )))
+# text(x = -1.1, y = -1 - 2*0.03, pos = 4, cex = 0.6, 
+#      labels = expression(paste(
+#          italic(" between 1960 and 2015. "), plain("Vienna Institute of Demography Working Papers. 2/2016")
+#      )))
+# 
+# dev.copy2pdf(file = "cfplot_reg2.pdf", height=10, width=10)
+# file.show("./cfplot_reg2.pdf")
+#  
+# dev.print(png, file = "cfplot_reg2.png", height=25, width=25, units = "cm", res=1000)
+# file.show("cfplot_reg2.png")
+
+
+
+
+
+
+############## d. 14/09/2016
+
+
+
+
+
+view(discodata)
+view(beskaeft.samlet)
+
+
+beskaeft.samlet$membership <- cbind(seg.mem.df$membership
+
+
+
+nrow(discodata)
+view(d)
+
+
+is.character(beskaeft.samlet$disco)
+is.character(seg.mem.df$disco)
+is.character(seg.mem.df$membership)
+
+view(seg.mem.df)
+
+test <-  discodata %>% distinct(membership,.keep_all=TRUE) 
+test <-  discodata %>% distinct(disco,.keep_all=TRUE) 
+
+view(discodata)
+
+nrow(test)
+view(test)
+
+
+
+
+
+
+unique(discodata$membership)
+
+
+
+# seg.mem.df$membership  <-  as.factor(as.numeric(seg.mem.df$membership)) #ødelægger levels måske pga punktummet?!?
+# seg.mem.df$membership  <-  as.factor(seg.mem.df$membership)
+
+view(beskaeft.samlet)
+
+
+
+seg.mem.df$membership
+test <- distinct(seg.mem.df,membership,.keep_all=TRUE)
+nrow(test)
+seg.mem.df$membership
+test <- distinct(seg.mem.df,membership,.keep_all=TRUE)
+nrow(test)
+
+
+# view(seg.mem.df)
+# der er kun 49 levels hvorfor ikke 51?!?
+
+#view(seg.mem.df)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

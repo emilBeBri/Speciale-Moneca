@@ -1,0 +1,70 @@
+{
+	"history":
+	[
+		{
+			"data":
+			{
+				"args":
+				{
+					"text": "INPUT SELECT TEXTAREA DIV P A",
+					"threshold": 3
+				},
+				"command": "text_pastry_insert_text",
+				"text": "INPUT SELECT TEXTAREA DIV P A"
+			},
+			"key": "60346ba0a98349b1a8fa60554faffaf4",
+			"label": "INPUT SELECT TEXTAREA DIV P A"
+		},
+		{
+			"data":
+			{
+				"args":
+				{
+					"text": "iasdf asdfas sadfa asdf asdfa",
+					"threshold": 3
+				},
+				"command": "text_pastry_insert_text",
+				"text": "iasdf asdfas sadfa asdf asdfa"
+			},
+			"key": "75954b3dd6e8823581bdc00db0932a5f",
+			"label": "iasdf asdfas sadfa asdf asdfa"
+		},
+		{
+			"data":
+			{
+				"args":
+				{
+					"text": "1 2 3 4 5"
+				},
+				"command": "text_pastry_step",
+				"text": "1 2 3 4 5"
+			},
+			"key": "9f56c817b9cbf8e0a78facd2684b8c55",
+			"label": "1 2 3 4 5"
+		},
+		{
+			"data":
+			{
+				"args":
+				{
+					"text": "wrod wef wedf wdf wd ",
+					"threshold": 3
+				},
+				"command": "text_pastry_insert_text",
+				"text": "wrod wef wedf wdf wd "
+			},
+			"key": "ed8b329f6b295a0e2770c666dfb081a4",
+			"label": "wrod wef wedf wdf wd "
+		}
+	],
+	"last_command":
+	{
+		"args":
+		{
+			"text": "wrod wef wedf wdf wd ",
+			"threshold": 3
+		},
+		"command": "text_pastry_insert_text",
+		"text": "wrod wef wedf wdf wd "
+	}
+}

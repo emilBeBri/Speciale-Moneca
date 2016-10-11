@@ -1,0 +1,15 @@
+<snippet>
+	<content><![CDATA[
+​Emil Erik Pula Bellamy Begtrup-Bright 
+ 
+Studentergården
+Tagensvej 15, 250
+2200 København N
+
++45 60 62 46 81
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>emilbb</tabTrigger> 
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

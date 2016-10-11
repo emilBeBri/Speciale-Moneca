@@ -1,0 +1,265 @@
+{
+	"folders":
+	[
+		{
+			"path": "E:\\Dropbox\\Speciale\\Emil_Soeren\\latexopgave"
+		},
+		{
+			"path": "E:\\Dropbox\\Speciale\\Emil_Soeren"
+		},
+		{
+			"path": "E:\\Dropbox\\Speciale"
+		},
+		{
+			"path": "E:\\Dropbox\\Emil_Soeren\\statistik\\R\\moneca\\Til Soeren og Emil BB"
+		},
+		{
+			"path": "E:\\Dropbox\\Emil_Soeren"
+		},
+		{
+			"path": "E:\\Dropbox\\Documents\\Latex\\templates\\Stefan_Andrade\\TexFiles\\SAMLER"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "E:\\Dropbox\\Documents\\Latex"
+		},
+		{
+			"path": "E:\\Dropbox\\Documents\\KU\\Sociale_Bevaegelser\\sociale_bevaegelser_ebb_rma"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "E:\\Dropbox\\Documents\\KU\\Social_Netvaerksanalyse"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "E:\\Dropbox\\Apps\\LightPaper"
+		},
+		{
+			"path": "E:\\Dropbox"
+		},
+		{
+			"path": "D:\\Dropbox\\Speciale\\Emil_Soeren"
+		},
+		{
+			"path": "D:\\Dropbox\\Documents\\KU\\Koenne(de) Tal"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "D:\\Dropbox\\Apps\\LightPaper"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "C:\\Users\\soceebb\\Dropbox\\Emil_Soeren\\Speciale"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "C:\\Users\\soceebb\\Dropbox\\Apps\\LightPaper"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "C:\\Users\\emilbb\\Dropbox\\Emil_Soeren\\statistik\\outputDST\\jonas dofiles"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "C:\\Users\\emilbb\\Dropbox\\Emil_Soeren"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "C:\\Users\\emilbb\\Dropbox\\Documents\\KU\\Sociale_Bevaegelser"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "C:\\Users\\emilbb\\Dropbox\\Documents\\Ansøgninger\\Praktik sociologi efterår 2012"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "C:\\Users\\emilbb\\Dropbox\\Apps\\LightPaper"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "\\media\\EcoGreen_2\\Dropbox\\Emil_Soeren\\noter"
+		},
+		{
+			"path": "\\media\\EcoGreen_2\\Dropbox\\Emil_Soeren"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "\\media\\EcoGreen_2\\Dropbox"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/media/EcoGreen_2/Dropbox/share"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/media/EcoGreen_2/Dropbox/Emil_Soeren/statistik/R/moneca/Anton/C:\\Users\\emilbb\\Dropbox\\Emil_Soeren"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/media/EcoGreen_2/Dropbox/Emil_Soeren/statistik/R"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/media/EcoGreen_2/Dropbox/Emil_Soeren/statistik/outputDST/februar_marts/jonas dofiles"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/media/EcoGreen_2/Dropbox/Emil_Soeren/statistik"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/media/EcoGreen_2/Dropbox/Emil_Soeren/Speciale/emil/h:ome\\emil\\Dropbox\\Emil_Soeren\\Speciale"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/media/EcoGreen_2/Dropbox/Emil_Soeren/Speciale/emil/C:\\Users\\soceebb\\Dropbox\\Documents\\Statistik"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/media/EcoGreen_2/Dropbox/Emil_Soeren/noter/emil/C:\\Users\\emilbb\\Dropbox\\Emil_Soeren"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/media/EcoGreen_2/Dropbox/Emil_Soeren/noter"
+		},
+		{
+			"path": "/media/EcoGreen_2/Dropbox/Emil_Soeren"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/media/EcoGreen_2/Dropbox/Documents/Latex/templates/Stefan_Andrade"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/media/EcoGreen_2/Dropbox/Documents/KU/Sociale_Bevaegelser/sociale_bevaegelser_ebb_rma"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/media/EcoGreen_2/Dropbox/Documents/KU/Sociale_Bevaegelser"
+		},
+		{
+			"path": "/media/EcoGreen_2/Dropbox/Apps/LightPaper"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/media/EcoGreen_2/Dropbox"
+		},
+		{
+			"file_exclude_patterns":
+			[
+				"*"
+			],
+			"folder_exclude_patterns":
+			[
+				"statistik",
+				"latexold",
+				"trash",
+				".Rproj.user"
+			],
+			"follow_symlinks": true,
+			"path": "/home/emil/Dropbox/Speciale/Emil_Soeren"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/home/emil/Dropbox/share"
+		},
+		{
+			"path": "/home/emil/Dropbox/leilaspeciale"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/home/emil/Dropbox/Emil_Soeren/Speciale/emil/h:ome\\emil\\Dropbox\\Emil_Soeren\\Speciale"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/home/emil/Dropbox/Emil_Soeren/Speciale/emil/C:\\Users\\soceebb\\Dropbox\\Documents\\Statistik"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/home/emil/Dropbox/Emil_Soeren"
+		},
+		{
+			"path": "/home/emil/dropbox/Dropbox/Apps/LightPaper"
+		},
+		{
+			"path": "/home/emil/dropbox/Dropbox"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/home/emil/Dropbox/Documents/Sublime Text"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/home/emil/Dropbox/Documents/Latex/templates/Stefan_Andrade"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/home/emil/Dropbox/Documents/Latex"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/home/emil/Dropbox/Documents/KU/Sociale_Bevaegelser/sociale_bevaegelser_ebb_rma"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/home/emil/Dropbox/Documents/KU/Sociale_Bevaegelser"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/home/emil/Dropbox/Documents/KU/Social_Netvaerksanalyse/Netvaerkslaesegruppen/Eksamen/latexopgave/tex"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/home/emil/Dropbox/Documents/KU/Social_Netvaerksanalyse/Netvaerkslaesegruppen/Eksamen/latexopgave"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/home/emil/Dropbox/Documents/KU/Social_Netvaerksanalyse/Lektion_04"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/home/emil/Dropbox/Documents/KU/Social_Netvaerksanalyse"
+		},
+		{
+			"path": "/home/emil/Dropbox/Documents/KU/Koenne(de) Tal/latexopgave"
+		},
+		{
+			"path": "/home/emil/Dropbox/Documents/KU/Koenne(de) Tal"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/home/emil/Dropbox/Documents/KU/Eksplorativ_og_konfirmatorisk_faktoranalyse/Eksamen/Opgave"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/home/emil/Dropbox/Documents/KU/Eksplorativ_og_konfirmatorisk_faktoranalyse/Eksamen"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/home/emil/Dropbox/Documents/KU/DDS_Arbejde"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/home/emil/Dropbox/Apps/LightPaper"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/home/emil/Dropbox"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/home/emil/.config/openbox"
+		},
+		{
+			"file_exclude_patterns":
+			[
+			],
+			"folder_exclude_patterns":
+			[
+				"/statistik/R/moneca/vores/vorescripts/backup",
+				"/statistik/R/moneca/vores/vorescripts/kodeboegs_scripts/"
+			],
+			"path": "/D/dev/www/sdaweb-ssl"
+		}
+	]
+}

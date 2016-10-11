@@ -1,0 +1,627 @@
+{
+    "last_local_data": {
+        "Default (Linux).sublime-keymap": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/Default (Linux).sublime-keymap", 
+            "version": 1455542250.0
+        }, 
+        "Default (Windows).sublime-keymap": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/Default (Windows).sublime-keymap", 
+            "version": 1432636825.0
+        }, 
+        "Distraction Free.sublime-settings": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/Distraction Free.sublime-settings", 
+            "version": 1455380695.0
+        }, 
+        "LaTeXTools.sublime-settings": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/LaTeXTools.sublime-settings", 
+            "version": 1463438690.6349096
+        }, 
+        "LaTeXTools_bak.sublime-settings": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/LaTeXTools_bak.sublime-settings", 
+            "version": 1463437968.656563
+        }, 
+        "LaTeXWordCount.sublime-settings": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/LaTeXWordCount.sublime-settings", 
+            "version": 1420627278.0
+        }, 
+        "Origami.sublime-settings": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/Origami.sublime-settings", 
+            "version": 1418154564.0
+        }, 
+        "Package Control.sublime-settings": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/Package Control.sublime-settings", 
+            "version": 1463643464.79
+        }, 
+        "Preferences.sublime-settings": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/Preferences.sublime-settings", 
+            "version": 1463643464.85
+        }, 
+        "R-Box.sublime-settings": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/R-Box.sublime-settings", 
+            "version": 1427997095.0
+        }, 
+        "R-Box/Main.sublime-menu": {
+            "dir": "R-Box", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/R-Box/Main.sublime-menu", 
+            "version": 1463600173.7794337
+        }, 
+        "RView.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/RView.sublime-snippet", 
+            "version": 1418168533.0
+        }, 
+        "R_dplyr_select.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/R_dplyr_select.sublime-snippet", 
+            "version": 1434132704.0
+        }, 
+        "R_fjernalt.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/R_fjernalt.sublime-snippet", 
+            "version": 1432901608.0
+        }, 
+        "R_pil.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/R_pil.sublime-snippet", 
+            "version": 1433753450.0
+        }, 
+        "R_source_0_startup.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/R_source_0_startup.sublime-snippet", 
+            "version": 1434356854.0
+        }, 
+        "R_then-operator.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/R_then-operator.sublime-snippet", 
+            "version": 1434132125.0
+        }, 
+        "R_then_selector.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/R_then_selector.sublime-snippet", 
+            "version": 1458564890.0
+        }, 
+        "Rwritepdf.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/Rwritepdf.sublime-snippet", 
+            "version": 1418172305.0
+        }, 
+        "Rwritetable.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/Rwritetable.sublime-snippet", 
+            "version": 1434057926.0
+        }, 
+        "Side Bar Folders.sublime-settings": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/Side Bar Folders.sublime-settings", 
+            "version": 1457043836.0
+        }, 
+        "Side Bar Folders/Main (Emil Begtrup-Bright's conflicted copy 2015-07-16).sublime-menu": {
+            "dir": "Side Bar Folders", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/Side Bar Folders/Main (Emil Begtrup-Bright's conflicted copy 2015-07-16).sublime-menu", 
+            "version": 1437066824.0
+        }, 
+        "Side Bar Folders/Main (Emil Begtrup-Brights modstridende kopi 2015-08-27).sublime-menu": {
+            "dir": "Side Bar Folders", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/Side Bar Folders/Main (Emil Begtrup-Brights modstridende kopi 2015-08-27).sublime-menu", 
+            "version": 1440701115.0
+        }, 
+        "Side Bar Folders/Main (stationaerw8s modstridende kopi 2015-05-04).sublime-menu": {
+            "dir": "Side Bar Folders", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/Side Bar Folders/Main (stationaerw8s modstridende kopi 2015-05-04).sublime-menu", 
+            "version": 1430766837.0
+        }, 
+        "Side Bar Folders/Main.sublime-menu": {
+            "dir": "Side Bar Folders", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/Side Bar Folders/Main.sublime-menu", 
+            "version": 1463643461.174856
+        }, 
+        "WordCount.sublime-settings": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/WordCount.sublime-settings", 
+            "version": 1426700617.0
+        }, 
+        "adresseemil.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/adresseemil.sublime-snippet", 
+            "version": 1416850495.0
+        }, 
+        "fix_anfoerselstegn.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/fix_anfoerselstegn.sublime-snippet", 
+            "version": 1422287555.0
+        }, 
+        "fix_en.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/fix_en.sublime-snippet", 
+            "version": 1422287538.0
+        }, 
+        "fix_et.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/fix_et.sublime-snippet", 
+            "version": 1422284317.0
+        }, 
+        "fix_linuxpil.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/fix_linuxpil.sublime-snippet", 
+            "version": 1443520994.0
+        }, 
+        "fix_skip.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/fix_skip.sublime-snippet", 
+            "version": 1431014750.0
+        }, 
+        "hyperlink.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/hyperlink.sublime-snippet", 
+            "version": 1411659308.0
+        }, 
+        "template.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/template.sublime-snippet", 
+            "version": 1420385251.0
+        }, 
+        "tex_fix_procent.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/tex_fix_procent.sublime-snippet", 
+            "version": 1432039702.0
+        }, 
+        "texallref.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/texallref.sublime-snippet", 
+            "version": 1409747833.0
+        }, 
+        "texchapter.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/texchapter.sublime-snippet", 
+            "version": 1421238039.0
+        }, 
+        "texcite.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/texcite.sublime-snippet", 
+            "version": 1420595982.0
+        }, 
+        "texcite2.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/texcite2.sublime-snippet", 
+            "version": 1420596000.0
+        }, 
+        "texcite_Bourdieu.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/texcite_Bourdieu.sublime-snippet", 
+            "version": 1432199422.0
+        }, 
+        "texcite_tmp1.soeren.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/texcite_tmp1.soeren.sublime-snippet", 
+            "version": 1431435784.0
+        }, 
+        "texcite_tmp1.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/texcite_tmp1.sublime-snippet", 
+            "version": 1462450030.0
+        }, 
+        "texcite_tmp2.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/texcite_tmp2.sublime-snippet", 
+            "version": 1462481627.0
+        }, 
+        "texcite_tmp3.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/texcite_tmp3.sublime-snippet", 
+            "version": 1421863901.0
+        }, 
+        "texcite_tmp4.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/texcite_tmp4.sublime-snippet", 
+            "version": 1422201991.0
+        }, 
+        "texdescription.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/texdescription.sublime-snippet", 
+            "version": 1420385197.0
+        }, 
+        "texfig.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/texfig.sublime-snippet", 
+            "version": 1427154417.0
+        }, 
+        "texfig2.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/texfig2.sublime-snippet", 
+            "version": 1422874921.0
+        }, 
+        "texfootnote.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/texfootnote.sublime-snippet", 
+            "version": 1427154417.0
+        }, 
+        "texinput.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/texinput.sublime-snippet", 
+            "version": 1418758155.0
+        }, 
+        "texlabel.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/texlabel.sublime-snippet", 
+            "version": 1432286359.0
+        }, 
+        "texnumberedlist.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/texnumberedlist.sublime-snippet", 
+            "version": 1461661431.0
+        }, 
+        "texpageref.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/texpageref.sublime-snippet", 
+            "version": 1418758171.0
+        }, 
+        "texquote.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/texquote.sublime-snippet", 
+            "version": 1462450077.0
+        }, 
+        "texref.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/texref.sublime-snippet", 
+            "version": 1420373164.0
+        }, 
+        "texsection.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/texsection.sublime-snippet", 
+            "version": 1462458783.0
+        }, 
+        "texsubsection.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/texsubsection.sublime-snippet", 
+            "version": 1420385924.0
+        }, 
+        "textabel.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/textabel.sublime-snippet", 
+            "version": 1420757105.0
+        }, 
+        "textmp1.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/textmp1.sublime-snippet", 
+            "version": 1429803560.0
+        }, 
+        "textmp2.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/textmp2.sublime-snippet", 
+            "version": 1429803561.0
+        }, 
+        "textmp3.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/textmp3.sublime-snippet", 
+            "version": 1429803562.0
+        }, 
+        "textmp4.sublime-snippet": {
+            "dir": "", 
+            "path": "/home/emil/.config/sublime-text-3/Packages/User/textmp4.sublime-snippet", 
+            "version": 1429803562.0
+        }
+    }, 
+    "last_remote_data": {
+        "Default (Linux).sublime-keymap": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/Default (Linux).sublime-keymap", 
+            "version": 1455542250.0
+        }, 
+        "Default (Windows).sublime-keymap": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/Default (Windows).sublime-keymap", 
+            "version": 1432636825.0
+        }, 
+        "Distraction Free.sublime-settings": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/Distraction Free.sublime-settings", 
+            "version": 1455380695.0
+        }, 
+        "LaTeXTools.sublime-settings": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/LaTeXTools.sublime-settings", 
+            "version": 1463438690.6349096
+        }, 
+        "LaTeXTools_bak.sublime-settings": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/LaTeXTools_bak.sublime-settings", 
+            "version": 1463437968.656563
+        }, 
+        "LaTeXWordCount.sublime-settings": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/LaTeXWordCount.sublime-settings", 
+            "version": 1420627278.0
+        }, 
+        "Origami.sublime-settings": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/Origami.sublime-settings", 
+            "version": 1418154564.0
+        }, 
+        "Package Control.sublime-settings": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/Package Control.sublime-settings", 
+            "version": 1463643464.79
+        }, 
+        "Preferences.sublime-settings": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/Preferences.sublime-settings", 
+            "version": 1463643464.85
+        }, 
+        "R-Box.sublime-settings": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/R-Box.sublime-settings", 
+            "version": 1427997095.0
+        }, 
+        "R-Box/Main.sublime-menu": {
+            "dir": "R-Box", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/R-Box/Main.sublime-menu", 
+            "version": 1463600173.7794337
+        }, 
+        "RView.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/RView.sublime-snippet", 
+            "version": 1418168533.0
+        }, 
+        "R_dplyr_select.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/R_dplyr_select.sublime-snippet", 
+            "version": 1434132704.0
+        }, 
+        "R_fjernalt.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/R_fjernalt.sublime-snippet", 
+            "version": 1432901608.0
+        }, 
+        "R_pil.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/R_pil.sublime-snippet", 
+            "version": 1433753450.0
+        }, 
+        "R_source_0_startup.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/R_source_0_startup.sublime-snippet", 
+            "version": 1434356854.0
+        }, 
+        "R_then-operator.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/R_then-operator.sublime-snippet", 
+            "version": 1434132125.0
+        }, 
+        "R_then_selector.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/R_then_selector.sublime-snippet", 
+            "version": 1458564890.0
+        }, 
+        "Rwritepdf.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/Rwritepdf.sublime-snippet", 
+            "version": 1418172305.0
+        }, 
+        "Rwritetable.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/Rwritetable.sublime-snippet", 
+            "version": 1434057926.0
+        }, 
+        "Side Bar Folders.sublime-settings": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/Side Bar Folders.sublime-settings", 
+            "version": 1457043836.0
+        }, 
+        "Side Bar Folders/Main (Emil Begtrup-Bright's conflicted copy 2015-07-16).sublime-menu": {
+            "dir": "Side Bar Folders", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/Side Bar Folders/Main (Emil Begtrup-Bright's conflicted copy 2015-07-16).sublime-menu", 
+            "version": 1437066824.0
+        }, 
+        "Side Bar Folders/Main (Emil Begtrup-Brights modstridende kopi 2015-08-27).sublime-menu": {
+            "dir": "Side Bar Folders", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/Side Bar Folders/Main (Emil Begtrup-Brights modstridende kopi 2015-08-27).sublime-menu", 
+            "version": 1440701115.0
+        }, 
+        "Side Bar Folders/Main (stationaerw8s modstridende kopi 2015-05-04).sublime-menu": {
+            "dir": "Side Bar Folders", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/Side Bar Folders/Main (stationaerw8s modstridende kopi 2015-05-04).sublime-menu", 
+            "version": 1430766837.0
+        }, 
+        "Side Bar Folders/Main.sublime-menu": {
+            "dir": "Side Bar Folders", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/Side Bar Folders/Main.sublime-menu", 
+            "version": 1463643461.174856
+        }, 
+        "WordCount.sublime-settings": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/WordCount.sublime-settings", 
+            "version": 1426700617.0
+        }, 
+        "adresseemil.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/adresseemil.sublime-snippet", 
+            "version": 1416850495.0
+        }, 
+        "fix_anfoerselstegn.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/fix_anfoerselstegn.sublime-snippet", 
+            "version": 1422287555.0
+        }, 
+        "fix_en.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/fix_en.sublime-snippet", 
+            "version": 1422287538.0
+        }, 
+        "fix_et.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/fix_et.sublime-snippet", 
+            "version": 1422284317.0
+        }, 
+        "fix_linuxpil.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/fix_linuxpil.sublime-snippet", 
+            "version": 1443520994.0
+        }, 
+        "fix_skip.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/fix_skip.sublime-snippet", 
+            "version": 1431014750.0
+        }, 
+        "hyperlink.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/hyperlink.sublime-snippet", 
+            "version": 1411659308.0
+        }, 
+        "template.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/template.sublime-snippet", 
+            "version": 1420385251.0
+        }, 
+        "tex_fix_procent.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/tex_fix_procent.sublime-snippet", 
+            "version": 1432039702.0
+        }, 
+        "texallref.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/texallref.sublime-snippet", 
+            "version": 1409747833.0
+        }, 
+        "texchapter.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/texchapter.sublime-snippet", 
+            "version": 1421238039.0
+        }, 
+        "texcite.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/texcite.sublime-snippet", 
+            "version": 1420595982.0
+        }, 
+        "texcite2.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/texcite2.sublime-snippet", 
+            "version": 1420596000.0
+        }, 
+        "texcite_Bourdieu.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/texcite_Bourdieu.sublime-snippet", 
+            "version": 1432199422.0
+        }, 
+        "texcite_tmp1.soeren.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/texcite_tmp1.soeren.sublime-snippet", 
+            "version": 1431435784.0
+        }, 
+        "texcite_tmp1.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/texcite_tmp1.sublime-snippet", 
+            "version": 1462450030.0
+        }, 
+        "texcite_tmp2.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/texcite_tmp2.sublime-snippet", 
+            "version": 1462481627.0
+        }, 
+        "texcite_tmp3.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/texcite_tmp3.sublime-snippet", 
+            "version": 1421863901.0
+        }, 
+        "texcite_tmp4.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/texcite_tmp4.sublime-snippet", 
+            "version": 1422201991.0
+        }, 
+        "texdescription.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/texdescription.sublime-snippet", 
+            "version": 1420385197.0
+        }, 
+        "texfig.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/texfig.sublime-snippet", 
+            "version": 1427154417.0
+        }, 
+        "texfig2.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/texfig2.sublime-snippet", 
+            "version": 1422874921.0
+        }, 
+        "texfootnote.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/texfootnote.sublime-snippet", 
+            "version": 1427154417.0
+        }, 
+        "texinput.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/texinput.sublime-snippet", 
+            "version": 1418758155.0
+        }, 
+        "texlabel.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/texlabel.sublime-snippet", 
+            "version": 1432286359.0
+        }, 
+        "texnumberedlist.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/texnumberedlist.sublime-snippet", 
+            "version": 1461661431.0
+        }, 
+        "texpageref.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/texpageref.sublime-snippet", 
+            "version": 1418758171.0
+        }, 
+        "texquote.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/texquote.sublime-snippet", 
+            "version": 1462450077.0
+        }, 
+        "texref.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/texref.sublime-snippet", 
+            "version": 1420373164.0
+        }, 
+        "texsection.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/texsection.sublime-snippet", 
+            "version": 1462458783.0
+        }, 
+        "texsubsection.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/texsubsection.sublime-snippet", 
+            "version": 1420385924.0
+        }, 
+        "textabel.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/textabel.sublime-snippet", 
+            "version": 1420757105.0
+        }, 
+        "textmp1.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/textmp1.sublime-snippet", 
+            "version": 1429803560.0
+        }, 
+        "textmp2.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/textmp2.sublime-snippet", 
+            "version": 1429803561.0
+        }, 
+        "textmp3.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/textmp3.sublime-snippet", 
+            "version": 1429803562.0
+        }, 
+        "textmp4.sublime-snippet": {
+            "dir": "", 
+            "path": "/media/EcoGreen_2/Dropbox/share/sublime_sync/textmp4.sublime-snippet", 
+            "version": 1429803562.0
+        }
+    }, 
+    "remove_packages": []
+}

@@ -1,0 +1,9 @@
+<snippet>
+	<content><![CDATA[
+write.table(${1:}, file="./statistik/R/moneca/vores/output/test/${2:}.csv", sep = ";", fileEncoding = "UTF-8", col.names=NA)
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>rw</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

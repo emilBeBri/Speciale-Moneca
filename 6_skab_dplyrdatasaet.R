@@ -4,7 +4,7 @@
 
 
 ## timelon 
-timelon.helepop <- read_excel_allsheets("./statistik/DST/DST output/00_emil_speciale/MONECAs/allebeskaeftigede/baggrundsvar/timelon_udenti_kat250__helepop.xlsx")
+timelon.helepop <- read_excel_allsheets("./statistik/DST/DST_output/00_emil_speciale/MONECAs/allebeskaeftigede/baggrundsvar/timelon_udenti_kat250__helepop.xlsx")
 timelon.helepop <- data.frame(matrix(unlist(timelon.helepop), nrow=nrowputexcel),stringsAsFactors=FALSE)
 columns <- c(1, 4, 13, 22, 31, 40, 49, 58, 67, 76, 85, 94, 103, 112, 121)
 timelon.helepop <- timelon.helepop[,c(columns)]
@@ -37,7 +37,7 @@ timelon.helepop     <- timelon.helepop[-nrowtab2xl,]
 
 ## alder 
 
-alder.helepop <- read_excel_allsheets("./statistik/DST/DST output/00_emil_speciale/MONECAs/allebeskaeftigede/baggrundsvar/aldernov2_kat250_helepop.xlsx")
+alder.helepop <- read_excel_allsheets("./statistik/DST/DST_output/00_emil_speciale/MONECAs/allebeskaeftigede/baggrundsvar/aldernov2_kat250_helepop.xlsx")
 alder.helepop <- data.frame(matrix(unlist(alder.helepop), nrow=nrowputexcel),stringsAsFactors=FALSE)
 columns <- c(1, 4, 13, 22, 31, 40, 49, 58, 67, 76, 85, 94, 103, 112, 121)
 alder.helepop <- alder.helepop[,c(columns)]
@@ -63,7 +63,7 @@ alder.helepop     <- alder.helepop[-nrowtab2xl,]
 
 
 ## koen 
-koen.helepop <- read_excel_allsheets("./statistik/DST/DST output/00_emil_speciale/MONECAs/allebeskaeftigede/baggrundsvar/koen_kat250__helepop.xlsx")
+koen.helepop <- read_excel_allsheets("./statistik/DST/DST_output/00_emil_speciale/MONECAs/allebeskaeftigede/baggrundsvar/koen_kat250__helepop.xlsx")
 koen.helepop <- data.frame(matrix(unlist(koen.helepop), nrow=nrowputexcel),stringsAsFactors=FALSE)
 columns <- seq(2,56,2)
 columns <-  append(columns, 1, after = 0)
@@ -90,7 +90,7 @@ koen.helepop     <- koen.helepop[-nrowtab2xl,]
 
 
 ## ledighed 
-ledighed.helepop <- read_excel_allsheets("./statistik/DST/DST output/00_emil_speciale/MONECAs/allebeskaeftigede/baggrundsvar/arledgr_kat250_helepop.xlsx")
+ledighed.helepop <- read_excel_allsheets("./statistik/DST/DST_output/00_emil_speciale/MONECAs/allebeskaeftigede/baggrundsvar/arledgr_kat250_helepop.xlsx")
 ledighed.helepop <- data.frame(matrix(unlist(ledighed.helepop), nrow=nrowputexcel),stringsAsFactors=FALSE)
 columns <- c(1, 4, 13, 22, 31, 40, 49, 58, 67, 76, 85, 94, 103, 112, 121)
 ledighed.helepop <- ledighed.helepop[,c(columns)]
@@ -307,7 +307,7 @@ discodata <- mutate(discodata,timelon.helepop.gns.inf.mndr=timelon.helepop.gns.i
 ### gns længde på ledighedsperiode #####
 #########################
 
-# ledperiod.gns.lngde <- loadWorkbook("./statistik/DST/DST output/00_emil_speciale/MONECAs/sociosocstil/baggrundsvar/ledsoc_tael_gnslngd_spell_kat150__socstilsocio_version1.xlsx")
+# ledperiod.gns.lngde <- loadWorkbook("./statistik/DST/DST_output/00_emil_speciale/MONECAs/sociosocstil/baggrundsvar/ledsoc_tael_gnslngd_spell_kat150__socstilsocio_version1.xlsx")
 # lst = readWorksheet(ledperiod.gns.lngde, sheet = getSheets(ledperiod.gns.lngde))
 # # view(lst[[1]])
 # ledperiod.gns.lngde <- data.frame(matrix(unlist(lst), nrow=nrowputexcel),stringsAsFactors=FALSE)
@@ -341,7 +341,7 @@ discodata <- mutate(discodata,timelon.helepop.gns.inf.mndr=timelon.helepop.gns.i
 # ### gns antal ledighedsperioder #####
 # #########################
 
-# ledperiod.antal <- loadWorkbook("./statistik/DST/DST output/00_emil_speciale/MONECAs/sociosocstil/baggrundsvar/ledsoc_tael_antal_kat150__socstilsocio_version1.xlsx")
+# ledperiod.antal <- loadWorkbook("./statistik/DST/DST_output/00_emil_speciale/MONECAs/sociosocstil/baggrundsvar/ledsoc_tael_antal_kat150__socstilsocio_version1.xlsx")
 # lst = readWorksheet(ledperiod.antal, sheet = getSheets(ledperiod.antal))
 # # view(lst[[1]])
 # ledperiod.antal <- data.frame(matrix(unlist(lst), nrow=nrowputexcel),stringsAsFactors=FALSE)
@@ -376,7 +376,7 @@ discodata <- mutate(discodata,timelon.helepop.gns.inf.mndr=timelon.helepop.gns.i
 # ################################
 
 # # koen <- NULL 
-# koen <- loadWorkbook("./statistik/DST/DST output/00_emil_speciale/MONECAs/sociosocstil/baggrundsvar/koen_kat150__socstilsocio_version1.xlsx")
+# koen <- loadWorkbook("./statistik/DST/DST_output/00_emil_speciale/MONECAs/sociosocstil/baggrundsvar/koen_kat150__socstilsocio_version1.xlsx")
 # lst = readWorksheet(koen, sheet = getSheets(koen))
 # koen <- data.frame(matrix(unlist(lst), nrow=nrowputexcel),stringsAsFactors=FALSE)
 # columns <- c(-3,-5,-7, -9,-11,-13,-15,-17,-19,-21,-23,-25,-27,-29,-31,-33,-35,-37,-39,-41,-43,-45,-47,-49,-51,-53,-55) 

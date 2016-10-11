@@ -1,0 +1,15 @@
+<snippet>
+	<content><![CDATA[
+\begin{figure}[H]
+\begin{centering}
+	\caption{${3:}}
+	\includegraphics[width=\textwidth]{fig/${1:}.${2:}}
+	\label{fig_${4:}}
+\end{centering}
+\end{figure}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>tffi</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

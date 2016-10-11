@@ -4,7 +4,7 @@
 
 # socio/socstil population "moneca"
 desk.aupop.ledsoc_tael <- NULL 
-desk.aupop.ledsoc_tael <- loadWorkbook("./statistik/DST/DST output/08 august/ledsoc_tael_desk_socstil_socio_pop.xlsx")
+desk.aupop.ledsoc_tael <- loadWorkbook("./statistik/DST/DST_output/08 august/ledsoc_tael_desk_socstil_socio_pop.xlsx")
 lst = readWorksheet(desk.aupop.ledsoc_tael, sheet = getSheets(desk.aupop.ledsoc_tael))
 # view(lst[[1]])
 desk.aupop.ledsoc_tael <- data.frame(matrix(unlist(lst), nrow=2),stringsAsFactors=FALSE)
@@ -30,7 +30,7 @@ desk.aupop.ledsoc_tael$X1 <- NULL
  # socstil "moneca"
 
 desk.aupop.ledsoc_tael.socstil <- NULL 
-desk.aupop.ledsoc_tael.socstil <- loadWorkbook("./statistik/DST/DST output/08 august/ledsoc_tael_desk_socstil_pop.xlsx")
+desk.aupop.ledsoc_tael.socstil <- loadWorkbook("./statistik/DST/DST_output/08 august/ledsoc_tael_desk_socstil_pop.xlsx")
 lst = readWorksheet(desk.aupop.ledsoc_tael.socstil, sheet = getSheets(desk.aupop.ledsoc_tael.socstil))
 # view(lst[[1]])
 desk.aupop.ledsoc_tael.socstil <- data.frame(matrix(unlist(lst), nrow=2),stringsAsFactors=FALSE)
@@ -58,7 +58,7 @@ desk.aupop.ledsoc_tael.socstil$grp
  # socio/socio02 "moneca"
 
 desk.aupop.ledsoc_tael.socio <- NULL 
-desk.aupop.ledsoc_tael.socio <- loadWorkbook("./statistik/DST/DST output/08 august/ledsoc_tael_desk_socio_pop.xlsx")
+desk.aupop.ledsoc_tael.socio <- loadWorkbook("./statistik/DST/DST_output/08 august/ledsoc_tael_desk_socio_pop.xlsx")
 lst = readWorksheet(desk.aupop.ledsoc_tael.socio, sheet = getSheets(desk.aupop.ledsoc_tael.socio))
 # view(lst[[1]])
 desk.aupop.ledsoc_tael.socio <- data.frame(matrix(unlist(lst), nrow=2),stringsAsFactors=FALSE)
@@ -83,7 +83,7 @@ desk.aupop.ledsoc_tael.socio$X1 <- NULL
  # socio/socstil VORES MONECA REAL AU
 
 desk.aupop.ledsoc_tael.voresmoneca <- NULL 
-desk.aupop.ledsoc_tael.voresmoneca <- loadWorkbook("./statistik/DST/DST output/08 august/ledsoc_tael_desk_socstil_socio_AU.xlsx")
+desk.aupop.ledsoc_tael.voresmoneca <- loadWorkbook("./statistik/DST/DST_output/08 august/ledsoc_tael_desk_socstil_socio_AU.xlsx")
 lst = readWorksheet(desk.aupop.ledsoc_tael.voresmoneca, sheet = getSheets(desk.aupop.ledsoc_tael.voresmoneca))
 # view(lst[[1]])
 desk.aupop.ledsoc_tael.voresmoneca <- data.frame(matrix(unlist(lst), nrow=2),stringsAsFactors=FALSE)
@@ -109,7 +109,7 @@ desk.aupop.ledsoc_tael.voresmoneca$X1 <- NULL
 
 # socio socstil internt (lavet i hånden)
 desk.socio_socstil_netto.ledsoc_tael <- NULL 
-desk.socio_socstil_netto.ledsoc_tael <- loadWorkbook("./statistik/DST/DST output/08 august/socio_socstil_netto_lavetihaanden.xlsx")
+desk.socio_socstil_netto.ledsoc_tael <- loadWorkbook("./statistik/DST/DST_output/08 august/socio_socstil_netto_lavetihaanden.xlsx")
 desk.socio_socstil_netto.ledsoc_tael = readWorksheet(desk.socio_socstil_netto.ledsoc_tael, sheet = getSheets(desk.socio_socstil_netto.ledsoc_tael))
 desk.socio_socstil_netto.ledsoc_tael$N <- as.numeric(as.character(desk.socio_socstil_netto.ledsoc_tael$N))
 desk.socio_socstil_netto.ledsoc_tael$Aar <- as.numeric(as.character(desk.socio_socstil_netto.ledsoc_tael$Aar))
@@ -138,7 +138,7 @@ desk.ledsoc_tael$grp <- as.factor(desk.ledsoc_tael$grp)
 
 # socio/socstil population "moneca"
 desk.aupop.alder <- NULL 
-desk.aupop.alder <- loadWorkbook("./statistik/DST/DST output/08 august/aldernov2_desk_socstil_socio_pop.xlsx")
+desk.aupop.alder <- loadWorkbook("./statistik/DST/DST_output/08 august/aldernov2_desk_socstil_socio_pop.xlsx")
 lst = readWorksheet(desk.aupop.alder, sheet = getSheets(desk.aupop.alder))
 # view(lst)
 desk.aupop.alder <- data.frame(lst) 
@@ -153,7 +153,7 @@ desk.aupop.alder <- cbind(grp,desk.aupop.alder)
 
 # socio/socstil VORES MONECA REAL AU
 desk.au.alder <- NULL 
-desk.au.alder <- loadWorkbook("./statistik/DST/DST output/08 august/aldernov2_desk_socstil_socio_AU.xlsx")
+desk.au.alder <- loadWorkbook("./statistik/DST/DST_output/08 august/aldernov2_desk_socstil_socio_AU.xlsx")
 lst = readWorksheet(desk.au.alder, sheet = getSheets(desk.au.alder))
 # view(lst)
 desk.au.alder <- data.frame(lst) 
@@ -167,7 +167,7 @@ desk.au.alder <- cbind(grp,desk.au.alder)
 
  # hele danske befolkning for reference
 desk.pop.alder <- NULL 
-desk.pop.alder <- loadWorkbook("./statistik/DST/DST output/08 august/aldernov2_desk_helepop.xlsx")
+desk.pop.alder <- loadWorkbook("./statistik/DST/DST_output/08 august/aldernov2_desk_helepop.xlsx")
 lst = readWorksheet(desk.pop.alder, sheet = getSheets(desk.pop.alder))
 # view(lst)
 desk.pop.alder <- data.frame(lst) 
@@ -197,7 +197,7 @@ desk.alder[desk.alder == 0] <- NA
 
 # socio/socstil population "moneca"
 
-desk.aupop.koen <- loadWorkbook("./statistik/DST/DST output/08 august/koen_desk_socstil_socio_pop.xlsx")
+desk.aupop.koen <- loadWorkbook("./statistik/DST/DST_output/08 august/koen_desk_socstil_socio_pop.xlsx")
 lst = readWorksheet(desk.aupop.koen, sheet = getSheets(desk.aupop.koen))
 # view(lst[[1]])
 

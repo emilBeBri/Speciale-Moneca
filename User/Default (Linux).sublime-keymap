@@ -1,0 +1,15 @@
+[
+  { "keys": ["ctrl+tab"], "command": "next_view" },
+  { "keys": ["ctrl+shift+tab"], "command": "prev_view" },
+  { "keys": ["ctrl+shift+c"], "command": "show_panel", "args": {"panel": "console", "toggle": true} },
+  { "keys": ["ctrl+æ"], "command": "toggle_side_bar" },
+  { 	"keys": ["ctrl+l","ctrl+æ"],
+		"context":  [
+			{"key": "selector", "operator": "equal", "operand": "text.tex.latex"}],
+		"command": "latex_ref_cite"},
+	{ "keys": ["ctrl+'"], "command": "toggle_comment", "args": { "block": false } },
+	{ "keys": ["ctrl+shift+'"], "command": "toggle_comment", "args": { "block": true } },
+	{ "keys": ["ctrl+shift+y"], "command": "fold" },
+	{ "keys": ["ctrl+shift+u"], "command": "unfold" }	
+]
+

@@ -23,11 +23,11 @@ allbeskaeft <- sapply(allbeskaeft, as.numeric)
 ############## laver mot.mat uden excel-beregninger #### 
 
 ### * for ledige** ###
-#mob.mat <- loadWorkbook("./statistik/DST/DST output/04 april/moneca_disco_mse_version2.xlsx")
+#mob.mat <- loadWorkbook("./statistik/DST/DST_output/04 april/moneca_disco_mse_version2.xlsx")
 ### *for alle mobile* ##
-#mob.mat <- loadWorkbook("./statistik/DST/DST output/04 april/moneca_disco_mse_version2_allebeskaeftigede2.xlsx")
+#mob.mat <- loadWorkbook("./statistik/DST/DST_output/04 april/moneca_disco_mse_version2_allebeskaeftigede2.xlsx")
 ### *for alle mobile jonas anton* ##
-#mob.mat <- loadWorkbook("./statistik/DST/DST output/04 april/moneca_disco_mse_version2_allebeskaeftigede_jonasanton.xlsx")
+#mob.mat <- loadWorkbook("./statistik/DST/DST_output/04 april/moneca_disco_mse_version2_allebeskaeftigede_jonasanton.xlsx")
 
 
 mob.mat.lst = XLConnect::readWorksheet(mob.mat, sheet = getSheets(mob.mat))

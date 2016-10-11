@@ -4,6 +4,7 @@
 
 
 
+
 ########################histogrammer #####################
 
 
@@ -278,7 +279,7 @@ defaults$scale_colour        <- scale_colour_continuous(high = edge.color.high, 
 
 
 # #alderover45 - TEST
-# alderover45 <- loadWorkbook("./statistik/DST/DST output/04 april/baggrund_alderover45.xlsx")
+# alderover45 <- loadWorkbook("./statistik/DST/DST_output/04 april/baggrund_alderover45.xlsx")
 # lst = readWorksheet(alderover45, sheet = getSheets(alderover45))
 # #lst
 # #nrowallbeskaeft = 151

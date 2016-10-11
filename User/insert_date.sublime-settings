@@ -1,0 +1,6 @@
+{
+	"tz_in": "Europe/Copenhagen",
+	"format": "d. %d/%m/%Y",
+	// indsaetter tid ogsaa
+	// "format": "d. %d/%m/%Y kl %H:%M",
+}

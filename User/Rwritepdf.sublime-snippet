@@ -1,0 +1,11 @@
+<snippet>
+	<content><![CDATA[
+pdf("/home/emil/Dropbox/Documents/KU/Social_Netvaerksanalyse/Netvaerkslaesegruppen/wd/wd_emil/adelsdata/graphs/${1:}.pdf")
+${2:}
+dev.off()
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>0pdf</tabTrigger> -->
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

@@ -1,5 +1,5 @@
 # ### disco lavtløn 
-discolavloen <- read_excel_allsheets("./statistik/DST/DST output/00_emil_speciale/MONECAs/allebeskaeftigede/baggrundsvar/discolavloen_kat150__helepop.xlsx")
+discolavloen <- read_excel_allsheets("./statistik/DST/DST_output/00_emil_speciale/MONECAs/allebeskaeftigede/baggrundsvar/discolavloen_kat150__helepop.xlsx")
 discolavloen <- data.frame(matrix(unlist(discolavloen), nrow=nrowtab2xl),stringsAsFactors=FALSE)
 # view(discolavloen)
 # colbesk <- c(1, 2, 6, 10, 14, 18, 22, 26, 30, 34, 38, 42, 46, 50, 54)
@@ -43,7 +43,7 @@ discolavloen <- data.frame(matrix(unlist(discolavloen), nrow=nrowtab2xl),strings
 
 ## joblon - gennemsnitsloen (alle alle hele populationen)
 
-joblon.helepop <- loadWorkbook("./statistik/DST/DST output/00_emil_speciale/MONECAs/allebeskaeftigede/baggrundsvar/joblon_kat150__helepop.xlsx")
+joblon.helepop <- loadWorkbook("./statistik/DST/DST_output/00_emil_speciale/MONECAs/allebeskaeftigede/baggrundsvar/joblon_kat150__helepop.xlsx")
 lst = readWorksheet(joblon.helepop, sheet = getSheets(joblon.helepop))
 #lst
 joblon.helepop <- data.frame(matrix(unlist(lst), nrow=nrowputexcel),stringsAsFactors=FALSE)
@@ -73,9 +73,9 @@ joblon.helepop     <- joblon.helepop[-nrowtab2xl,]
 ## perindkialt - gennemsnitsloen (alle alle hele populationen)
 
 # alle 
-# perindkialt.helepop <- loadWorkbook("./statistik/DST/DST output/00_emil_speciale/MONECAs/allebeskaeftigede/baggrundsvar/perindkialt_kat150__helepop.xlsx")
+# perindkialt.helepop <- loadWorkbook("./statistik/DST/DST_output/00_emil_speciale/MONECAs/allebeskaeftigede/baggrundsvar/perindkialt_kat150__helepop.xlsx")
 # uden laveste 5.000
-perindkialt.helepop <- loadWorkbook("./statistik/DST/DST output/00_emil_speciale/MONECAs/allebeskaeftigede/baggrundsvar/perindkialt_u5000_kat150__helepop.xlsx")
+perindkialt.helepop <- loadWorkbook("./statistik/DST/DST_output/00_emil_speciale/MONECAs/allebeskaeftigede/baggrundsvar/perindkialt_u5000_kat150__helepop.xlsx")
 
 lst = readWorksheet(perindkialt.helepop, sheet = getSheets(perindkialt.helepop))
 #lst
@@ -106,7 +106,7 @@ perindkialt.helepop     <- perindkialt.helepop[-nrowtab2xl,]
 
 ## DISPON_NY - gennemsnitsloen (alle alle hele populationen)
 
-disponny.helepop <- loadWorkbook("./statistik/DST/DST output/00_emil_speciale/MONECAs/allebeskaeftigede/baggrundsvar/DISPON_NYny_kat150__helepop.xlsx")
+disponny.helepop <- loadWorkbook("./statistik/DST/DST_output/00_emil_speciale/MONECAs/allebeskaeftigede/baggrundsvar/DISPON_NYny_kat150__helepop.xlsx")
 lst = readWorksheet(disponny.helepop, sheet = getSheets(disponny.helepop))
 #lst
 disponny.helepop <- data.frame(matrix(unlist(lst), nrow=nrowputexcel),stringsAsFactors=FALSE)
@@ -135,7 +135,7 @@ disponny.helepop     <- disponny.helepop[-nrowtab2xl,]
 
 ## Loenmv - gennemsnitsloen (alle hele populationen)
 
-loenmv.helepop <- XLConnect::loadWorkbook("./statistik/DST/DST output/00_emil_speciale/MONECAs/allebeskaeftigede/baggrundsvar/loenmv_kat150__helepop.xlsx")
+loenmv.helepop <- XLConnect::loadWorkbook("./statistik/DST/DST_output/00_emil_speciale/MONECAs/allebeskaeftigede/baggrundsvar/loenmv_kat150__helepop.xlsx")
 lst = readWorksheet(loenmv.helepop, sheet = getSheets(loenmv.helepop))
 #lst
 loenmv.helepop <- data.frame(matrix(unlist(lst), nrow=nrowputexcel),stringsAsFactors=FALSE)
@@ -165,7 +165,7 @@ loenmv.helepop     <- loenmv.helepop[-nrowtab2xl,]
 
 # ## Loenmv - gennemsnitsloen (ledige)
 
-# loenmv <- loadWorkbook("./statistik/DST/DST output/00_emil_speciale/MONECAs/sociosocstil/baggrundsvar/loenmv_kat150__socstilsocio_version1.xlsx")
+# loenmv <- loadWorkbook("./statistik/DST/DST_output/00_emil_speciale/MONECAs/sociosocstil/baggrundsvar/loenmv_kat150__socstilsocio_version1.xlsx")
 # lst = readWorksheet(loenmv, sheet = getSheets(loenmv))
 # #lst
 # loenmv <- data.frame(matrix(unlist(lst), nrow=nrowputexcel),stringsAsFactors=FALSE)
@@ -194,7 +194,7 @@ loenmv.helepop     <- loenmv.helepop[-nrowtab2xl,]
 
 # # ## Loenmv - gennemsnitsloen (alle beskæftigede)
 
-# loenmv.helepop <- loadWorkbook("./statistik/DST/DST output/00_emil_speciale/MONECAs/allebeskaeftigede/baggrundsvar/loenmv_kat150__helepop_fikset.xlsx")
+# loenmv.helepop <- loadWorkbook("./statistik/DST/DST_output/00_emil_speciale/MONECAs/allebeskaeftigede/baggrundsvar/loenmv_kat150__helepop_fikset.xlsx")
 # lst = readWorksheet(loenmv.helepop, sheet = getSheets(loenmv.helepop))
 # #lst
 # loenmv.helepop <- data.frame(matrix(unlist(lst), nrow=nrowputexcel),stringsAsFactors=FALSE)

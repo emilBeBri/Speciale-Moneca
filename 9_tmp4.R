@@ -1,7 +1,7 @@
  # socio/socstil VORES MONECA REAL AU
 
 desk.aupop.ledsoc_tael.voresmoneca <- NULL 
-desk.aupop.ledsoc_tael.voresmoneca <- loadWorkbook("./statistik/DST/DST output/08 august/ledsoc_tael_desk_socstil_socio_AU.xlsx")
+desk.aupop.ledsoc_tael.voresmoneca <- loadWorkbook("./statistik/DST/DST_output/08 august/ledsoc_tael_desk_socstil_socio_AU.xlsx")
 lst = readWorksheet(desk.aupop.ledsoc_tael.voresmoneca, sheet = getSheets(desk.aupop.ledsoc_tael.voresmoneca))
 # view(lst[[1]])
 desk.aupop.ledsoc_tael.voresmoneca <- data.frame(matrix(unlist(lst), nrow=2),stringsAsFactors=FALSE)
@@ -92,7 +92,7 @@ beskaeft.hist.count <- ggplot(hist.beskaeft,aes(x=factor(disco),y=beskaeft.gns,f
 
 ## Loenmv - gennemsnitsloen (alle)
 
-loenmv.helepop <- loadWorkbook("./statistik/DST/DST output/00_emil_speciale/MONECAs/allebeskaeftigede/baggrundsvar/loenmv_kat150__helepop.xlsx")
+loenmv.helepop <- loadWorkbook("./statistik/DST/DST_output/00_emil_speciale/MONECAs/allebeskaeftigede/baggrundsvar/loenmv_kat150__helepop.xlsx")
 lst = readWorksheet(loenmv.helepop, sheet = getSheets(loenmv.helepop))
 #lst
 loenmv.helepop <- data.frame(matrix(unlist(lst), nrow=nrowputexcel),stringsAsFactors=FALSE)

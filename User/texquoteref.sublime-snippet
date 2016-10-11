@@ -1,0 +1,9 @@
+<snippet>
+	<content><![CDATA[
+“\emph{${1:}}” \parencite[${2:}]${3:}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>tqqi</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

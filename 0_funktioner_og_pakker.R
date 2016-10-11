@@ -91,12 +91,12 @@ insert.at <- function(a, pos, ...){
 }
 
 
-a = c(2,3,4,9,10,2,4,19)
-b = c(2,1)
-d = c(0,1)
+# a = c(2,3,4,9,10,2,4,19)
+# b = c(2,1)
+# d = c(0,1)
 
-insert.at(a, c(3,7), b, d) #indsætter b efter 3. element og d efter 7. element i a 
-insert.at(1:10, c(4,7,9), 11, 12, 13) #andet eksempel
+# insert.at(a, c(3,7), b, d) #indsætter b efter 3. element og d efter 7. element i a 
+# insert.at(1:10, c(4,7,9), 11, 12, 13) #andet eksempel
 
 
 # funktion til at runde procent op så det summer til 100 fremfor round() der skærer det sidste af - ikke afprøvet

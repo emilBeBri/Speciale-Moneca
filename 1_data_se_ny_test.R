@@ -5,7 +5,7 @@
 # Data
 
 ### Indlaes beskaeftigede extract columns fra excel
-allbeskaeft <-  read_excel_allsheets("./statistik/DST/DST output/00_emil_speciale/MONECAs/allebeskaeftigede_150kat_version2.xlsx")
+allbeskaeft <-  read_excel_allsheets("./statistik/DST/DST_output/00_emil_speciale/MONECAs/allebeskaeftigede_150kat_version2.xlsx")
 allbeskaeft <- matrix(unlist(allbeskaeft), nrow=nrowtab2xl) 
 # typeof(allbeskaeft)
 
@@ -43,7 +43,7 @@ allbeskaeft <- as.matrix(allbeskaeft)
 
 ############## mob.mat #### 
 
-mob.mat <- read_excel("./statistik/DST/DST output/00_emil_speciale/MONECAs/allebeskaeftigede/moneca_disco_mse_150kat_version2_allebeskaeft.xlsx")
+mob.mat <- read_excel("./statistik/DST/DST_output/00_emil_speciale/MONECAs/allebeskaeftigede/moneca_disco_mse_150kat_version2_allebeskaeft.xlsx")
 mob.mat <-  as.matrix(mob.mat)
 # is.matrix(mob.mat)
 # view(mob.mat)

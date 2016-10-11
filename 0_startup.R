@@ -28,10 +28,10 @@ source("./statistik/R/moneca/vores/vorescripts/0_funktioner_og_pakker.R")
 #### selectors ####
 
 #HOVEDKORT
-mob.mat <- loadWorkbook("./statistik/DST/DST output/00_emil_speciale/MONECAs/allebeskaeftigede/moneca_disco_mse_250kat_version1_allebeskaeft.xlsx")
-# mob.mat <- loadWorkbook("./statistik/DST/DST output/00_emil_speciale/MONECAs/allebeskaeftigede/moneca_disco_mse_250kat_version1_allebeskaeft_periode19962001.xlsx")
+mob.mat <- loadWorkbook("./statistik/DST/DST_output/00_emil_speciale/MONECAs/allebeskaeftigede/moneca_disco_mse_250kat_version1_allebeskaeft.xlsx")
+# mob.mat <- loadWorkbook("./statistik/DST/DST_output/00_emil_speciale/MONECAs/allebeskaeftigede/moneca_disco_mse_250kat_version1_allebeskaeft_periode19962001.xlsx")
 nrowallbeskaeft <- 274
-allbeskaeft <- loadWorkbook("./statistik/DST/DST output/00_emil_speciale/MONECAs/allebeskaeftigede_250kat_version1.xlsx")
+allbeskaeft <- loadWorkbook("./statistik/DST/DST_output/00_emil_speciale/MONECAs/allebeskaeftigede_250kat_version1.xlsx")
 label.kode   <- read.csv("./statistik/R/moneca/vores/voresdata/Oversat Moneca kategorier_es_250kat.csv", sep = ";")
 label <- label.kode$Disco_tekstogkode
 label.short <- label.kode$Disco_kode

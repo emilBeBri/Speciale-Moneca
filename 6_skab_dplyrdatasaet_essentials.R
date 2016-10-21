@@ -131,7 +131,6 @@ discodata <- inner_join(discodata, seg.qual.final)
 
 
 
-
 # nrow(discodata)
 # view(discodata)
 # view(seg.qual.final)

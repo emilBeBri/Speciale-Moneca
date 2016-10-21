@@ -298,13 +298,17 @@ function (segmenter, niveau = seq(segmenter$segment.list), layout = layout.matri
 
 
 #hovedkort disco
+edges.default.all                <- segment.edges(seg.b, mode="directed",cut.off=3,small.cell.reduction = small.cell.default, segment.reduction = 5) #før var den 3 her og 5 nedenunder
+edges.default.all[edges.default.all > 30] <- 30 
+
 kort.disco <- gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arrow = arrow.default,
                    edge.size=edge.size, vertex.fill = discodata$disco_1cifret,
                    vertex.size = vertex_stoerrelse) +  
           default +
           default.disco
+
 #kort.disco
-cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort.disco.pdf", onefile = TRUE, height = 30, width = 30)
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort.disco.test.pdf", onefile = TRUE, height = 30, width = 30)
 kort.disco
 dev.off()
 
@@ -349,7 +353,7 @@ dev.off()
 
 
 #intern mobilitet.seg
-kort.intern.mob.seg <- gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arrow = arrow.default, 
+kort.intern.mob.seg <- gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arrow = arrow.default,  
                                 edge.size=edge.size, vertex.fill = discodata$within.mob.seg,
                                 vertex.size = vertex_stoerrelse) +  
   default + ggtitle("intern mobilitet segment")  + scale_fill_gradientn(colours = c(    "indianred4","indianred2", "white", "darkseagreen2","darkseagreen4"),
@@ -358,7 +362,7 @@ kort.intern.mob.seg <- gg.jonas(seg, layout = lay, edges=edges.default.all, midp
 cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_intern_mob_seg.pdf", onefile = TRUE, height = 25, width = 25)
 kort.intern.mob.seg
 dev.off()
-#getPalette = colorRampPalette(skala.indianred.darkseagreen)
+ #getPalette = colorRampPalette(skala.indianred.darkseagreen)
 #kort.intern.mob.seg <- gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arrow = arrow.default, 
 #                   edge.size=edge.size, vertex.fill = discodata$within.mob.seg,
 #                   vertex.size = vertex_stoerrelse) +  
@@ -488,7 +492,7 @@ level.group             <- substring(as.character(s5), first = 1, last = 1)
 # Vertex.fill er oprindeligt farve
 pt1  <- gg.jonas(seg, layout=lay, niveau=1, edges = edges.default, vertex.fill="white", edge.color = "grey30", midpoints = FALSE, vertex.size = vertex_stoerrelse, 
                  edge.size = 0.3, border.padding = 1.5, show.text = FALSE, border.text.size = 3, border.text = FALSE)
-pt1  <- pt1 + list.scales + ggtitle("1. niveau") + annotate("segment",x=Inf,xend=-Inf,y=Inf,yend=Inf,color="black",lwd=1) + theme(plot.title = element_text(size=35, face="bold"))  
+pt1  <- pt1 + list.scales + ggtitle("1. niveau") + annotate("segment",x=Inf,xend=-Inf,y=Inf,yend=Inf,color="black",lwd=1) + theme(plot.title = element_text(size=50, face="bold"))  
 
 pt2  <- gg.jonas(seg, layout=lay, niveau=1:2, edges = edges.default, vertex.fill=cs1t2, edge.color = "grey30", midpoints = FALSE, vertex.size = vertex_stoerrelse,
                  edge.size = 0.3, border.padding = 1.5, show.text = FALSE, border.text.size = 3, border.text = FALSE)
@@ -508,6 +512,29 @@ pt5  <- pt5 + list.scales + ggtitle("5. niveau") + annotate("segment",x=Inf,xend
 
 
 pt.list <- list(pt1, pt2, pt3, pt4,pt5)
+for (i in 1:5) {
+  cairo_pdf(paste0("./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_seg_proces",i,".pdf",sep=""),onefile=TRUE,height=15,width=15)
+  print(pt.list[[i]])
+  dev.off()
+}  
+ 
+
+ 
+
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_seg_proces.pdf", onefile = TRUE, height = 30, width = 30)
+
+
+pt.list.udentitler = pt.list
+
+
+outputlist=list()
+
+pt.list[[1]]
+
+length(pt.list)
+
+levels(pt.list)
+
 
 
 cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_seg_proces.pdf", onefile = TRUE, height = 30, width = 30)

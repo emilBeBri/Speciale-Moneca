@@ -137,3 +137,8 @@ discodata     <- inner_join(discodata, timelon.seg.helepop)
 discodata     <- inner_join(discodata, alder.seg.helepop)
 discodata     <- inner_join(discodata, koen.seg.helepop)
 discodata     <- inner_join(discodata, ledighed.seg.helepop)
+
+
+
+
+view(discodata)

@@ -68,6 +68,10 @@ koen.helepop <- data.frame(matrix(unlist(koen.helepop), nrow=nrowputexcel),strin
 columns <- seq(2,56,2)
 columns <-  append(columns, 1, after = 0)
 koen.helepop <- koen.helepop[,c(columns)]
+view(koen.helepop)
+
+
+
 label_moneca_koen <- c("moneca_label","koen1996total", "koen1996kvinder","koen1997total", "koen1997kvinder","koen1998total", "koen1998kvinder","koen1999total", "koen1999kvinder","koen2000total","koen2000kvinder","koen2001total","koen2001kvinder","koen2002total","koen2002kvinder","koen2003total","koen2003kvinder","koen2004total","koen2004kvinder","koen2005total","koen2005kvinder","koen2006total","koen2006kvinder","koen2007total","koen2007kvinder","koen2008total","koen2008kvinder","koen2009total","koen2009kvinder")
 colnames(koen.helepop) <- label_moneca_koen[]
 #l1_r            <- nrow(koen.helepop)

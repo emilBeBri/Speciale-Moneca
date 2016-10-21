@@ -2,14 +2,15 @@
 	<content><![CDATA[
 %
 \begin{enumerate}
-  \item ${1:1}
-  \item ${2:2}
-  \item ${3:3}
+ \itemsep -0.${1:5}em
+ 	\item ${2:}
+ 	\item ${3:}
+ 	\item ${4:}
 \end{enumerate}
 %
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>tni</tabTrigger> 
+	<tabTrigger>tli</tabTrigger> 
 	<!-- Optional: Set a scope to limit where the snippet will trigger -->
 	<!-- <scope>source.python</scope> -->
 </snippet>

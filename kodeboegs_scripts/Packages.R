@@ -11,6 +11,9 @@ checkpoint::checkpoint("2015-05-01")
 # install.packages("tidyverse") #Hadley Wickham, vent med at brug den til du er færdig med Moneca 
 # install.packages("haven") # lyder lovende ifht transfer mellem stata, sas, R og spss. 
 
+
+install.packages("RDocumentation")
+
 install.packages("MASS")
 install.packages("scales")
 install.packages("digest")

@@ -1,7 +1,7 @@
 <snippet>
 	<content><![CDATA[
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{${1:} \label{${2:}}}
+\section{${1:} \label{sec_${2:}}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->

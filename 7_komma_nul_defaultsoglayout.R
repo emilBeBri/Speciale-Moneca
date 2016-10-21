@@ -52,8 +52,8 @@ arrow.default                <- arrow(angle = 15, length = unit(0.30, "cm"), end
 edges.default.unalt                <- segment.edges(seg.b, small.cell.reduction = small.cell.default, segment.reduction = 1)
 edges.default                <- segment.edges(seg.b, small.cell.reduction = small.cell.default, segment.reduction = 1)
 edges.default[edges.default > 10] <- 10 
-edges.default.all                <- segment.edges(seg.b, mode="directed",cut.off=3,small.cell.reduction = small.cell.default, segment.reduction = 3) #før var den 3 her og 5 nedenunder
-edges.default.all[edges.default.all > 15] <- 15 
+edges.default.all                <- segment.edges(seg.b, mode="directed",cut.off=3,small.cell.reduction = small.cell.default, segment.reduction = 0.1) #før var den 3 her og 5 nedenunder
+edges.default.all[edges.default.all > 30] <- 30 
 edges.default.zoom                <- segment.edges(seg.b, mode="directed",cut.off=3,small.cell.reduction = small.cell.default, segment.reduction = 3) #før var den 3 her og 5 nedenunder
 edges.default.zoom[edges.default.zoom > 15] <- 15
 
@@ -101,7 +101,18 @@ skala_egp11 <-  c("dodgerblue4" ,"dodgerblue1","darkseagreen4","darkseagreen1","
 default <- list()
 default$scale_size_continuous <-   scale_size_continuous(range = c(5, 30), name="% af totalt antal arbejdslÃ¸se", breaks=beskaeft.num, labels=beskaeft.lab)
 default$scale_alpha_continuous <-   scale_alpha_continuous(range = c(0.05, 0.75), name="alpha")
-default$scale_colour_continuous <-   scale_colour_continuous(high = "orange",  low = "#575155", name="Styrke af forbindelse", breaks=c(3.1,5,7.5,10,12.5,15),labels=c("3","5","7,5","10","12,5","15+"))
+#default$scale_colour_continuous <-   scale_colour_continuous(high = "orange",  low = "#575155", name="Styrke af forbindelse", breaks=c(3.1,5,7.5,10,12.5,15),labels=c("3","5","7,5","10","12,5","15+"))
+default$scale_colour_gradient2 = scale_colour_gradient2(low = "#575155", mid = "darkorange1", high = muted("darkred"), 
+                       midpoint = 15, space = "Lab", na.value = "pink", guide = "colourbar",name="Styrke af forbindelse", breaks=rr.breaks,labels=rr.lab)
+rr.breaks <- seq(3,30,3) #c(70,80)
+rr.lab <- paste(rr.breaks)  #, "%")
+rr.lab[length(rr.lab)] <- paste(rr.breaks[length(rr.lab)],"+",sep="")
+rr.breaks[1] <- c(3.01)
+
+
+
+seq(3,30,3)
+
 
 
 

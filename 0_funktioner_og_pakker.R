@@ -48,7 +48,7 @@ library(toOrdinal)
 library(MONECA)
 # library(XLConnect)
 # library(circlize)
-
+library(RDocumentation)
 
 
 
@@ -79,7 +79,7 @@ system(paste(open_command, temp_file))
 
 
 
-# funktion til at indsætte element i vector på designeret sted 
+# funktion til at indsætte element i vector på designeret sted (duer ikke til starten af en vector, kan du lave if statement selv og fikse det?)
 
 insert.at <- function(a, pos, ...){
     dots <- list(...)
@@ -255,6 +255,15 @@ disco.df <- function(x,y) {
   rownames(x) = NULL
   x <- tbl_df(x)
 }
+#laver specifik form for variable om til dplyr datasæt
+make.seg.df <- function(x,y) {
+  colnames(x) <- y[]
+  x <- as.data.frame(x)
+  x$membership = rownames(x)
+  rownames(x) = NULL
+  x <- tbl_df(x)
+}
+
 #dplyr dataframe konvertion - eksempel
 #label_moneca_alder   <- list("alder1996" ,"alder1997" , "alder1998" , "alder1999" , "alder2000" , "alder2001", "alder2002" , "alder2003" , "alder2004" , "alder2005", "alder200#6",  "alder2007",  "alder2008",  "alder2009")
 #colnames(alder) <- label_moneca_alder[]

@@ -101,7 +101,7 @@ level5[2] <- (level5.1 + level5.2 +level5.3 + level5.4 + level5.5) / 5
 seg.opsummering <- list(level1,level2,level3,level4,level5)
 
 
-
+# nøgletal for intern mobilitet (delanalyse1)
 view(seg.opsummering)
 view(seg.qual.final)
 view(seg.qual)
@@ -109,21 +109,31 @@ view(seg.qual)
 disco.inseg <- filter(discodata, !grepl("^1.*", membership))
 disco.not.inseg <- filter(discodata, grepl("^1.*", membership))
 
-sd(discodata$within.mob.seg)
-sd(seg.qual.final$within.mob.seg)
+describe(seg.df$within.mob.seg*100)
+sd(discodata$within.mob)*100
+describe(discodata$within.mob*100) 
+sd(seg.df$within.mob.seg)*100
 
-median(discodata$within.mob.seg)
-median(seg.qual.final$within.mob.seg)
+quants <- seq(0.1,0.2,0.01)
+format(round(quantile(seg.df$within.mob.seg, quants, na.rm=TRUE), digits=3), big.mark=".",decimal.mark=",",nsmall=0)
+
+view(seg.df)
 
 
-sd(discodata$within.mob)
-(sd(discodata$within.mob)- sd(discodata$within.mob.seg)) * 100
-# standardafvigelse er faldet
+# relativ risiko (delanalyse1)
+cut.off.default <-  1 #skal måske ikke være 1 her jo
+wm1            <- weight.matrix(mob.mat2, cut.off = cut.off.default, symmetric = FALSE, small.cell.reduction = small.cell.default, diagonal=TRUE)
+# wm1[is.na(wm1)] <- 0
+relativrisiko.vector  <-  as.vector(t(wm1))
+length(relativrisiko.vector[1])  <-  unlist(wm1)
+describe(relativrisiko.vector)
+quants <- seq(0.9,1,0.005)
+format(round(quantile(relativrisiko.vector, quants, na.rm=TRUE), digits=3), big.mark=".",decimal.mark=",",nsmall=0)
+
+under70.df <- filter(df, within.mob.seg <= .7)
+view(under70.df)
 
 
-summary(discodata$within.mob)
-
-view(discodata)
 
 # df med de nyttige variable 
 
@@ -138,17 +148,6 @@ tmp$label2 <- as.numeric(as.character(tmp$membership))*1000
 
 view(arrange(tmp,desc(label)))
 options(dplyr.width = Inf)
-
-S <- rep(letters[1:12],each=6)
-R = sort(replicate(9, sample(5000:6000,4)))
-df <- data.frame(R,S)
-
-result <- df %>% mutate(label = as.numeric(S)) 
-
-S <- rep(letters[1:12],each=6)
-R = sort(replicate(9, sample(5000:6000,4)))
-df <- data.frame(R,S)
-
 
 
 

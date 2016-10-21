@@ -100,9 +100,11 @@ mob.mat2 <- mob.mat
 mob.mat.df <- as.data.frame(mob.mat2)
 
 
-cut.off.default <-  1 #skal måske ikke være 1 her jo
-wm1            <- weight.matrix(mob.mat2, cut.off = cut.off.default, symmetric = FALSE, small.cell.reduction = small.cell.default, diagonal=TRUE)
-wm1[is.na(wm1)] <- 0
+
+
+is.matrix(wm1)
+
+
 view(wm1)
 wm1  <-  round(wm1, digits=0)
 circlelist <-  seg$segment.list[[3]][[14]]

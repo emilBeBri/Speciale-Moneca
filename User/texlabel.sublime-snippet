@@ -1,6 +1,6 @@
 <snippet>
 	<content><![CDATA[
-\label{${1:}}
+\label${1:}${2:}
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
 	<tabTrigger>tli</tabTrigger>

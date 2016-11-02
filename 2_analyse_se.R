@@ -11,7 +11,8 @@ small.cell.default       <- 5
 # help(anton)
 
 set.controls.for.the.heart.of.the.sun <- 4 #her betyder 6 *OVER* det første niveau, dvs 7 i alt. 
-# seg           <- anton(mob.mat, cut.off = cut.off.default, small.cell.reduction = small.cell.default, segment.levels = set.controls.for.the.heart.of.the.sun)
+seg           <- anton(mob.mat, cut.off = cut.off.default, small.cell.reduction = small.cell.default, segment.levels = set.controls.for.the.heart.of.the.sun)
+seg.bak  <- seg
 
 # alle beskaeftigede 250 kat
 # save(seg, file="./statistik/R/moneca/vores/voresdata/seg_objekter/objekt_seg_allebeskaeftigede_250kat.Rdata")
@@ -25,6 +26,12 @@ load(file="./statistik/R/moneca/vores/voresdata/seg_objekter/objekt_seg_allebesk
 # split segment 4.8 op, der har en max path på 4 som det eneste, og sammenlægningen giver desuden ikke mening.
 seg$segment.list[[4]][[8]] <- NULL
 
+#segment 4.2, 4.10 og  består af uens elementer 
+
+
+
+bab <- seg$segment.list[[4]][[8]]
+ view(discodata[bab,])
 
 ############
 

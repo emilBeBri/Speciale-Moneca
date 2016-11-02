@@ -9,7 +9,7 @@
 	],
 	"always_prompt_for_file_reload": false,
 	"bold_folder_labels": true,
-	"color_scheme": "Packages/One Dark Color Scheme/One Dark.tmTheme",
+	"color_scheme": "Packages/One Dark Material - Theme/schemes/OneDark.tmTheme",
 	"dictionary": "Packages/stavekontrol_dansk/da_DK.dic",
 	"enable_tab_scrolling": false,
 	"file_exclude_patterns":

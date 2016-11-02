@@ -104,23 +104,53 @@ mob.mat.df <- as.data.frame(mob.mat2)
 
 is.matrix(wm1)
 
+library(circlize)
 
 view(wm1)
-wm1  <-  round(wm1, digits=0)
-circlelist <-  seg$segment.list[[3]][[14]]
-segmentcircle <- wm1[circlelist,circlelist]
-# view(segmentcircle)
-g <- graph.adjacency(segmentcircle,weighted=TRUE)
-df <- get.data.frame(g)
-# chordDiagram(x = df)
-# farve <-  brewer.pal(length(circlelist),"Set1")
-chordDiagram(x = df, 
-  # grid.col = farve, 
-  transparency = 0.25,
-             directional = 1,
-             direction.type = c("arrows", "diffHeight"), diffHeight  = -0.04,
-             link.arr.type = "big.arrow", link.sort = TRUE, link.largest.ontop = TRUE)
-# view(df)
+
+cut.off.default <-  1 #skal måske ikke være 1 her jo
+wm1            <- weight.matrix(mob.mat2, cut.off = cut.off.default, symmetric = FALSE, small.cell.reduction = small.cell.default, diagonal=TRUE)
+wm1[is.na(wm1)] <- 0
+
+# wm1  <-  round(wm1, digits=0)
+
+klynge <- 3
+undergr <- 24
+
+circlelist <-  seg$segment.list[[klynge]][[undergr]]
+segmentcircle.rr <- wm1[circlelist,circlelist]
+segmentcircle.tot <- mob.mat[circlelist,circlelist]
+segmentcircle.tot <- cbind(segmentcircle.tot,colnames(segmentcircle.tot))
+segmentcircle <- segmentcircle.tot[,-ncol(segmentcircle.tot)]
+segmentcircle <- segmentcircle.rr
+diag(segmentcircle) <- 0
+df.c <- get.data.frame(graph.adjacency(segmentcircle,weighted=TRUE))
+view(df.c)
+farve <-  brewer.pal(length(circlelist),"Set1")
+ # farve <- c("#000000", "#FFDD89", "#957244", "#F26223")
+chordDiagram(x = df.c, 
+  grid.col = farve, 
+  transparency = 0.0,
+             directional = 1, symmetric=FALSE,
+             direction.type = c("arrows", "diffHeight"), diffHeight  = -0.065,
+             link.arr.type = "big.arrow", 
+             # self.link=1
+             link.sort = TRUE, link.largest.ontop = TRUE,
+             link.border="black",
+             # link.lwd = 2, 
+             # link.lty = 2
+             )
+
+
+
+?chordDiagram
+
+
+
+
+view(df.c)
+view(segmentcircle.tot)
+
 
 # getPalette = colorRampPalette(brewer.pal(12,"Paired"))
 # farve <-  getPalette(length(circlelist))

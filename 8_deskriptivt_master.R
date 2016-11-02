@@ -119,6 +119,10 @@ format(round(quantile(seg.df$within.mob.seg, quants, na.rm=TRUE), digits=3), big
 
 view(seg.df)
 
+### 
+
+under68.df <- filter(df, within.mob.seg <= .68)
+view(under68.df)
 
 # relativ risiko (delanalyse1)
 cut.off.default <-  1 #skal måske ikke være 1 her jo
@@ -130,9 +134,13 @@ describe(relativrisiko.vector)
 quants <- seq(0.9,1,0.005)
 format(round(quantile(relativrisiko.vector, quants, na.rm=TRUE), digits=3), big.mark=".",decimal.mark=",",nsmall=0)
 
-under70.df <- filter(df, within.mob.seg <= .7)
-view(under70.df)
 
+view(df)
+view(seg.df)
+
+# mål for forskellige data 
+
+describe(seg.df$max.path)
 
 
 # df med de nyttige variable 
@@ -151,7 +159,31 @@ options(dplyr.width = Inf)
 
 
 
+  segment.labels <- read.csv("./statistik/R/moneca/vores/Data/Segment_labels_DK.csv", sep = ";", encoding = "latin1")$X 
 
+
+segment.labels <-  read_excel("./statistik/R/moneca/vores/voresdata/segment_labels_test.xlsx")
+segment.labels[1,6:8]
+
+ segment.labels <- read.csv("./statistik/R/moneca/Anton_untouched/Data/Segment_labels_DK.csv", sep = ";", encoding = "latin1")
+ 
+
+seg.qual.final = 
+
+   seg.lab        <- seg.mem$membership
+   levels(seg.lab) <- paste(levels(seg.lab), as.character(segment.labels)[order(as.character(seg.qual.final$Membership))])
+   seg.lab        <- format(as.character(seg.lab))
+   cat.lab       <- paste(as.character(seg.mem$membership), " . ", rownames(mob.mat), sep = "")
+   
+
+
+  #kan ikke laves endnu, mangler analyse
+  seg.lab        <- seg.mem$membership
+  seg.lab
+  levels(seg.lab) <- paste(levels(seg.lab), as.character(segment.labels)[order(as.character(seg.qual.final$Membership))])
+  seg.lab        <- format(as.character(seg.lab))
+  cat.lab        <- paste(as.character(seg.mem$membership), " . ", rownames(mob.mat), sep = "")
+   
 
 
 ### 
@@ -161,11 +193,17 @@ options(dplyr.width = Inf)
 filter(df,grepl(".*mili*.", as.character(disco),ignore.case=TRUE)) %>% 	select(disco)
 
 #check enkelt disco indhold
+desk.tmp2 <- c("disco","disco_s","membership","within.mob","within.mob.seg","alder.helepop.gns","koen.gns.kvinder.andel")
 desk.tmp1 <- c(5131:5133,5113)
-desk.tmp2 <- c("disco_s","membership","within.mob","within.mob.seg","alder.helepop.gns","koen.gns.kvinder.andel")
 df.t <-  df %>% select_(.dots=desk.tmp2) %>% filter(grepl(paste(desk.tmp1,collapse="|"),disco_s)) %>% 	 mutate(disco_s2 = disco_s) 
 view(df.t)
 
+#check enkelt disco indhold
+desk.tmp1 <- c("4.10","4.2","3.8")
+df.t <-  df %>% select_(.dots=desk.tmp2) %>% filter(grepl(paste(desk.tmp1,collapse="|"),membership)) %>%    mutate(disco_s2 = disco_s) 
+
+
+view(df.t)
 
 
 
@@ -176,6 +214,49 @@ dens1 <- discodata %>% 	filter(Density==1) %>% 	select(disco, max.path,membershi
 
 deskall <- discodata %>% select(disco, max.path,membership,Nodes,Density,within.mob,within.mob.seg,share.of.mob,beskaeft.andel.gns,beskaeft.gns)
 	
+
+
+
+
+
+########### udvælg submatrix ##########
+
+mob.mat2 <- mob.mat 
+cut.off.default <-  1 #skal måske ikke være 1 her jo
+wm.desk            <- weight.matrix(mob.mat2, cut.off = cut.off.default, symmetric = FALSE, small.cell.reduction = small.cell.default, diagonal=TRUE)
+
+wm.desk[is.na(wm.desk)] <- 0
+wm.desk <- round(wm.desk,1)
+
+klynge <- c(4)
+undergr <- c(10)
+work.list <- seg$segment.list[[klynge]][[undergr]]
+sub.mat <- wm.desk [work.list,work.list]
+sub.mat <-  cbind(colnames(sub.mat),sub.mat)
+view(sub.mat)
+
+
+
+work.list2 <- sort(unique(unlist(lapply(work.list, function(x) which(wm.desk[x,] != 0)))))
+
+
+
+
+sub.mat <- wm.desk [work.list2,work.list2]
+
+
+view(sub.mat)
+
+
+
+idx <- colSums(wm.desk[work.list,] > 0)!=0;wm.desk[idx, idx]
+
+
+
+#############################
+
+
+
 
 view(discodata)
 view(seg.qual.final)

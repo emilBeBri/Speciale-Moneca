@@ -9,11 +9,19 @@
 
 p.seg.strong.edges      <- gg.jonas(seg, layout = lay, edges = edges.default.all, edge.size = edge.size, edge.color = "weight", midpoints = TRUE, show.text = FALSE, vertex.fill = intern.mobilitet.seg, vertex.size = vertex_stoerrelse, border.labels = seg.lab, border.text.hjust = 0.32)
 
+
+
 length(seg.lab)
 
 length(lay)
 
+seg.lab2 = as.numeric(as.character(seg.lab)
 
+
+is.numeric(seg.lab2)
+is.factor(seg.lab)
+
+str(seg.lab)
 
 
 if (length(border.labels) == nrow(layout)) {
@@ -350,6 +358,8 @@ dev.off()
 
 
 
+rescale(c(0.50,0.595,  0.625,0.659,    0.68,     0.695, 0.76,    0.80,1.00)
+        c(0.50,0.585,  0.625,0.699,    0.70,     0.71, 0.78,    0.80,1.00)
 
 
 #intern mobilitet.seg
@@ -357,7 +367,7 @@ kort.intern.mob.seg <- gg.jonas(seg, layout = lay, edges=edges.default.all, midp
                                 edge.size=edge.size, vertex.fill = discodata$within.mob.seg,
                                 vertex.size = vertex_stoerrelse) +  
   default + ggtitle("intern mobilitet segment")  + scale_fill_gradientn(colours = c(    "indianred4","indianred2", "white", "darkseagreen2","darkseagreen4"),
-                              values= rescale(c(0.50,0.585,  0.625,0.699,    0.70,     0.71, 0.78,    0.80,1.00)), guide="colorbar"
+                              values= rescale(c(0.50,0.595,  0.625,0.659,    0.68,     0.695, 0.76,    0.80,1.00)), guide="colorbar"
                               , name = "% intern mobilitet\npå segmentniveau", breaks=intern.mob.seg_num, labels=intern.mob.seg_lab)
 cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_intern_mob_seg.pdf", onefile = TRUE, height = 25, width = 25)
 kort.intern.mob.seg
@@ -383,6 +393,18 @@ cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryou
 kort.intern.mob.dif
 dev.off()
 
+
+#forskel i faerdighsniveauer
+ 
+kort.skillvl <- gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arrow = arrow.default,
+                       edge.size=edge.size, vertex.fill = discodata$skillvl,
+                       vertex.size = vertex_stoerrelse) +  
+  default + scale_fill_manual(values = skala_skillvl, labels=egp11_lab, name="faerdighedsniveau")
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort.skillvl.pdf", onefile = TRUE, height = 30, width = 30)
+kort.skillvl
+dev.off()
+
+skala_skillvl <-  c("dodgerblue4" ,"dodgerblue1","indianred2","indianred4")
 
 
  ##### baggrundsvariable ############

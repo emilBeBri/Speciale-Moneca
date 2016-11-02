@@ -147,14 +147,20 @@
 		{
 			"file_exclude_patterns":
 			[
-				"*"
+				"*.bib",
+				"moneca_data"
 			],
 			"folder_exclude_patterns":
 			[
-				"statistik",
+				"latexopgave",
 				"latexold",
 				"trash",
-				".Rproj.user"
+				".Rproj.user",
+				"/home/emil/Dropbox/Speciale/Emil_Soeren/statistik/R/moneca/0_trash",
+				"/home/emil/Dropbox/Speciale/Emil_Soeren/statistik/R/moneca/Til Soeren og Emil BB",
+				"/home/emil/Dropbox/Speciale/Emil_Soeren/statistik/R/moneca/Anton",
+				"/home/emil/Dropbox/Speciale/Emil_Soeren/statistik/R/moneca/vores/voresgamlescripts_old",
+				"/home/emil/Dropbox/Speciale/Emil_Soeren/statistik/R/moneca/vores/voresscripts_backup"
 			],
 			"follow_symlinks": true,
 			"path": "/home/emil/Dropbox/Speciale/Emil_Soeren"

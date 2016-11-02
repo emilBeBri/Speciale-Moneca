@@ -48,7 +48,7 @@ library(toOrdinal)
 library(MONECA)
 # library(XLConnect)
 # library(circlize)
-library(RDocumentation)
+# library(RDocumentation)
 
 
 
@@ -182,6 +182,9 @@ read_excel_allsheets <- function(filename) {
 
 
 #funktion til at åbne data on the go
+#indsæt det her som option: test <-  cbind(colnames(sub.mat),sub.mat) dvs til mobility table 
+
+
 view <- function(data, autofilter=TRUE) {
     # data: data frame
     # autofilter: whether to apply a filter to make sorting and filtering easier  

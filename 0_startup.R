@@ -63,22 +63,17 @@ checkpoint::checkpoint("2015-06-25")
 rm(list=ls())
 source("./statistik/R/moneca/vores/vorescripts/0_funktioner_og_pakker.R")
 
-
-
+#0 
 ### load ovenstaende 
 save.image("./statistik/R/moneca/vores/voresdata/WORKINGPROGRESS_allebeskaeft250")
 setwd("/home/emil/Dropbox/Speciale/Emil_Soeren")
 setwd("//VBOXSVR/Emil_Soeren")
 
 setwd("C:/Users/bubba/Dropbox/Speciale/Emil_Soeren")
-
 rm(list=ls())
 checkpoint::checkpoint("2015-06-25")
 source("./statistik/R/moneca/vores/vorescripts/0_funktioner_og_pakker.R")
 load("./statistik/R/moneca/vores/voresdata/WORKINGPROGRESS_allebeskaeft250")
-
-
-
 
 # d. 07/09/2016 lavet på Ubuntu med nyeste moneca og igraph 
 #load("./statistik/R/moneca/vores/voresdata/dplyrdata_allebeskaeft250")

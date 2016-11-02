@@ -149,6 +149,30 @@ discodata$membership <- as.factor(discodata$membership)
 discodata$disco_1cifret        <- as.factor(as.numeric(strtrim(discodata$disco_s, 1)))
 discodata$disco_1cifret[1] <- NA 
 
+
+
+#EGP-11
+egp11_lab  =  c("I"="I: Oevre Serviceklasse","II"="II: Nedre Serviceklasse","IIIa"="IIIa: Rutinepraeget, ikke-manuelt arbejde hoejeste niveau","IIIb"="IIIb: Rutinepraeget, ikke-manuelt arbejde laveste niveau","Iva"="IVa: små selvstaendige med ansatte","Ivb"="IVb: små selvstaendige uden ansatte","Ivc"="IVc: Landmaend og andre selvstaendige i primaer produktion ","V"="V: Teknikere af laveste grad, supervisorer af manuelt arbejde","VI"="VI: Faglaerte, manulle arbejdere","VIIa"="VIIa: Ikke-faglaerte, manuelle arbejdere","VIIb"="VIIb: landbrugsarbejdere")
+
+
+
+discodata$disco_1cifret
+
+discodata$skillvl <-  recode_factor(discodata$disco_1cifret,
+# '110'="		",
+# '1'="",
+'2'="4",
+'3'="3",
+'4'="2",
+'5'="2",
+'6'="2",
+'7'="2",
+'8'="2",
+'9'="1",
+.default=NA_character_)
+
+
+
 #disco 4-cifret (dvs uden labels) #skulle muligvis impliceres i selve disco-variablen, men har ikke lyst til at fucke noget op, sÃ¥ bliver pÃ¥ det her niveau medmindre det er nÃ¸dvendigt.
 
 
@@ -258,7 +282,6 @@ discodata <- mutate(discodata,
 #månedsløn 
 
 discodata <- mutate(discodata,timelon.helepop.gns.inf.mndr=timelon.helepop.gns.inf*160.33)
-
 
 
 

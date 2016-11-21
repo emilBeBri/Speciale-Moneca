@@ -11,27 +11,25 @@ small.cell.default       <- 5
 # help(anton)
 
 set.controls.for.the.heart.of.the.sun <- 4 #her betyder 6 *OVER* det første niveau, dvs 7 i alt. 
-seg           <- anton(mob.mat, cut.off = cut.off.default, small.cell.reduction = small.cell.default, segment.levels = set.controls.for.the.heart.of.the.sun)
-seg.bak  <- seg
+# seg           <- anton(mob.mat, cut.off = cut.off.default, small.cell.reduction = small.cell.default, segment.levels = set.controls.for.the.heart.of.the.sun)
+
+
 
 # alle beskaeftigede 250 kat
 # save(seg, file="./statistik/R/moneca/vores/voresdata/seg_objekter/objekt_seg_allebeskaeftigede_250kat.Rdata")
 load(file="./statistik/R/moneca/vores/voresdata/seg_objekter/objekt_seg_allebeskaeftigede_250kat.Rdata")
 
+seg.original  <- seg
 
-########## segment ændringer 
+########## segment ændringer HUSK at den det højeste nr på listen skal være først og så fremdeles. Ellers ændres numrene nedad og du ødelægger andre klynger end dem du havde tænkt dig. 
 
-
-
-# split segment 4.8 op, der har en max path på 4 som det eneste, og sammenlægningen giver desuden ikke mening.
+seg$segment.list[[4]][[14]] <- NULL
+seg$segment.list[[4]][[11]] <- NULL
 seg$segment.list[[4]][[8]] <- NULL
-
-#segment 4.2, 4.10 og  består af uens elementer 
-
+seg$segment.list[[4]][[6]] <- NULL
 
 
-bab <- seg$segment.list[[4]][[8]]
- view(discodata[bab,])
+
 
 ############
 
@@ -162,6 +160,7 @@ seg.mem       <- segment.membership(seg)
 #qual.list       <- lapply(seg.list, segment.quality)
 #qual.final.list <- lapply(seg.list, segment.quality, final.solution = TRUE)
 seg.qual        <- segment.quality(seg)
+# view(seg.qual)
 seg.qual.final  <- segment.quality(seg, final.solution = TRUE)
 #View(seg.qual.final)
 #write.table(seg.qual.final, file="./statistik/R/moneca/vores/output/seg.qual.final.csv", sep = ";", fileEncoding = "UTF-8") #output

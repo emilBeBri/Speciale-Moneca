@@ -46,7 +46,7 @@ library(readxl)
 # library(soc.report) #denne her bruger xlsx-pakken, der fucker med XLConnect
 library(toOrdinal)
 library(MONECA)
-# library(XLConnect)
+#library(XLConnect)
 # library(circlize)
 # library(RDocumentation)
 

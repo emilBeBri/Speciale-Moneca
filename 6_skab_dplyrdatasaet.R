@@ -4,8 +4,9 @@
 
 
 ## timelon 
-timelon.helepop <- read_excel_allsheets("./statistik/DST/DST_output/00_emil_speciale/MONECAs/allebeskaeftigede/baggrundsvar/timelon_udenti_kat250__helepop.xlsx")
+timelon.helepop <- read_excel_allsheets("./statistik/DST/DST_output/00_emil_speciale/MONECAs/allebeskaeftigede/baggrundsvar/timelon_udenti_kat250__helepop_INF.xlsx")
 timelon.helepop <- data.frame(matrix(unlist(timelon.helepop), nrow=nrowputexcel),stringsAsFactors=FALSE)
+#view(timelon.helepop)
 columns <- c(1, 4, 13, 22, 31, 40, 49, 58, 67, 76, 85, 94, 103, 112, 121)
 timelon.helepop <- timelon.helepop[,c(columns)]
 fix_disco_labels <- timelon.helepop[,1]
@@ -68,7 +69,7 @@ koen.helepop <- data.frame(matrix(unlist(koen.helepop), nrow=nrowputexcel),strin
 columns <- seq(2,56,2)
 columns <-  append(columns, 1, after = 0)
 koen.helepop <- koen.helepop[,c(columns)]
-view(koen.helepop)
+# view(koen.helepop)
 
 
 
@@ -155,9 +156,6 @@ discodata$disco_1cifret[1] <- NA
 egp11_lab  =  c("I"="I: Oevre Serviceklasse","II"="II: Nedre Serviceklasse","IIIa"="IIIa: Rutinepraeget, ikke-manuelt arbejde hoejeste niveau","IIIb"="IIIb: Rutinepraeget, ikke-manuelt arbejde laveste niveau","Iva"="IVa: små selvstaendige med ansatte","Ivb"="IVb: små selvstaendige uden ansatte","Ivc"="IVc: Landmaend og andre selvstaendige i primaer produktion ","V"="V: Teknikere af laveste grad, supervisorer af manuelt arbejde","VI"="VI: Faglaerte, manulle arbejdere","VIIa"="VIIa: Ikke-faglaerte, manuelle arbejdere","VIIb"="VIIb: landbrugsarbejdere")
 
 
-
-discodata$disco_1cifret
-
 discodata$skillvl <-  recode_factor(discodata$disco_1cifret,
 # '110'="		",
 # '1'="",
@@ -239,45 +237,59 @@ discodata <- mutate(discodata,
 discodata$alder.helepop.gns <-  round_to(discodata$alder.helepop.gns,1)
 
 
-# gns for timelon, korregeret for inflationen (til 2010 niveau, sammenligning med DST)
-discodata <- mutate(discodata, timelon.helepop2009.inf.dst=timelon.helepop2009*93.9/91.6)
-discodata <- mutate(discodata, timelon.helepop2008.inf.dst=timelon.helepop2008*93.9/90.4)
-discodata <- mutate(discodata, timelon.helepop2007.inf.dst=timelon.helepop2007*93.9/88)
-discodata <- mutate(discodata, timelon.helepop2006.inf.dst=timelon.helepop2006*93.9/85.9)
-discodata <- mutate(discodata, timelon.helepop2005.inf.dst=timelon.helepop2005*93.9/84.4)
-discodata <- mutate(discodata, timelon.helepop2004.inf.dst=timelon.helepop2004*93.9/82.8)
-discodata <- mutate(discodata, timelon.helepop2003.inf.dst=timelon.helepop2003*93.9/81.8)
-discodata <- mutate(discodata, timelon.helepop2002.inf.dst=timelon.helepop2002*93.9/80.5)
-discodata <- mutate(discodata, timelon.helepop2001.inf.dst=timelon.helepop2001*93.9/78.3)
-discodata <- mutate(discodata, timelon.helepop2000.inf.dst=timelon.helepop2000*93.9/76.9)
-discodata <- mutate(discodata, timelon.helepop1999.inf.dst=timelon.helepop1999*93.9/74.9)
-discodata <- mutate(discodata, timelon.helepop1998.inf.dst=timelon.helepop1998*93.9/72.8)
-discodata <- mutate(discodata, timelon.helepop1997.inf.dst=timelon.helepop1997*93.9/71.6)
-discodata <- mutate(discodata, timelon.helepop1996.inf.dst=timelon.helepop1996*93.9/70.1)
+# save.image("./tmp")
+# rm(list=ls())
+# load("./tmp")
+
+
+# # gns for timelon, korregeret for inflationen (til 2010 niveau, sammenligning med DST)
+
+
+forbrugerprisindeks_fra2009til2010 <- function(x) {
+	x*(93.9/91.4)
+}  
+
+discodata <- discodata %>% 	 rowwise()  %>% 	 mutate_each(., funs( inf.dst = forbrugerprisindeks_fra2009til2010), contains("timelon.helepop"))
+
+
+# discodata <- mutate(discodata, timelon.helepop2009.inf.dst=timelon.helepop2009*93.9/91.4)
+# discodata <- mutate(discodata, timelon.helepop2008.inf.dst=timelon.helepop2008*93.9/90.4)
+# discodata <- mutate(discodata, timelon.helepop2007.inf.dst=timelon.helepop2007*93.9/88)
+# discodata <- mutate(discodata, timelon.helepop2006.inf.dst=timelon.helepop2006*93.9/85.9)
+# discodata <- mutate(discodata, timelon.helepop2005.inf.dst=timelon.helepop2005*93.9/84.4)
+# discodata <- mutate(discodata, timelon.helepop2004.inf.dst=timelon.helepop2004*93.9/82.8)
+# discodata <- mutate(discodata, timelon.helepop2003.inf.dst=timelon.helepop2003*93.9/81.8)
+# discodata <- mutate(discodata, timelon.helepop2002.inf.dst=timelon.helepop2002*93.9/80.5)
+# discodata <- mutate(discodata, timelon.helepop2001.inf.dst=timelon.helepop2001*93.9/78.3)
+# discodata <- mutate(discodata, timelon.helepop2000.inf.dst=timelon.helepop2000*93.9/76.9)
+# discodata <- mutate(discodata, timelon.helepop1999.inf.dst=timelon.helepop1999*93.9/74.9)
+# discodata <- mutate(discodata, timelon.helepop1998.inf.dst=timelon.helepop1998*93.9/72.8)
+# discodata <- mutate(discodata, timelon.helepop1997.inf.dst=timelon.helepop1997*93.9/71.6)
+# discodata <- mutate(discodata, timelon.helepop1996.inf.dst=timelon.helepop1996*93.9/70.1)
 
 discodata <- mutate(discodata,
-                    timelon.helepop.gns.inf.dst =  (timelon.helepop1996.inf.dst + timelon.helepop1997.inf.dst + timelon.helepop1998.inf.dst + timelon.helepop1999.inf.dst +  timelon.helepop2000.inf.dst +  timelon.helepop2001.inf.dst + timelon.helepop2002.inf.dst + timelon.helepop2003.inf.dst + timelon.helepop2004.inf.dst + timelon.helepop2005.inf.dst + timelon.helepop2006.inf.dst + timelon.helepop2007.inf.dst + timelon.helepop2008.inf.dst + timelon.helepop2009.inf.dst)/14 )
+                    timelon.helepop.gns.inf.dst =  (timelon.helepop1996_inf.dst + timelon.helepop1997_inf.dst + timelon.helepop1998_inf.dst + timelon.helepop1999_inf.dst +  timelon.helepop2000_inf.dst +  timelon.helepop2001_inf.dst + timelon.helepop2002_inf.dst + timelon.helepop2003_inf.dst + timelon.helepop2004_inf.dst + timelon.helepop2005_inf.dst + timelon.helepop2006_inf.dst + timelon.helepop2007_inf.dst + timelon.helepop2008_inf.dst + timelon.helepop2009_inf.dst)/14 )
 
 
 # gns for timelon, korregeret for inflationen til 2009 niveau 
 
+# discodata <- mutate(discodata, timelon.helepop2008.inf=timelon.helepop2008*91.6/90.4)
+# discodata <- mutate(discodata, timelon.helepop2007.inf=timelon.helepop2007*91.6/88)
+# discodata <- mutate(discodata, timelon.helepop2006.inf=timelon.helepop2006*91.6/85.9)
+# discodata <- mutate(discodata, timelon.helepop2005.inf=timelon.helepop2005*91.6/84.4)
+# discodata <- mutate(discodata, timelon.helepop2004.inf=timelon.helepop2004*91.6/82.8)
+# discodata <- mutate(discodata, timelon.helepop2003.inf=timelon.helepop2003*91.6/81.8)
+# discodata <- mutate(discodata, timelon.helepop2002.inf=timelon.helepop2002*91.6/80.5)
+# discodata <- mutate(discodata, timelon.helepop2001.inf=timelon.helepop2001*91.6/78.3)
+# discodata <- mutate(discodata, timelon.helepop2000.inf=timelon.helepop2000*91.6/76.9)
+# discodata <- mutate(discodata, timelon.helepop1999.inf=timelon.helepop1999*91.6/74.9)
+# discodata <- mutate(discodata, timelon.helepop1998.inf=timelon.helepop1998*91.6/72.8)
+# discodata <- mutate(discodata, timelon.helepop1997.inf=timelon.helepop1997*91.6/71.6)
+# discodata <- mutate(discodata, timelon.helepop1996.inf=timelon.helepop1996*91.6/70.1)
 
-discodata <- mutate(discodata, timelon.helepop2008.inf=timelon.helepop2008*91.6/90.4)
-discodata <- mutate(discodata, timelon.helepop2007.inf=timelon.helepop2007*91.6/88)
-discodata <- mutate(discodata, timelon.helepop2006.inf=timelon.helepop2006*91.6/85.9)
-discodata <- mutate(discodata, timelon.helepop2005.inf=timelon.helepop2005*91.6/84.4)
-discodata <- mutate(discodata, timelon.helepop2004.inf=timelon.helepop2004*91.6/82.8)
-discodata <- mutate(discodata, timelon.helepop2003.inf=timelon.helepop2003*91.6/81.8)
-discodata <- mutate(discodata, timelon.helepop2002.inf=timelon.helepop2002*91.6/80.5)
-discodata <- mutate(discodata, timelon.helepop2001.inf=timelon.helepop2001*91.6/78.3)
-discodata <- mutate(discodata, timelon.helepop2000.inf=timelon.helepop2000*91.6/76.9)
-discodata <- mutate(discodata, timelon.helepop1999.inf=timelon.helepop1999*91.6/74.9)
-discodata <- mutate(discodata, timelon.helepop1998.inf=timelon.helepop1998*91.6/72.8)
-discodata <- mutate(discodata, timelon.helepop1997.inf=timelon.helepop1997*91.6/71.6)
-discodata <- mutate(discodata, timelon.helepop1996.inf=timelon.helepop1996*91.6/70.1)
 
 discodata <- mutate(discodata,
-                    timelon.helepop.gns.inf =  (timelon.helepop1996.inf + timelon.helepop1997.inf + timelon.helepop1998.inf + timelon.helepop1999.inf +  timelon.helepop2000.inf +  timelon.helepop2001.inf + timelon.helepop2002.inf + timelon.helepop2003.inf + timelon.helepop2004.inf + timelon.helepop2005.inf + timelon.helepop2006.inf + timelon.helepop2007.inf + timelon.helepop2008.inf + timelon.helepop2009)/14 )
+                    timelon.helepop.gns.inf =  (timelon.helepop1996 + timelon.helepop1997 + timelon.helepop1998 + timelon.helepop1999 +  timelon.helepop2000 +  timelon.helepop2001 + timelon.helepop2002 + timelon.helepop2003 + timelon.helepop2004 + timelon.helepop2005 + timelon.helepop2006 + timelon.helepop2007 + timelon.helepop2008 + timelon.helepop2009)/14 )
 
 #månedsløn 
 

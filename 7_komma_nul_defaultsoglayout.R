@@ -69,6 +69,9 @@ edges.default.zoom[edges.default.zoom > 15] <- 15
 skala.indianred.darkseagreen         <- c( "#8B3A3A", "#CD5555", "#EE6363", "#FF6A6A", "white", "#B4EEB4", "#9BCD9B", "#698B69", "#2F4F4F")
 skala.darkseagreen.indianred <-  rev(skala.indianred.darkseagreen)
 length(skala.indianred.darkseagreen) #yes, 4 røde, hvid som gns, og 4 grønne.
+skala.ired.dgreen.simple =  c(    "indianred4","indianred2", "white", "darkseagreen2","darkseagreen4")
+
+
 
 #egp 
 # dodgerblue1 dodgerblue2                 serviceklasse
@@ -105,25 +108,27 @@ rr.lab[length(rr.lab)] <- paste(rr.breaks[length(rr.lab)],"+",sep="")
 rr.breaks[1] <- c(3.01)
 
 default <- list()
-default$scale_size_continuous <-   scale_size_continuous(range = c(5, 30), name="% af totalt antal arbejdslÃ¸se", breaks=beskaeft.num, labels=beskaeft.lab)
-default$scale_alpha_continuous <-   scale_alpha_continuous(range = c(0.05, 0.75), name="alpha")
+default$scale_size_continuous <-   scale_size_continuous(range = c(5, 30), name="antal beskaftigede", breaks=beskaeft.num, labels=beskaeft.lab,guide="legend")
+default$scale_alpha_continuous <-   scale_alpha_continuous(range = c(0.05, 0.75), guide="none")
 #default$scale_colour_continuous <-   scale_colour_continuous(high = "orange",  low = "#575155", name="Styrke af forbindelse", breaks=c(3.1,5,7.5,10,12.5,15),labels=c("3","5","7,5","10","12,5","15+"))
 default$scale_colour_gradient2 = scale_colour_gradient2(low = "#575155", mid = "darkorange1", high = muted("darkred"), 
-                       midpoint = 15, space = "Lab", na.value = "pink", guide = "colourbar",name="Styrke af forbindelse", breaks=rr.breaks,labels=rr.lab)
+                       midpoint = 15, space = "Lab", na.value = "pink", guide =guide_colorbar(barwidth = 1, barheight = 7,draw.ulim = FALSE, draw.llim = FALSE),name="Styrke af forbindelse", breaks=rr.breaks,labels=rr.lab)
+
+
+ 
 
 
 
+#guide=guide_colorbar(barwidth = 1, barheight = 15,draw.ulim = FALSE, draw.llim = FALSE,
 
 
-
-
-
-
-# defaults til zoom
-default.zoom <- list()
+default.zoom = list()
 default.zoom$scale_size_continuous <-   scale_size_continuous(range = c(5, 40), name="% af totalt antal ledige", breaks=beskaeft.num, labels=beskaeft.lab, guide = "none")
 default.zoom$scale_alpha_continuous <-   scale_alpha_continuous(range = c(0.05, 1), guide = "none")
 default.zoom$scale_colour_continuous <-   scale_colour_continuous(high = "orange",  low = "#575155", name="Styrke af forbindelse", breaks=c(3.1,5,7.5,10,12.5,15),labels=c("3","5","7,5","10","12,5","15+"))
+
+
+
 
 
 # defaults alm. kort map array
@@ -186,13 +191,9 @@ default.egp11.maparray$egp11 <-  scale_fill_manual(values = skala_egp11, labels=
 # alder
 
 
-# #timelÃ¸n breaks alle beskaeftigede
-timelon.helepop.gns.inf_num <- c(150,175,200,225,250,275,300,350,400,450)
-timelon.helepop.gns.inf_lab <- c("150 kr","175 kr", "200 kr", "225 kr", "250 kr", "275 kr","300 kr","350 kr","400 kr","450 kr")
 
-# #mÃ¥nedslÃ¸n baseret pÃ¥ timelÃ¸n breaks alle beskaeftigede
-timelon.helepop.gns.inf.mndr_num <- c(23355,28000,32000,35000,40000,50000,60000,75000)
-timelon.helepop.gns.inf.mndr_lab <- c("23.355 kr","28.000 kr", "32.000 kr", "35.000 kr", "40.000 kr", "50.000 kr", "60.000 kr", "75.000 kr")
+
+
 
 
 
@@ -282,15 +283,22 @@ koen_lab <- c("5 %", "5 %","10 %", "25 %", "50 %", "75 %", "90 %", "99 %")
 #view(discodata)
 
 
+#lay                          <- beskaeftigede.andel.seg[-l, 1:2]
+#lay[, 1]                     <- lay[, 1] * -10000
+#lay[, 2]                     <- lay[, 2] * 10000
+#lay                          <-  layout.matrix(seg, attraction = c(450, 125, 40, 22, 12), area.size=7000000, weight.adjustment = 1.14, start = lay, iter = 50000000000000000, niter=10000)
+#lay                          <-  layout.matrix(seg, attraction = c(450, 125, 40, 22, 12), area.size=7000000, weight.adjustment = 1.14, start = lay, iter = 50000000000000000, niter=10000)
 
 
+
+#help("layout.matrix")
 
 
 #lay                          <- beskaeftigede.andel.seg[-l, 1:2]
 #lay[, 1]                     <- lay[, 1] * -10000
 #lay[, 2]                     <- lay[, 2] * 10000
 #lay                          <-  layout.matrix(seg) #fler niveauer p? attraction 
-# lay                          <-  layout.matrix(seg, attraction = c(450, 125, 40, 22, 12), weight.adjustment = 1.14, start = lay, tie.adjustment = 0.4, niter=10000) #fler niveauer p? attraction hvis vi kommer over 5 niveauer
+#lay                          <-  layout.matrix(seg, attraction = c(450, 125, 40, 22, 12), weight.adjustment = 1.14, start = lay, tie.adjustment = 0.4, niter=10000) #fler niveauer p? attraction hvis vi kommer over 5 niveauer
 # help(layout.matrix)
 
 
@@ -324,8 +332,8 @@ koen_lab <- c("5 %", "5 %","10 %", "25 %", "50 %", "75 %", "90 %", "99 %")
 load(file = "./statistik/R/moneca/vores/voresdata/layout_igrah701.Rda")
 
 lay_checkfile = layout.moneca[2]
-#lay_checkfile # 69401.2
-lay_checkfile == 69401.2
+#lay_checkfile # 28998
+lay_checkfile == 28998
 lay = layout.moneca[1]
 
 

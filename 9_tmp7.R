@@ -1,4 +1,44 @@
 
+view(discodata)
+view(seg.df)
+
+
+
+aabn_xls("./statistik/R/moneca/vores/discodata_nyeste.xlsx")
+
+
+
+view(discodata)
+view(seg.qual.final)
+
+
+
+
+#########################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 view(data)
 data <- read.csv("http://protzkeule.de/data.csv")
@@ -89,24 +129,16 @@ is.matrix(mob.mat2)
 
 
 
-
-view(test)
-
-view(mob.mat.df)
-
 library(circlize)
 
-mob.mat2 <- mob.mat 
-mob.mat.df <- as.data.frame(mob.mat2)
 
 
 
+klynge <- 3
+undergr <- 24
 
-is.matrix(wm1)
 
-library(circlize)
-
-view(wm1)
+########## simpel 
 
 cut.off.default <-  1 #skal måske ikke være 1 her jo
 wm1            <- weight.matrix(mob.mat2, cut.off = cut.off.default, symmetric = FALSE, small.cell.reduction = small.cell.default, diagonal=TRUE)
@@ -114,8 +146,6 @@ wm1[is.na(wm1)] <- 0
 
 # wm1  <-  round(wm1, digits=0)
 
-klynge <- 3
-undergr <- 24
 
 circlelist <-  seg$segment.list[[klynge]][[undergr]]
 segmentcircle.rr <- wm1[circlelist,circlelist]
@@ -123,13 +153,41 @@ segmentcircle.tot <- mob.mat[circlelist,circlelist]
 segmentcircle.tot <- cbind(segmentcircle.tot,colnames(segmentcircle.tot))
 segmentcircle <- segmentcircle.tot[,-ncol(segmentcircle.tot)]
 segmentcircle <- segmentcircle.rr
+
+
+
+
+
+################ avanceret
+
+cut.off.default <-  median(relativrisiko.vector,na.rm=TRUE) #skal måske ikke være 1 her jo
+wm.desk.2            <- weight.matrix(mob.mat2, cut.off = cut.off.default, symmetric = FALSE, small.cell.reduction = small.cell.default, diagonal=TRUE) 
+wm.desk.2[is.na(wm.desk.2)] <- 0
+wm.desk.2 <- round(wm.desk.2,1)
+work.list.2 <- sort(unique(unlist(lapply(work.list, function(x) which(wm.desk.2[x,] != 0)))))
+sub.mat <- wm.desk.2 [work.list.2,work.list.2]
+sub.mat <-  cbind(colnames(sub.mat),sub.mat)
+view(sub.mat)
+ 
+
+
+segmentcircle <- sub.mat
+
+is.tibble(segmentcircle)
+
+ test <- 
+
+
+
+
+
 diag(segmentcircle) <- 0
 df.c <- get.data.frame(graph.adjacency(segmentcircle,weighted=TRUE))
 view(df.c)
-farve <-  brewer.pal(length(circlelist),"Set1")
+farve <-  brewer.pal(ncol(segmentcircle),"Set1")
  # farve <- c("#000000", "#FFDD89", "#957244", "#F26223")
 chordDiagram(x = df.c, 
-  grid.col = farve, 
+  #grid.col = farve, 
   transparency = 0.0,
              directional = 1, symmetric=FALSE,
              direction.type = c("arrows", "diffHeight"), diffHeight  = -0.065,

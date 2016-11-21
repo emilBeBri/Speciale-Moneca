@@ -71,7 +71,7 @@ seg.qual.detailed_tmp <- rename(seg.qual.detailed_tmp, within.mob = lvl1.within.
 
 seg.qual.final  <- segment.quality(seg, final.solution = TRUE)
 seg.qual.final <- tbl_df(seg.qual.final)
-# view(seg.qual.final)
+ #view(seg.qual.final)
 # nrow(seg.qual.final)
 
 # omdÃ¸b og numerisk

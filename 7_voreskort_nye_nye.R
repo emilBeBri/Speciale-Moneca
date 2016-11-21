@@ -316,7 +316,7 @@ kort.disco <- gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arro
           default.disco
 
 #kort.disco
-cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort.disco.test.pdf", onefile = TRUE, height = 30, width = 30)
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort.disco.pdf", onefile = TRUE, height = 30, width = 30)
 kort.disco
 dev.off()
 
@@ -369,6 +369,9 @@ kort.intern.mob.seg <- gg.jonas(seg, layout = lay, edges=edges.default.all, midp
   default + ggtitle("intern mobilitet segment")  + scale_fill_gradientn(colours = c(    "indianred4","indianred2", "white", "darkseagreen2","darkseagreen4"),
                               values= rescale(c(0.50,0.595,  0.625,0.659,    0.68,     0.695, 0.76,    0.80,1.00)), guide="colorbar"
                               , name = "% intern mobilitet\npå segmentniveau", breaks=intern.mob.seg_num, labels=intern.mob.seg_lab)
+
+
+
 cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_intern_mob_seg.pdf", onefile = TRUE, height = 25, width = 25)
 kort.intern.mob.seg
 dev.off()
@@ -379,6 +382,8 @@ dev.off()
 #          default + ggtitle("intern mobilitet segment") +
 #scale_fill_gradientn(colours = getPalette(length(unique(discodata$within.mob.seg))), name = "intern mobilitet i segment", breaks=intern.mob.seg_num, labels=intern.mob.seg_lab,
 #                     guide="legend")        #)     #  guide = ""colorbar"", )
+
+
 
 
 #intern mobilitet difference
@@ -410,12 +415,121 @@ skala_skillvl <-  c("dodgerblue4" ,"dodgerblue1","indianred2","indianred4")
  ##### baggrundsvariable ############
 
 #gns. timeløn ( alle beskæftigede) 
-getPalette = colorRampPalette(skala.indianred.darkseagreen)
-kort.timelon <- gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arrow = arrow.default, 
-                   edge.size=edge.size, vertex.fill = discodata$timelon.helepop.gns.inf,
-                   vertex.size = vertex_stoerrelse) +  
-          default + ggtitle("timeløn ledige") +
-scale_fill_gradientn(colours = getPalette(length(unique(discodata$timelon.helepop.gns.inf))), guide = "legend", name = "timeløn", breaks=timelon.helepop.gns.inf_num, labels=timelon.helepop.gns.inf_lab)
+
+
+
+discodata <- mutate(discodata,timelon.helepop.gns.inf.cutoff=replace(timelon.helepop.gns.inf, timelon.helepop.gns.inf>=301, 300))  
+
+kort.timelon <-  gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arrow = arrow.default, 
+           edge.size=edge.size, vertex.fill = discodata$timelon.helepop.gns.inf.cutoff,
+           vertex.size = vertex_stoerrelse) +  
+   ggtitle("timeløn") + scale_fill_gradientn(colours = skala.ired.dgreen.simple,
+                                                             values= rescale(timelon.rescale), guide=guide_colorbar(barwidth = 1, barheight = 12,draw.ulim = FALSE, draw.llim = FALSE), name = "timeløn", breaks=timeloen.num, labels=timeloen.lab) +  default  +
+#  guides(fill = guide_colorbar(barwidth = 1, barheight = 15,draw.ulim = FALSE, draw.llim = FALSE)) +
+  theme(legend.position = c(0.95, 0.9))
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_timelon.pdf", onefile = TRUE, height = 25, width = 25)
+kort.timelon 
+dev.off()
+
+
+
+
+kort.timelon <-  gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arrow = arrow.default, 
+                          edge.size=edge.size, vertex.fill = discodata$timelon.helepop.gns.inf.cutoff,
+                          vertex.size = vertex_stoerrelse) +  
+  ggtitle("timeløn") + scale_fill_gradientn(colours = skala.ired.dgreen.simple,
+                                            values= rescale(timelon.rescale), guide=guide_colorbar(barwidth = 1, barheight = 15,draw.ulim = FALSE, draw.llim = FALSE, legend.position = c(0.7, 0.9)), name = "timeløn", breaks=timeloen.num, labels=timeloen.lab) +  default  #+
+#  guides(fill = guide_colorbar(barwidth = 1, barheight = 15,draw.ulim = FALSE, draw.llim = FALSE)) +
+#theme(legend.position = c(0.9, 0.9))
+
+ discodata$timelon.helepop.gns.inf
+  
+  
+
+
+
+
+
+#timeloen 
+quants = seq(0,1,0.05) 
+format(round(quantile(discodata$timelon.helepop.gns.inf.cutoff, quants), digits=0), big.mark=".",decimal.mark=",",nsmall=0)
+Hmisc::describe(discodata$timelon.helepop.gns.inf)
+timeloen.num <- seq(150,500,50) #c(70,80)
+timeloen.num[1] = c(145)
+timeloen.num[length(timeloen.num)] = max(discodata$timelon.helepop.gns.inf)
+timeloen.num = round(timeloen.num,0)
+
+
+
+timeloen.num = c(146,175,200,211,225,250,275,300)
+timeloen.lab <- paste(timeloen.num,"kr.")  #, "%")
+timeloen.lab[4] <- c("211 kr. (median)")
+timeloen.lab[1] <- c("145 kr.")
+timeloen.lab[length(timeloen.num)] <- c("300+ kr.")  #, "%")
+#timeloen.lab[length(timeloen.lab)] <- paste(timeloen.num[length(timeloen.lab)],"+ kr.",sep="")
+timelon.rescale = c(146,175,  188,201,     211,     221,259,    271,300)
+timelon.rescale = c(146,175,  188,201,     211,     221,259,    271,300)
+
+
+146-300
+
+
+154/7
+
+1/7
+
+
+
+quants = seq(0,1,c(1/7))
+timelon.rescale =  round(quantile(discodata$timelon.helepop.gns.inf.cutoff,quants))
+timelon.rescale = insert.at(timelon.rescale, c(4),c(211))
+timelon.rescale[c(2)] = timelon.rescale[c(2)] -20
+timelon.rescale[c(3,4)] = timelon.rescale[c()] +20
+timelon.rescale
+
+timelon.rescale[c(6,7)] = timelon.rescale[c(6,7)] +10
+timelon.rescale
+
+
+
+
+
+seq(146,300,19.25)
+test = seq(146,300,22)
+
+test = insert.at(test,(c(4),   c(211))
+insert.at(test, c(4),c(211))
+                 
+                 
+                 
+                 
+# a = c(2,3,4,9,10,2,4,19)
+# b = c(2,1)
+# d = c(0,1)
+
+# insert.at(a, c(3,7), b, d) #indsætter b efter 3. element og d efter 7. element i a 
+# insert.at(1:10, c(4,7,9), 11, 12, 13) #andet eksempel
+
+
+
+
+
+
+
+timelon.rescale = 1
+timelon.rescale[1] = min(discodata$timelon.helepop.gns.inf)
+
+
+
+
+timelon.rescale[2:8] = quantile(discodata$timelon.helepop.gns.inf,seq(0.125,0.875,0.125))
+timelon.rescale[9] = max(discodata$timelon.helepop.gns.inf)
+
+0.50,0.595,  0.625,0.659,    0.68,     0.695, 0.76,    0.80,1.00
+
+
+
+
 
 
 # til limitversion: konvertering fra timeløn til månedsløn
@@ -430,8 +544,7 @@ kort.manedslon <- gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.
           default + ggtitle("månedsløn ledige") +
 scale_fill_gradientn(colours = getPalette(length(unique(discodata$timelon.helepop.gns.inf.mndr))), guide = "legend", name = "månedsløn", breaks=timelon.helepop.gns.inf.mndr_num, labels=timelon.helepop.gns.inf.mndr_lab)
 
-cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort.timelon.manedslon.pdf", onefile = TRUE, height = 30, width = 30)
-kort.timelon
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_manedslon.pdf", onefile = TRUE, height = 30, width = 30)
 kort.manedslon
 dev.off()
 

@@ -20,9 +20,6 @@ checkpoint::checkpoint("2015-06-25")
 
 #fjerner alt 
 rm(list=ls())
-
-#fjerner vist nok ikke funktioner
-rm(list = setdiff(ls(), lsf.str()))
 ###
 source("./statistik/R/moneca/vores/vorescripts/0_funktioner_og_pakker.R")
 #### selectors ####
@@ -42,26 +39,19 @@ source("./statistik/R/moneca/vores/vorescripts/1_data_se_ny.R")
 source("./statistik/R/moneca/vores/vorescripts/2_analyse_se.R")
 
 save.image("./foerdplyr")
+rm(list=ls())
 load("./foerdplyr")
 # Dplyr datasaet essentials 
 source("./statistik/R/moneca/vores/vorescripts/6_skab_dplyrdatasaet_essentials.R")
-# Dplyr datasaet klasser
-source("./statistik/R/moneca/vores/vorescripts/6_skab_dplyrdatasaet_klasser.R")
 # Dplyr datasaet 
 source("./statistik/R/moneca/vores/vorescripts/6_skab_dplyrdatasaet.R")
+# Dplyr datasaet klasser
+source("./statistik/R/moneca/vores/vorescripts/6_skab_dplyrdatasaet_klasser.R")
+#ekstra
+source("./statistik/R/moneca/vores/vorescripts/6_skab_dplyrdatasaet_efterbehandling.R")
 
 discodata <- tbl_df(discodata)
 discodata_newestmoneca_bak <- discodata
-
-
-save.image("./statistik/R/moneca/vores/voresdata/dplyrdata_allebeskaeft250")
-
-### load ovenstående 
-setwd("/home/emil/Dropbox/Speciale/Emil_Soeren")
-setwd("//VBOXSVR/Emil_Soeren")
-checkpoint::checkpoint("2015-06-25")
-rm(list=ls())
-source("./statistik/R/moneca/vores/vorescripts/0_funktioner_og_pakker.R")
 
 #0 
 ### load ovenstaende 
@@ -75,11 +65,8 @@ checkpoint::checkpoint("2015-06-25")
 source("./statistik/R/moneca/vores/vorescripts/0_funktioner_og_pakker.R")
 load("./statistik/R/moneca/vores/voresdata/WORKINGPROGRESS_allebeskaeft250")
 
-# d. 07/09/2016 lavet på Ubuntu med nyeste moneca og igraph 
-#load("./statistik/R/moneca/vores/voresdata/dplyrdata_allebeskaeft250")
-source("./statistik/R/moneca/vores/vorescripts/7_komma_nul_defaultsoglayout.R")
-source("./statistik/R/moneca/vores/vorescripts/7_voreskort_nye_nye.R")
 
+source("./statistik/R/moneca/vores/vorescripts/7_komma_nul_defaultsoglayout.R")
 
 
  ############3 til gamle igraph, 

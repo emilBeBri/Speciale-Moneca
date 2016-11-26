@@ -72,7 +72,7 @@ klynge <- 3
 undergr <- 24
 work.list <-  seg$segment.list[[klynge]][[undergr]]
 
-########## simpel 
+########## simpel: kun segmentet
 
 cut.off.default <-  1 #skal måske ikke være 1 her jo
 wm1            <- weight.matrix(mob.mat2, cut.off = cut.off.default, symmetric = FALSE, small.cell.reduction = small.cell.default, diagonal=TRUE)
@@ -89,59 +89,34 @@ segmentcircle <- segmentcircle.rr
 
 
 
-################ avanceret
+################ avanceret: segment + ties 
 
-cut.off.default <-  median(relativrisiko.vector,na.rm=TRUE) #skal måske ikke være 1 her jo
-wm.desk.2            <- weight.matrix(mob.mat2, cut.off = cut.off.default, symmetric = FALSE, small.cell.reduction = small.cell.default, diagonal=TRUE) 
-wm.desk.2[is.na(wm.desk.2)] <- 0
-wm.desk.2 <- round(wm.desk.2,1)
-work.list.2 <- sort(unique(unlist(lapply(work.list, function(x) which(wm.desk.2[x,] != 0)))))
-sub.mat <- wm.desk.2 [work.list.2,work.list.2]
+
+cut.off.default <-  median(relativrisiko.vector,na.rm=TRUE) 
+
+
+wm1            <- weight.matrix(mob.mat, cut.off = cut.off.default, symmetric = FALSE, small.cell.reduction = small.cell.default, diagonal=TRUE) 
+
+
+wm1[is.na(wm1)] <- 0
+wm1 <- round(wm1,1)
+work.list.exp <- sort(unique(unlist(lapply(work.list, function(x) which(wm1[x,] != 0)))))
+sub.mat <- wm1 [work.list.exp,work.list.exp]
 sub.mat <-  cbind(colnames(sub.mat),sub.mat)
-view(sub.mat)
- 
-
-
-sub.mat[!is.na(sub.mat)] <- 0
 
 
 
-for i 
-sub.mat <- wm.desk.2 [work.list.2,work.list.2]
+################ avanceret: segment + ties 2 
+
+
+aug.work.list <- sort(unique(unlist(lapply(work.list, function(x) which(wm1[x,] != 0)))))
 
 
 
+aug.work.list <- sort(unique(unlist(lapply(work.list, function(x) which(wm1[x,] != 0)))))
 
 
-
-# her sker magien 
-segmentcircle <- sub.mat
-
-
-
-
-tmp <-  list()
-
-for (i in sort(work.list)) {
-tmp   <-        wm.desk.2[i,]
-tmp        <-        wm.desk.2[,i]
-}
-
-view(tmp )
-
-
-tmp <-  tmp2 + (rep(c(9),each=6)*i)
-i <- i+2
-tmplist[[i]] <- tmp  
-tmplist[[1]] <-  c(1,4,5,6,7,8,9)
-tmplist[[2]] <-  tmp1 + rep(c(9),each=6)
-emilsvector <-  unlist(tmplist)
-
-
-
-
-view(sub.mat)
-
+set.to.zero <- which(!(aug.work.list %in% work.list)) 
 
 
 
@@ -157,19 +132,10 @@ df.t <-  df %>% filter(grepl(paste(work.list,collapse="|"),disco_s)) %>%    muta
 ######## selve grafen 
 
 
-jobdat <- matrix(c(
-           295,  20,   0,    0,    0,    5,    7,
-           45,   3309, 15,   0,    0,    0,    3,
-           23,   221,  2029, 5,    0,    0,    0,
-           0,    0,    10,   100,  8,    0,    3,
-           0,    0,    0,    0,    109,  4,    4,
-           0,    0,    0,    0,    4,    375,  38,
-           0,    18,   0,    0,    4,    26,   260), 
-           nrow = 7, ncol = 7, byrow = TRUE,
-           dimnames = list(c("job 1","job 2","job 3","job 4","job 5","job 6","job 7"),
-                c("job 1","job 2","job 3","job 4","job 5","job 6","job 7")))
 
-segmentcircle <- jobdat  
+
+
+segmentcircle <- sub.mat  
 diag(segmentcircle) <- 0
 df.c <- get.data.frame(graph.adjacency(segmentcircle,weighted=TRUE))
 farve <-  brewer.pal(ncol(segmentcircle),"Set1")
@@ -201,3 +167,31 @@ view(segmentcircle.tot)
 # getPalette = colorRampPalette(brewer.pal(12,"Paired"))
 # farve <-  getPalette(length(work.list))
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -6,6 +6,13 @@ packageVersion("igraph")
 checkpoint::checkpoint("2015-06-01")
 checkpoint::checkpoint("2015-05-01")
 
+
+
+devtools::install_github("ndphillips/yarrr", 
+                         build_vignettes = TRUE)
+
+
+
 #problemer med digest og ggplot2 
 
 # install.packages("tidyverse") #Hadley Wickham, vent med at brug den til du er færdig med Moneca 

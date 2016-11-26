@@ -326,14 +326,14 @@ koen_lab <- c("5 %", "5 %","10 %", "25 %", "50 %", "75 %", "90 %", "99 %")
 
 
 #lay_checkfile <- runif(1, 1, 100000)
-#lay_checkfile = round(lay_checkfile,1)
+#lay_checkfile = round(lay_checkfile,0)
 #layout.moneca = list(lay, lay_checkfile)
 #save(layout.moneca, file = "./statistik/R/moneca/vores/voresdata/layout_igrah701.Rda")
 load(file = "./statistik/R/moneca/vores/voresdata/layout_igrah701.Rda")
 
 lay_checkfile = layout.moneca[2]
-#lay_checkfile # 28998
-lay_checkfile == 28998
+#lay_checkfile # 81983
+lay_checkfile == 81983
 lay = layout.moneca[1]
 
 

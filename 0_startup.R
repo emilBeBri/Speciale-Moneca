@@ -17,7 +17,7 @@ checkpoint::checkpoint("2015-06-25")
 
 #load("./statistik/R/moneca/vores/.Rdata")
 
-
+library(XLConnect)
 #fjerner alt 
 rm(list=ls())
 ###
@@ -25,10 +25,10 @@ source("./statistik/R/moneca/vores/vorescripts/0_funktioner_og_pakker.R")
 #### selectors ####
 
 #HOVEDKORT
-mob.mat <- loadWorkbook("./statistik/DST/DST_output/00_emil_speciale/MONECAs/allebeskaeftigede/moneca_disco_mse_250kat_version1_allebeskaeft.xlsx")
-# mob.mat <- loadWorkbook("./statistik/DST/DST_output/00_emil_speciale/MONECAs/allebeskaeftigede/moneca_disco_mse_250kat_version1_allebeskaeft_periode19962001.xlsx")
+mob.mat <- XLConnect::loadWorkbook("./statistik/DST/DST_output/00_emil_speciale/MONECAs/allebeskaeftigede/moneca_disco_mse_250kat_version1_allebeskaeft.xlsx")
+# mob.mat <- XLConnect::loadWorkbook("./statistik/DST/DST_output/00_emil_speciale/MONECAs/allebeskaeftigede/moneca_disco_mse_250kat_version1_allebeskaeft_periode19962001.xlsx")
 nrowallbeskaeft <- 274
-allbeskaeft <- loadWorkbook("./statistik/DST/DST_output/00_emil_speciale/MONECAs/allebeskaeftigede_250kat_version1.xlsx")
+allbeskaeft <- XLConnect::loadWorkbook("./statistik/DST/DST_output/00_emil_speciale/MONECAs/allebeskaeftigede_250kat_version1.xlsx")
 label.kode   <- read.csv("./statistik/R/moneca/vores/voresdata/Oversat Moneca kategorier_es_250kat.csv", sep = ";")
 label <- label.kode$Disco_tekstogkode
 label.short <- label.kode$Disco_kode
@@ -44,14 +44,17 @@ load("./foerdplyr")
 # Dplyr datasaet essentials 
 source("./statistik/R/moneca/vores/vorescripts/6_skab_dplyrdatasaet_essentials.R")
 # Dplyr datasaet 
-source("./statistik/R/moneca/vores/vorescripts/6_skab_dplyrdatasaet.R")
+source("./statistik/R/moneca/vores/vorescripts/6_skab_dplyrdatasaet_udvidet.R")
 # Dplyr datasaet klasser
 source("./statistik/R/moneca/vores/vorescripts/6_skab_dplyrdatasaet_klasser.R")
+#segment niveau
+source("./statistik/R/moneca/vores/vorescripts/6_skab_dplyrdatasaet.seg.baggrund.R")
 #ekstra
 source("./statistik/R/moneca/vores/vorescripts/6_skab_dplyrdatasaet_efterbehandling.R")
 
 discodata <- tbl_df(discodata)
 discodata_newestmoneca_bak <- discodata
+
 
 #0 
 ### load ovenstaende 
@@ -69,7 +72,7 @@ load("./statistik/R/moneca/vores/voresdata/WORKINGPROGRESS_allebeskaeft250")
 source("./statistik/R/moneca/vores/vorescripts/7_komma_nul_defaultsoglayout.R")
 
 
- ############3 til gamle igraph, 
+  ############3 til gamle igraph, 
 
 # defaults til ggplot2 kort 
 

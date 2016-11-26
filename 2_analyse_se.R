@@ -23,12 +23,13 @@ seg.original  <- seg
 
 ########## segment ændringer HUSK at den det højeste nr på listen skal være først og så fremdeles. Ellers ændres numrene nedad og du ødelægger andre klynger end dem du havde tænkt dig. 
 
+#optikere smides ud af ledelsklyngen
+seg$segment.list[[4]][[11]]  <-  c(5,21,4,18,7,19,23)
+seg$segment.list[[3]][[33]] <-  c(7,19,23)
+
 seg$segment.list[[4]][[14]] <- NULL
-seg$segment.list[[4]][[11]] <- NULL
 seg$segment.list[[4]][[8]] <- NULL
 seg$segment.list[[4]][[6]] <- NULL
-
-
 
 
 ############

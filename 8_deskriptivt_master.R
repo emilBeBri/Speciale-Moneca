@@ -1,117 +1,22 @@
-#### segmentbeskrivelser - kunne godt laves til funktion #todoinr
-
-seg.qual <- segment.quality(seg)
-seg.qual <-  tbl_df(seg.qual)
-view(seg.qual)
-view(seg.qual.final)
 
 
-#1. level 
-level1 <-  list()
-level.names <- c("antal noder","gennemsnitlig intern mobilitet") 
-level1[level.names] <- list(NULL)
-level1[1] <-  nrow(seg.qual)
-level1[2] <-  mean(seg.qual$`1: within.mobility`)
-
-#2. level 
-au2.1 <- seg.qual %>% 	filter(is.na(`2: Segment`)) 
-level2.1 <-  mean(au2.1$`1: within.mobility`)
-
-au2.2 <- seg.qual %>% 	filter(!is.na(`2: Segment`)) 
-au2.2 <-  au2.2 %>% distinct(`2: Segment`,.keep_all=TRUE) 
-level2.2 <-  sum(au2.2$`2: within.mobility`) /nrow(au2.2)
-
-level2 <-  list()
-level2[level.names] <- list(NULL)
-level2[1] <-  nrow(au2.1) + nrow(au2.2)
-level2[2] <-  (level2.1 + level2.2) / 2
-
-#3. level 
-au3.1 <- seg.qual %>% 	filter(is.na(`3: Segment`) & is.na(`2: Segment`)) # & is.na(`4: Segment`) & is.na(`5: Segment`))  
-level3.1 <-  mean(au3.1$`1: within.mobility`)
-
-au3.2 <- seg.qual %>% 	filter(is.na(`3: Segment`) & !is.na(`2: Segment`))
-au3.2 <-  au3.2 %>% distinct(`2: Segment`,.keep_all=TRUE) 
-level3.2 <-  sum(au3.2$`2: within.mobility`) /nrow(au3.2)
-
-au3.3 <- seg.qual %>% 	filter(!is.na(`3: Segment`)) 
-au3.3 <-  au3.3 %>% distinct(`3: Segment`,.keep_all=TRUE) 
-level3.3 <-  sum(au3.3$`3: within.mobility`) /nrow(au3.3)
-
-
-level3 <-  list()
-level3[level.names] <- list(NULL)
-level3[1] <- nrow(au3.1) + nrow(au3.2) + nrow(au3.3)
-level3[2] <- (level3.1 + level3.2 +level3.3) / 3
-
-#4. level 
-au4.1 <- seg.qual %>% 	filter(is.na(`3: Segment`) & is.na(`2: Segment`)  & is.na(`4: Segment`)) 
-level4.1 <-  mean(au4.1$`1: within.mobility`)
-
-au4.2 <- seg.qual %>% 	filter(is.na(`4: Segment`) & is.na(`3: Segment`) & !is.na(`2: Segment`))
-au4.2 <-  au4.2 %>% distinct(`2: Segment`,.keep_all=TRUE) 
-level4.2 <-  sum(au4.2$`2: within.mobility`) /nrow(au4.2)
-
-au4.3 <- seg.qual %>% 	filter(!is.na(`3: Segment`) & is.na(`4: Segment`)) 
-au4.3 <-  au4.3 %>% distinct(`3: Segment`,.keep_all=TRUE) 
-level4.3 <-  sum(au4.3$`3: within.mobility`) /nrow(au4.3)
-
-
-au4.4 <- seg.qual %>% 	filter(!is.na(`4: Segment`)) 
-au4.4 <-  au4.4 %>% distinct(`4: Segment`,.keep_all=TRUE) 
-level4.4 <-  sum(au4.4$`4: within.mobility`) /nrow(au4.4)
-
-
-level4 <-  list()
-level4[level.names] <- list(NULL)
-level4[1] <- nrow(au4.1) + nrow(au4.2) + nrow(au4.3) + nrow(au4.4)
-level4[2] <- (level4.1 + level4.2 +level4.3 + level4.4) / 4
-
-#5. level 
-au5.1 <- seg.qual %>% 	filter(is.na(`3: Segment`) & is.na(`2: Segment`)  & is.na(`4: Segment`)  & is.na(`5: Segment`))  
-level5.1 <-  mean(au5.1$`1: within.mobility`)
-
-au5.2 <- seg.qual %>% 	filter(is.na(`5: Segment`) & is.na(`4: Segment`) & is.na(`3: Segment`) & !is.na(`2: Segment`))
-
-au5.2 <-  au5.2 %>% distinct(`2: Segment`,.keep_all=TRUE) 
-level5.2 <-  sum(au5.2$`2: within.mobility`) /nrow(au5.2)
-
-au5.3 <- seg.qual %>% 	filter(!is.na(`3: Segment`) & is.na(`4: Segment`) & is.na(`5: Segment`)) 
-au5.3 <-  au5.3 %>% distinct(`3: Segment`,.keep_all=TRUE) 
-level5.3 <-  sum(au5.3$`3: within.mobility`) /nrow(au5.3)
-
-au5.4 <- seg.qual %>% 	filter(!is.na(`4: Segment`) & is.na(`5: Segment`)) 
-au5.4 <-  au5.4 %>% distinct(`4: Segment`,.keep_all=TRUE) 
-level5.4 <-  sum(au5.4$`4: within.mobility`) /nrow(au5.4)
-
-au5.5 <- seg.qual %>% 	filter(!is.na(`5: Segment`)) 
-au5.5 <-  au5.5 %>% distinct(`5: Segment`,.keep_all=TRUE) 
-level5.5 <-  sum(au5.4$`2: within.mobility`) /nrow(au5.4)
-
-level5 <-  list()
-level5[level.names] <- list(NULL)
-level5[1] <- nrow(au5.1) + nrow(au5.2) + nrow(au5.3) + nrow(au5.4) + nrow(au5.5)
-level5[2] <- (level5.1 + level5.2 +level5.3 + level5.4 + level5.5) / 5
-# (level5.2 +level5.3 + level5.4 + level5.5) / 4 den blir faktisk lidt højere af at at fjerne niveau 1-segmenterne. 
-
-
-
-## bringin' it all back home 
-
-seg.opsummering <- list(level1,level2,level3,level4,level5)
 
 
 # nøgletal for intern mobilitet (delanalyse1)
 view(seg.opsummering)
 view(seg.qual.final)
 view(seg.qual)
+view(seg.df)
+view(disco.df)
+
+
 
 disco.inseg <- filter(discodata, !grepl("^1.*", membership))
 disco.not.inseg <- filter(discodata, grepl("^1.*", membership))
 
-describe(seg.df$within.mob.seg*100)
+Hmisc::describe(seg.df$within.mob.seg*100)
 sd(discodata$within.mob)*100
-describe(discodata$within.mob*100) 
+Hmisc::describe(discodata$within.mob*100) 
 sd(seg.df$within.mob.seg)*100
 
 quants <- seq(0.1,0.2,0.01)
@@ -126,44 +31,12 @@ view(under68.df)
 
 # relativ risiko (delanalyse1)
 
-library(Hmisc)
-cut.off.default <-  1 #skal måske ikke være 1 her jo
-wm1            <- weight.matrix(mob.mat2, cut.off = cut.off.default, symmetric = FALSE, small.cell.reduction = small.cell.default, diagonal=TRUE)
-# wm1[is.na(wm1)] <- 0
-relativrisiko.vector  <-  as.vector(t(wm1))
-# length(relativrisiko.vector[1])  <-  unlist(wm1) #kan ikke huske hvad det her var til 
-describe(relativrisiko.vector)
+
+Hmisc::describe(relativrisiko.vector)
 quants <- seq(0.9,1,0.005)
 format(round(quantile(relativrisiko.vector, quants, na.rm=TRUE), digits=3), big.mark=".",decimal.mark=",",nsmall=0)
 
 
-view(df)
-view(seg.df)
-
-
-
-
-# mål for forskellige data 
-
-describe(seg.df$max.path)
-
-
-
-
-
-view(arrange(tmp,desc(label)))
-options(dplyr.width = Inf)
-
-
-
-#   segment.labels <- read.csv("./statistik/R/moneca/vores/Data/Segment_labels_DK.csv", sep = ";", encoding = "latin1")$X 
-
-
-# segment.labels <-  read_excel("./statistik/R/moneca/vores/voresdata/segment_labels_test.xlsx")
-# segment.labels[1,6:8]
-
-#  segment.labels <- read.csv("./statistik/R/moneca/Anton_untouched/Data/Segment_labels_DK.csv", sep = ";", encoding = "latin1")
- 
 
 
 
@@ -189,9 +62,6 @@ view(df.t)
 
 
 
-
-
-
 ### density #########
 
 dens1 <- discodata %>%  filter(Density==1) %>%  select(disco, max.path,membership,Nodes,Density,within.mob,within.mob.seg,share.of.mob,beskaeft.andel.gns,beskaeft.gns)
@@ -206,75 +76,274 @@ tmp  <-  tbl_df(segment.quality(seg.original,final.solution=TRUE))
 tmp$Density <- as.numeric(tmp$Density)
 view(tmp)
 
-tbl_df
+tbl_df156,9204
 
 
 lavdens.df <- filter(df, Density <= .52)
 view(lavdens.df)
 
 
+### delanalyse 2: indkomst 
 
-########### udvælg submatrix ##########
+quants = seq(0.7,1,0.01) 
+round(quantile(discodata$timelon.mean.gns,quants),0)
+Hmisc::describe(discodata$timelon.mean.gns)
 
-mob.mat2 <- mob.mat 
-cut.off.default <-  1 #skal måske ikke være 1 her jo
-wm.desk            <- weight.matrix(mob.mat2, cut.off = cut.off.default, symmetric = FALSE, small.cell.reduction = small.cell.default, diagonal=TRUE)
 
-wm.desk[is.na(wm.desk)] <- 0
-wm.desk <- round(wm.desk,1)
 
-klynge <- c(4)
-undergr <- c(11)
-work.list <- seg$segment.list[[klynge]][[undergr]]
-sub.mat <- wm.desk [work.list,work.list]
-sub.mat <-  cbind(colnames(sub.mat),sub.mat)
-view(sub.mat)
+# quantil histogram d
+farve = c("indianred4","indianred3","darkseagreen3","darkseagreen4")
+quants = c(0,0.1,0.25,0.5,0.75,0.9)
+quants = quantile(discodata$timelon.mean.gns,quants,na.rm=TRUE)
+discodata$quants = NULL
+discodata$quants = with(discodata,factor(ifelse(timelon.mean.gns<quants[1],0, ifelse(timelon.mean.gns<quants[2],1, ifelse(timelon.mean.gns<quants[3],2, ifelse(timelon.mean.gns<quants[4],3, ifelse(timelon.mean.gns<quants[5],4, ifelse(timelon.mean.gns<quants[6],5,6 ))))))))
+getPalette= colorRampPalette(farve)
+ggplot(discodata,aes(x=timelon.mean.gns,fill=quants)) + geom_histogram(binwidth=1) +
+  # coord_cartesian(xlim=c(50,500)) + 
+  scale_x_continuous(breaks=seq(75,500,25)) +
+theme_bw() + scale_fill_manual(values=getPalette(6), name="Udvalgte \npercentiler",
+                               labels=c("0.-10.","11.-25.","25.-50. (median)","51.-75.","76.-90.","91.-.100"),
+                               guide=guide_legend(legend.position=c(0.7,0.9))
+                               ) +
+  xlab("timeløn i kroner") + ylab("antal observationer") 
+  
+
+
+
+# plot over hele timeloens spectret 
+p1 <-   ggplot(discodata, aes(x=timelon.mean.gns, y=reorder(disco,timelon.mean.gns),label=disco )) +
+geom_point(size=1) +
+theme_bw() +
+theme(panel.grid.major.x = element_blank(),
+panel.grid.minor.x = element_blank(),
+panel.grid.major.y = element_line(colour="grey60", linetype="dashed")) 
+ p2 <-  p1  + theme(
+      axis.text.y=element_blank(),
+      axis.title.y=element_blank(),
+      legend.position="none"
+      )
+
+
+
+library(ggrepel)
+p2 + geom_label(hjust=-0.1,aes(size=beskaeft.andel.gns)) + scale_size_continuous(range=c(1,3))
+p2 + geom_text_repel(size=2,force=0.3,nudge_x=1)
+p2 + geom_text(nudge_x=1,hjust=-0.05,aes(size=beskaeft.andel.gns),check_overlap=TRUE) + scale_size_continuous(range=c(1,3))
+
+ggplot(discodata,aes(x=beskaeft.andel.gns,y=timelon.mean.gns)) + geom_point(size=2.5, shape=19,colour=discodata$disco_1cifret, position="jitter")
+
+
+#############################################
+
+
+
+
+######### boxplot ##############
 
 view(seg.df)
+view(plot.df)
+
+brewer.pal(nfarve, "Paired")
+
+plot.df <- filter(discodata, !grepl("^1.*", membership), !grepl("^2.*", membership))
+pirateplot(formula=timelon.mean.gns~membership, data=plot.df)
+
+nfarve <-  length(unique(plot.df$membership))
 
 
-cut.off.default <-  median(relativrisiko.vector,na.rm=TRUE) #skal måske ikke være 1 her jo
-wm.desk.2            <- weight.matrix(mob.mat2, cut.off = cut.off.default, symmetric = FALSE, small.cell.reduction = small.cell.default, diagonal=TRUE) 
-wm.desk.2[is.na(wm.desk.2)] <- 0
-wm.desk.2 <- round(wm.desk.2,1)
-work.list.2 <- sort(unique(unlist(lapply(work.list, function(x) which(wm.desk.2[x,] != 0)))))
-sub.mat <- wm.desk.2 [work.list.2,work.list.2]
-sub.mat <-  cbind(colnames(sub.mat),sub.mat)
-view(sub.mat)
+######################## 
+whisk.emil <- function(x) {
+  r <- quantile(x, probs=c(0.1,0.9) , na.rm=TRUE)
+  # r = c(r[1:2], exp(mean(log(x))), r[3:4]) #hvorfor tage log, exp og mean af x??
+  # r = c(r[1:2], mean(x), r[3:4]) #hvorfor tage log, exp og mean af x??
+  r
+}
+sd.ned.emil <- function(x) {
+ mean(x) - sd(x)
+}
+
+sd.op.emil <- function(x) {
+ mean(x) + sd(x)
+} 
+
+##############################
 
 
-idx <- colSums(wm.desk[work.list,] > 0)!=0;wm.desk[idx, idx]
+iwanthue <- c("#6673c2","#6db543","#c651bb","#5bbe7d","#8263d3","#c6ac36","#5ea1d8","#d64737","#4bb7a7","#db457a","#457d42","#d98fcb","#777629","#9c518c","#b7b368","#a8485a","#e3893c","#e0867b","#a8773b","#aa522c")
+plot.df <- filter(discodata, grepl("^3.*", membership)) #%>%   
 
 
+plot.df$plot.order <- sortLvlsByVar.fnc(plot.df$membership, plot.df$koen.gns.kvinder.andel, ascending = TRUE)
+p <- ggplot(plot.df, aes(x=plot.order, y=koen.gns.kvinder.andel,fill=membership,label=plot.df$disco))
 
-#############################
+plot.df$plot.df.order <- sortLvlsByVar.fnc(plot.df$membership, plot.df$ledighed.mean.gns, ascending = TRUE)
+p <- ggplot(plot.df, aes(x=plot.df.order, y=ledighed.mean.gns,fill=membership,label=plot.df$disco))
+p1 <-  p + scale_fill_manual(values=iwanthue)
+p2 <-  p1 +  sta t_summary(fun.data=bp.vals, geom="boxplot",alpha=0.7,color="black") + geom_point(position= position_jitter(width=0.2),aes(size=beskaeft.andel.gns),alpha=.75)
+p3 <-  p2 + stat_summary(fun.y=whisk.emil, geom="point",shape=95,size=8,color="black") + theme_bw() + theme(legend.position="none") 
+p3
+p4 <-  p3 + stat_summary(fun.y=sd.op.emil, geom="point",shape=2,size=2,color="black") + stat_summary(fun.y=sd.ned.emil, geom="point",shape=6,size=2,color="black") + scale_size_continuous(range = c(0.5,8)) + stat_summary(fun.y="mean", geom="point",shape=95,size=8,color="black") 
+p4
+p3  + geom_text(size=2.5)
 
-
-
-
-
-
-
-
-mean(discodata$alder.helepop.gns)
-summary(discodata$alder.helepop.gns)
-
-
-view(df)
-view(discodata)
-
-view(dens1)
-
+p4 + geom_text_repel(aes(membership, timelon.mean.gns, label = disco),size=2.5,force=10)
 
 
 
 
+###############################3
 
-print(dens1, n=50)
+min.mean.sd.max(x)
 
-help(print)
+sd(x) + mean(x)
 
-options(dplyr.width = Inf)
+
+
+
+
+
+
+
+
+test(x)
+
+
+quantile(plot.df$timelon.mean.gns,0.1)
+
+
+
+fyn.y=
+
+
++ theme_bw()
+
+
+
+
+
+
+
+xmen  <-  piratepal("xmen")
+
+   <-   as.vector(xmen)
+
+
+
+
+
+
+bp.vals(discodata$timelon.mean.gns)
+
+
+ggplot(plot.df, aes(x = membership, y = timelon.mean.gns)) + 
+        geom_boxplot(fill = nfarve,
+                     alpha = 0.3) + scale_fill_manual(values=brewer.pal(nfarve, "Paired")) + geom_point(position= position_jitter(width=0.3))
+
+
+
+
+
+nfarve  <-  piratepal("xmen")
+
+
+
+
+fill <- "pink"
+line <- "gold"
+
+x = plot.df$timelon.mean.gns
+
+bp.vals <- function(x, probs=c(0.1, 0.25,0.5, 0.75, .9)) {
+  r <- quantile(x, probs=probs , na.rm=TRUE)
+  # r = c(r[1:2], exp(mean(log(x))), r[3:4]) #hvorfor tage log, exp og mean af x??
+  # r = c(r[1:2], mean(x), r[3:4]) #hvorfor tage log, exp og mean af x??
+  names(r) <- c("ymin", "lower", "middle","upper", "ymax")
+  r
+}
+
+
+bp.vals(x)
+
+
+
+bp.vals(x)
+
+p1  
+
+
+# Return the desired percentiles plus the geometric mean
+bp.vals <- function(x, probs=c(0.1, 0.25, 0.75, .9)) {
+  r <- quantile(x, probs=probs , na.rm=TRUE)
+  r = c(r[1:2], exp(mean(log(x))), r[3:4])
+  names(r) <- c("ymin", "lower", "middle", "upper", "ymax")
+  r
+}
+
+# Sample usage of the function with the built-in mtcars data frame
+ggplot(mtcars, aes(x=factor(cyl), y=mpg)) +
+  stat_summary(fun.data=bp.vals, geom="boxplot")
+
+
+
+
+
+
+
+
+
+
+
+
+pirateplot(formula = timelon.mean.gns~membership,
+           data = plot.df,
+           theme = 1,
+           bean.f.o = 0.5, # Bean fill
+           # point.o = .3, # Points
+           inf.f.o = .0, # Inference fill
+           inf.b.o = .0, # Inference border
+           # avg.line = 1, # Average line
+           # bar.f.o = .5, # Bar
+           # inf.f.col = "white", # Inf fill col
+           # inf.b.col = "black", # Inf border col
+           # avg.line.col = "black", # avg line col
+           # bar.f.col = gray(.8), # bar filling color
+           # point.pch = 21,
+           # point.bg = "white",
+           point.col = "black",
+           point.o = .65,
+           # point.f = "pink",
+           # point.cex = .7,
+           quant=c(0.2,0.5,0.8),
+           quant.col="black",
+           quant.lwd=1
+           )
+
+b.males <- c(6, 7, 8, 8, 8, 9, 10, 10, 11, 11, 12, 12, 12, 12, 13, 14, 15)
+b.females <- c(14, 13, 12, 12, 11, 10, 10, 9, 9, 9, 9, 9, 8, 8, 8, 7, 7, 7, 7)
+b.total<-c(b.males,b.females)
+
+b.m<-data.frame(b.males)
+b.f<-data.frame(b.females)
+b.t<-data.frame(b.total)
+
+myList<-list(b.m, b.f, b.t)
+df<-melt(myList)
+
+colnames(df) <- c("class","count")
+plt<-ggplot(df, aes(x=class,y=count))+geom_boxplot() 
+plt + geom_point(aes(x = as.numeric(class) + 0, colour=class))
+
+ggplot(df,aes(class,count))+geom_boxplot()+
+  geom_dotplot(aes(fill=class),binaxis="y",stackdir="center",dotsize=0.5)
+
+
+
+
+
+
+
+
+
 
 
 ### antal beskæftigede 

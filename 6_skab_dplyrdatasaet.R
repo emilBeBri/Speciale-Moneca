@@ -40,7 +40,10 @@ timelon.helepop     <- timelon.helepop[-nrowtab2xl,]
 
 alder.helepop <- read_excel_allsheets("./statistik/DST/DST_output/00_emil_speciale/MONECAs/allebeskaeftigede/baggrundsvar/aldernov2_kat250_helepop.xlsx")
 alder.helepop <- data.frame(matrix(unlist(alder.helepop), nrow=nrowputexcel),stringsAsFactors=FALSE)
-columns <- c(1, 4, 13, 22, 31, 40, 49, 58, 67, 76, 85, 94, 103, 112, 121)
+
+#columns <- c(1, 4, 13, 22, 31, 40, 49, 58, 67, 76, 85, 94, 103, 112, 121) #kun gns 
+columns <- c(1, 4,6, 13,15, 22, 24, 31, 33 ,40, 42, 49, 51 ,58, 60, 67, 69, 76, 78, 85, 87 ,94, 96, 103, 105, 112, 114 ,121, 123) #gns og sd
+
 alder.helepop <- alder.helepop[,c(columns)]
 colnames(alder.helepop) <- label_moneca_[]
 
@@ -57,6 +60,10 @@ rownames(alder.helepop) <- label[] #tager label-objektet og s?tter labels på fr
 
 #dplyr conversion
 label_moneca_alder.helepop   <- list("alder.helepop1996" ,"alder.helepop1997" , "alder.helepop1998" , "alder.helepop1999" , "alder.helepop2000" , "alder.helepop2001", "alder.helepop2002" , "alder.helepop2003" , "alder.helepop2004" , "alder.helepop2005", "alder.helepop2006",  "alder.helepop2007",  "alder.helepop2008",  "alder.helepop2009")
+
+label_moneca_alder.helepop   <- list("alder.helepop1996" ,"alder.helepop1997" , "alder.helepop1998" , "alder.helepop1999" , "alder.helepop2000" , "alder.helepop2001", "alder.helepop2002" , "alder.helepop2003" , "alder.helepop2004" , "alder.helepop2005", "alder.helepop2006",  "alder.helepop2007",  "alder.helepop2008",  "alder.helepop2009")
+
+
 
 alder.helepop            <- disco.df(alder.helepop, label_moneca_alder.helepop)
 alder.helepop     <- alder.helepop[-nrowtab2xl,]
@@ -124,13 +131,7 @@ ledighed.helepop     <- ledighed.helepop[-nrowtab2xl,]
 
 
 
-###################### join på disco #########################
 
-
-discodata     <- left_join(discodata, timelon.helepop)
-discodata     <- left_join(discodata, alder.helepop)
-discodata     <- left_join(discodata, koen.helepop)
-discodata     <- left_join(discodata, ledighed.helepop)
 # discodata     <- left_join(discodata, ledperiod.gns.lngde)
 # discodata     <- left_join(discodata, ledperiod.antal)
 # discodata     <- left_join(discodata, loenmv)
@@ -139,68 +140,7 @@ discodata     <- left_join(discodata, ledighed.helepop)
 # discodata     <- left_join(discodata, perindkialt.helepop)
 # discodata     <- left_join(discodata, joblon.helepop)
 
-# de korte labels 
-discodata$disco_s <-  label.short[-nrowtab2xl] 
-#faktor-konvertering
-discodata$disco <- as.factor(discodata$disco)
-discodata$disco_s <- as.factor(discodata$disco_s)
-discodata$membership <- as.factor(discodata$membership)
 
-#disco 1-cifret niveau
-discodata$disco_1cifret        <- as.factor(as.numeric(strtrim(discodata$disco_s, 1)))
-discodata$disco_1cifret[1] <- NA 
-
-
-
-#EGP-11
-egp11_lab  =  c("I"="I: Oevre Serviceklasse","II"="II: Nedre Serviceklasse","IIIa"="IIIa: Rutinepraeget, ikke-manuelt arbejde hoejeste niveau","IIIb"="IIIb: Rutinepraeget, ikke-manuelt arbejde laveste niveau","Iva"="IVa: små selvstaendige med ansatte","Ivb"="IVb: små selvstaendige uden ansatte","Ivc"="IVc: Landmaend og andre selvstaendige i primaer produktion ","V"="V: Teknikere af laveste grad, supervisorer af manuelt arbejde","VI"="VI: Faglaerte, manulle arbejdere","VIIa"="VIIa: Ikke-faglaerte, manuelle arbejdere","VIIb"="VIIb: landbrugsarbejdere")
-
-
-discodata$skillvl <-  recode_factor(discodata$disco_1cifret,
-# '110'="		",
-# '1'="",
-'2'="4",
-'3'="3",
-'4'="2",
-'5'="2",
-'6'="2",
-'7'="2",
-'8'="2",
-'9'="1",
-.default=NA_character_)
-
-
-
-#disco 4-cifret (dvs uden labels) #skulle muligvis impliceres i selve disco-variablen, men har ikke lyst til at fucke noget op, sÃ¥ bliver pÃ¥ det her niveau medmindre det er nÃ¸dvendigt.
-
-
-
-
-# discodata$disco_4cifret <- as.character(discodata$disco)
-# discodata$disco_4cifret[1] <- "0110: Militaert arbejde"
-# discodata$disco_4cifret <- as.factor(discodata$disco_4cifret)
-# # discodata$disco_4cifret
-
-
-discodata$disco_4cifret        <- as.factor(as.numeric(strtrim(discodata$disco_s, 4)))
-# view(discodata$disco_4cifret)
-
-#disco 3-cifret (dvs uden labels) 
-# discodata$disco_3cifret <- as.character(discodata$disco)
-# discodata$disco_3cifret[1] <- "0110: Militaert arbejde"
-# discodata$disco_3cifret <- as.factor(discodata$disco_3cifret)
-# discodata$disco_3cifret
-discodata$disco_3cifret        <- as.factor(as.numeric(strtrim(discodata$disco_s, 3)))
-# view(discodata$disco_3cifret)
-
-#disco 2-cifret (dvs uden labels) 
-# discodata$disco_2cifret <- as.character(discodata$disco)
-# discodata$disco_2cifret[1] <- "0110: Militaert arbejde"
-# discodata$disco_2cifret <- as.factor(discodata$disco_2cifret)
-# discodata$disco_2cifret
-discodata$disco_2cifret        <- as.factor(as.numeric(strtrim(discodata$disco_s, 2)))
-# view(discodata$disco_2cifret)
-discodata$disco_2cifret[1] <- NA 
 
 
 

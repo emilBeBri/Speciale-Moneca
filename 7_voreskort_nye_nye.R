@@ -352,7 +352,7 @@ kort.intern.mob <- gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint
   # scale_fill_gradientn(colours = c("#575155",brewer.pal(8, "Purples")), guide = "legend", name = "intern mobilitet")
 scale_fill_gradientn(colours = getPalette(length(unique(discodata$within.mob))), guide = "legend", name = "% intern mobilitet\npå nodeniveau", breaks=intern.mob_num, labels=intern.mob_lab)
 
-cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort.intern.mob.pdf", onefile = TRUE, height = 25, width = 25)
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_intern_mob.pdf", onefile = TRUE, height = 25, width = 25)
 kort.intern.mob
 dev.off()
 
@@ -361,27 +361,6 @@ dev.off()
 rescale(c(0.50,0.595,  0.625,0.659,    0.68,     0.695, 0.76,    0.80,1.00)
         c(0.50,0.585,  0.625,0.699,    0.70,     0.71, 0.78,    0.80,1.00)
 
-
-#intern mobilitet.seg
-kort.intern.mob.seg <- gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arrow = arrow.default,  
-                                edge.size=edge.size, vertex.fill = discodata$within.mob.seg,
-                                vertex.size = vertex_stoerrelse) +  
-  default + ggtitle("intern mobilitet segment")  + scale_fill_gradientn(colours = c(    "indianred4","indianred2", "white", "darkseagreen2","darkseagreen4"),
-                              values= rescale(c(0.50,0.595,  0.625,0.659,    0.68,     0.695, 0.76,    0.80,1.00)), guide="colorbar"
-                              , name = "% intern mobilitet\npå segmentniveau", breaks=intern.mob.seg_num, labels=intern.mob.seg_lab)
-
-
-
-cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_intern_mob_seg.pdf", onefile = TRUE, height = 25, width = 25)
-kort.intern.mob.seg
-dev.off()
- #getPalette = colorRampPalette(skala.indianred.darkseagreen)
-#kort.intern.mob.seg <- gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arrow = arrow.default, 
-#                   edge.size=edge.size, vertex.fill = discodata$within.mob.seg,
-#                   vertex.size = vertex_stoerrelse) +  
-#          default + ggtitle("intern mobilitet segment") +
-#scale_fill_gradientn(colours = getPalette(length(unique(discodata$within.mob.seg))), name = "intern mobilitet i segment", breaks=intern.mob.seg_num, labels=intern.mob.seg_lab,
-#                     guide="legend")        #)     #  guide = ""colorbar"", )
 
 
 
@@ -416,12 +395,10 @@ skala_skillvl <-  c("dodgerblue4" ,"dodgerblue1","indianred2","indianred4")
 
 #gns. timeløn ( alle beskæftigede) 
 
-
-
-discodata <- mutate(discodata,timelon.helepop.gns.inf.cutoff=replace(timelon.helepop.gns.inf, timelon.helepop.gns.inf>=301, 300))  
+discodata <- mutate(discodata,timelon.mean.gns.cutoff=replace(timelon.mean.gns, timelon.mean.gns>=351, 300))  
 
 kort.timelon <-  gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arrow = arrow.default, 
-           edge.size=edge.size, vertex.fill = discodata$timelon.helepop.gns.inf.cutoff,
+           edge.size=edge.size, vertex.fill = discodata$timelon.mean.gns.cutoff,
            vertex.size = vertex_stoerrelse) +  
    ggtitle("timeløn") + scale_fill_gradientn(colours = skala.ired.dgreen.simple,
                                                              values= rescale(timelon.rescale), guide=guide_colorbar(barwidth = 1, barheight = 12,draw.ulim = FALSE, draw.llim = FALSE), name = "timeløn", breaks=timeloen.num, labels=timeloen.lab) +  default  +
@@ -432,45 +409,20 @@ kort.timelon
 dev.off()
 
 
-
-
-kort.timelon <-  gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arrow = arrow.default, 
-                          edge.size=edge.size, vertex.fill = discodata$timelon.helepop.gns.inf.cutoff,
-                          vertex.size = vertex_stoerrelse) +  
-  ggtitle("timeløn") + scale_fill_gradientn(colours = skala.ired.dgreen.simple,
-                                            values= rescale(timelon.rescale), guide=guide_colorbar(barwidth = 1, barheight = 15,draw.ulim = FALSE, draw.llim = FALSE, legend.position = c(0.7, 0.9)), name = "timeløn", breaks=timeloen.num, labels=timeloen.lab) +  default  #+
-#  guides(fill = guide_colorbar(barwidth = 1, barheight = 15,draw.ulim = FALSE, draw.llim = FALSE)) +
-#theme(legend.position = c(0.9, 0.9))
-
- discodata$timelon.helepop.gns.inf
-  
-  
-
-
-
-
-
 #timeloen 
-quants = seq(0,1,0.05) 
-format(round(quantile(discodata$timelon.helepop.gns.inf.cutoff, quants), digits=0), big.mark=".",decimal.mark=",",nsmall=0)
-Hmisc::describe(discodata$timelon.helepop.gns.inf)
-timeloen.num <- seq(150,500,50) #c(70,80)
-timeloen.num[1] = c(145)
-timeloen.num[length(timeloen.num)] = max(discodata$timelon.helepop.gns.inf)
-timeloen.num = round(timeloen.num,0)
-
-
-
-timeloen.num = c(146,175,200,211,225,250,275,300)
+timeloen.num = c(146,175,200,208,225,250,275,300,325,346)
 timeloen.lab <- paste(timeloen.num,"kr.")  #, "%")
-timeloen.lab[4] <- c("211 kr. (median)")
+timeloen.lab[4] <- c("208 kr. (median)")
 timeloen.lab[1] <- c("145 kr.")
-timeloen.lab[length(timeloen.num)] <- c("300+ kr.")  #, "%")
+timeloen.lab[length(timeloen.num)] <- c("350+ kr.")  #, "%")
 #timeloen.lab[length(timeloen.lab)] <- paste(timeloen.num[length(timeloen.lab)],"+ kr.",sep="")
-timelon.rescale = c(146,175,  188,201,     211,     221,259,    271,300)
-timelon.rescale = c(146,175,  188,201,     211,     221,259,    271,300)
+#timelon.rescale = c(146,175,  188,201,     208,     221,271,    290,346)
+timelon.rescale = c(146,160,  175,199,     208,     217,265,    290,346)
+timelon.rescale = c(146,160,  175,190,     208,     226,265,    290,346)
 
-
+190-208
+217-208
+208+18
 146-300
 
 

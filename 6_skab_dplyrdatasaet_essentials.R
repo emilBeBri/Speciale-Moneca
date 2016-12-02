@@ -95,8 +95,6 @@ is.na(seg.qual.final) <- do.call(cbind,lapply(seg.qual.final, is.infinite))
 
 #omdoeber så vi har en final segmentdata 
 seg.df <-  seg.qual.final 
-
-
 #### MASTERJOIN sammensmeltning ###
 
 
@@ -127,7 +125,7 @@ discodata <- cbind(beskaeft.samlet, membership)
 
 
 
-discodata <- inner_join(discodata, seg.qual.final)
+discodata <- inner_join(discodata, seg.df)
 
 
 
@@ -162,6 +160,17 @@ discodata <- left_join(discodata,seg.qual.detailed)
 discodata <- left_join(discodata,seg.qual.detailed_tmp)
 
 seg.qual.detailed_tmp <- NULL 
+
+
+
+
+
+
+
+
+
+
+
 
 
 

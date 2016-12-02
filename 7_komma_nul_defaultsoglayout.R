@@ -54,6 +54,11 @@ edges.default                <- segment.edges(seg.b, small.cell.reduction = smal
 edges.default[edges.default > 10] <- 10 
 edges.default.all                <- segment.edges(seg.b, mode="directed",cut.off=3,small.cell.reduction = small.cell.default, segment.reduction = 0.1) #før var den 3 her og 5 nedenunder
 edges.default.all[edges.default.all > 30] <- 30 
+
+
+
+
+
 edges.default.zoom                <- segment.edges(seg.b, mode="directed",cut.off=3,small.cell.reduction = small.cell.default, segment.reduction = 3) #før var den 3 her og 5 nedenunder
 edges.default.zoom[edges.default.zoom > 15] <- 15
 
@@ -78,7 +83,7 @@ skala.ired.dgreen.simple =  c(    "indianred4","indianred2", "white", "darkseagr
 # darkseagreen1 darkseagreen4             middelklassen
 # indianred1 indianred3 indianred4        arbejderklassen
 # yellow1 yellow3 yellowgreen             småborgerskabet
-skala_egp11 <-  c("dodgerblue4" ,"dodgerblue1","darkseagreen4","darkseagreen1","yellow3","yellow1","grey","indianred4","indianred3","indianred1")
+skala_egp11 <-  c("dodg erblue4" ,"dodgerblue1","darkseagreen4","darkseagreen1","yellow3","yellow1","grey","indianred4","indianred3","indianred1")
 
 
 

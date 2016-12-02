@@ -75,7 +75,7 @@
 	// sublevel to show counts for
 	// passed to texcount via the -sub= paramater
 	// valid values: "none", "part", "chapter", "section"
-	"word_count_sub_level": "none",
+	"word_count_sub_level": "part",
 
 // ------------------------------------------------------------------
 // Temporary file settings
@@ -144,7 +144,7 @@
 		// how long (in ms) to wait after the jump_to_pdf command completes
 		// before switching focus back to Sublime Text. This may need to be
 		// adjusted depending on your machine and configuration.
-		"keep_focus_delay": 0.5
+		"keep_focus_delay": 0.25
 	},
 
 // ------------------------------------------------------------------

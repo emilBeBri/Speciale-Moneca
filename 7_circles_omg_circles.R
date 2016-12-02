@@ -1,65 +1,5 @@
 
 
-jobdat <- matrix(c(
-1,   0,   1,   0,   0,   0,   0,
-1,   1,   1,   0,   0,   0,   0,
-1,   1,   1,   0,   0,   0,   0,
-0,   0,   0,   1,   0,   0,   0,
-0,   0,   0,   0,   1,   0,   0,
-0,   0,   0,   0,   0,   1,   0,
-0,   0,   0,   0,   0,   0,   1
-           ), 
-           nrow = 7, ncol = 7, byrow = TRUE,
-           dimnames = list(c("job 1","job 2","job 3","job 4","job 5","job 6","job 7"),
-                c("job 1","job 2","job 3","job 4","job 5","job 6","job 7")))
-
-
-jobdat.result <- matrix(c(
-1,     0,     1,     0,     0,
-1,     1,     0,     0,     0,
-1,     0,     1,     0,     0,
-0,     0,     0,     1,     0,
-0,     0,     0,     0,     1
-           ), 
-           nrow = 5, ncol = 5, byrow = TRUE,
-           dimnames = list(c("job 1","job 2","job 3","job 5","job 7"),
-                c("job 1","job 2","job 3","job 5","job 7")))
-
-
-
-
-
-
-
-
-
-work.list <- c(1,5,7)
-
-work.list <- sort(unique(unlist(lapply(work.list, function(x) which(jobdat[x,] != 0)))))
-
-jobdat[work.list,work.list]
-
-
-work.list2 <- sort(unique(unlist(lapply(work.list, function(x) which(jobdat[,x] != 0)))))
-
-
-
-
-@EmilBB: I think what you want to find are the indices to the augmented work.list that are not in the original work.list; then use these to set those off-diagonal elements of the current result to zero. To find those do: 
-
-aug.work.list <- sort(unique(unlist(lapply(work.list, function(x) which(jobdat[x,] != 0)))))
-
-
-set.to.zero <- which(!(aug.work.list %in% work.list)) 
-
-
-
-
-view(jobdat)
-
-
-
-
 
 
 
@@ -68,91 +8,141 @@ library(circlize)
 
 #####################
 
-klynge <- 3
-undergr <- 24
+
+quants= seq(0,1,0.05)
+quantile(relativrisiko.vector, quants,na.rm=TRUE)
+
+cut.off.default <-  median(relativrisiko.vector,na.rm=TRUE) 
+cut.off.default <- 2
+wm1            <- weight.matrix(mob.mat, cut.off = cut.off.default, symmetric = FALSE, small.cell.reduction = small.cell.default, diagonal=TRUE) 
+wm1[is.na(wm1)] <- 0
+
+
+klynge <- 2
+undergr <- 21
 work.list <-  seg$segment.list[[klynge]][[undergr]]
 
 ########## simpel: kun segmentet
 
-cut.off.default <-  1 #skal måske ikke være 1 her jo
-wm1            <- weight.matrix(mob.mat2, cut.off = cut.off.default, symmetric = FALSE, small.cell.reduction = small.cell.default, diagonal=TRUE)
-wm1[is.na(wm1)] <- 0
+mat.e <- wm1
+# mat.e.result <- mob.mat
 
-# wm1  <-  round(wm1, digits=0)
+################ avanceret1: segment + ties 
 
-segmentcircle.rr <- wm1[work.list,work.list]
-segmentcircle.tot <- mob.mat[work.list,work.list]
-segmentcircle.tot <- cbind(segmentcircle.tot,colnames(segmentcircle.tot))
-segmentcircle <- segmentcircle.tot[,-ncol(segmentcircle.tot)]
-segmentcircle <- segmentcircle.rr
+aug.work.list <- sort(unique(unlist(lapply(work.list, function(x) which(mat.e[,x] != 0)))))
+mat.e.result <- mat.e[aug.work.list, aug.work.list]
 
 
+################ avanceret2: segment + ties (uden edges ml ties) 
+irr.job.indices <- which(!(aug.work.list %in% work.list))
 
 
-################ avanceret: segment + ties 
-
-
-cut.off.default <-  median(relativrisiko.vector,na.rm=TRUE) 
-
-
-wm1            <- weight.matrix(mob.mat, cut.off = cut.off.default, symmetric = FALSE, small.cell.reduction = small.cell.default, diagonal=TRUE) 
-
-
-wm1[is.na(wm1)] <- 0
-wm1 <- round(wm1,1)
-work.list.exp <- sort(unique(unlist(lapply(work.list, function(x) which(wm1[x,] != 0)))))
-sub.mat <- wm1 [work.list.exp,work.list.exp]
-sub.mat <-  cbind(colnames(sub.mat),sub.mat)
-
-
-
-################ avanceret: segment + ties 2 
-
-
-aug.work.list <- sort(unique(unlist(lapply(work.list, function(x) which(wm1[x,] != 0)))))
-
-
-
-aug.work.list <- sort(unique(unlist(lapply(work.list, function(x) which(wm1[x,] != 0)))))
-
-
-set.to.zero <- which(!(aug.work.list %in% work.list)) 
-
-
-
-
-
-
-
-df.t <-  df %>% filter(grepl(paste(work.list,collapse="|"),disco_s)) %>%    mutate(disco_s2 = disco_s) 
-
-
+## first, keep diagonal values for irr.job.indices
+dvals <- diag(mat.e.result)[irr.job.indices]
+## set sub-matrix to zero (this will also set diagnal elements to zero)
+mat.e.result[irr.job.indices,irr.job.indices] <- 0
+## replace diagonal elements
+diag(mat.e.result)[irr.job.indices] <- dvals
 
 
 ######## selve grafen 
+library(circlize)
+# segmentcircle <- sub.mat  
+# segmentcircle <- mob.mat[-274,]
+# segmentcircle <- segmentcircle[,-274]
 
+# view(segmentcircle)
 
-
-
-
-segmentcircle <- sub.mat  
+segmentcircle <- mat.e.result
+getPalette = colorRampPalette(xmen)
 diag(segmentcircle) <- 0
 df.c <- get.data.frame(graph.adjacency(segmentcircle,weighted=TRUE))
-farve <-  brewer.pal(ncol(segmentcircle),"Set1")
  # farve <- c("#000000", "#FFDD89", "#957244", "#F26223")
 chordDiagram(x = df.c, 
-  grid.col = farve, 
-  transparency = 0.2,
+  grid.col = getPalette(ncol(segmentcircle)), 
+  transparency = 0.3,
              directional = 1, symmetric=FALSE,
              direction.type = c("arrows", "diffHeight"), diffHeight  = -0.065,
              link.arr.type = "big.arrow", 
              # self.link=1
-             link.sort = TRUE, link.largest.ontop = TRUE,
+             # link.sort = TRUE, 
+             link.largest.ontop = TRUE,
              link.border="black",
              # link.lwd = 2, 
              # link.lty = 2
              )
 
+
+
+
+?chordDiagram
+
+
+
+
+######## forsøg på kunst 
+
+
+
+cut.off.default <-  median(relativrisiko.vector,na.rm=TRUE) 
+cut.off.default <-  0.00000001
+wm1            <- weight.matrix(mob.mat, cut.off = cut.off.default, symmetric = FALSE, small.cell.reduction = small.cell.default, diagonal=TRUE) 
+
+
+
+is.na(wm1) <- do.call(cbind,lapply(wm1, is.infinite))
+wm1[is.na(wm1)] <- 0
+view(wm1)
+
+view(mob.2cifret)
+
+library(circlize)
+segmentcircle <- wm1  
+segmentcircle <- mob.2cifret[-29,]
+segmentcircle <- mob.2cifret[,-29]
+segmentcircle <- mob.3cifret[-105,]
+segmentcircle <- segmentcircle[,-105]
+view(segmentcircle)
+view(mob.3cifret)
+iwanthue <-  source("./statistik/R/moneca/vores/vorescripts/7_iwanthue_default_200.R")
+iwanthue <-  source("./statistik/R/moneca/vores/vorescripts/7_iwanthue_default_104.R")
+iwanthue <-  iwanthue[[1]]
+
+getPalette = colorRampPalette(xmen)
+diag(segmentcircle) <- 0
+df.c <- get.data.frame(graph.adjacency(segmentcircle,weighted=TRUE))
+
+
+getPalette = colorRampPalette(brewer.pal(8,"Dark2"))
+
+
+farve <-  getPalette(28)
+farve <-  getPalette(273)
+
+
+farve <-  iwanthue
+
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/forsogpaaarbejdsmarkedskunst12.pdf", onefile = TRUE, height = 13, width = 13)
+ # farve <- c("#000000", "#FFDD89", "#957244", "#F26223")
+chordDiagram(x = df.c, 
+  grid.col = farve, 
+  transparency = 0,
+             directional = 1, symmetric=FALSE,
+             direction.type = c("arrows", "diffHeight"), diffHeight  = -0.065,
+             link.arr.type = "big.arrow", 
+             # self.link=1
+             # link.sort = TRUE, 
+             link.largest.ontop = TRUE,
+             # link.border="black",
+             # link.lwd = 2, 
+             # link.lty = 2
+             )
+dev.off()
+
+
+
+wm1            <- weight.matrix(mob.mat2, cut.off = cut.off.default, symmetric = FALSE, small.cell.reduction = small.cell.default, diagonal=TRUE)
+wm1[is.na(wm1)] <- 0
 
 
 ?chordDiagram
@@ -165,10 +155,7 @@ view(segmentcircle.tot)
 
 
 # getPalette = colorRampPalette(brewer.pal(12,"Paired"))
-# farve <-  getPalette(length(work.list))
-  
-
-
+# farve <-  getPalette(length(work.list)
 
 
 

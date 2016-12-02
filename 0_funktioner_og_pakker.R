@@ -49,7 +49,7 @@ library(MONECA)
 #library(XLConnect)
 # library(circlize)
 # library(RDocumentation)
-library(yarrr)
+#library(yarrr)
 
 
 
@@ -58,9 +58,11 @@ library(yarrr)
 
 # Emils funktioner 
 
+# Batting_rel <- col_select(discodata) #uden kode til at reproducere
+# Batting_rel <- col_select(discodata, ret = 'dplyr_code') #med kode til at reproducere
+
 #skal laves til funktion på et tidspunkt
 # objekt <- discodata %>% select(disco, timelon.helepop.gns.inf)
-
 # write.xlsx2(timelon.helepop,"test2.xlsx") 
 
 

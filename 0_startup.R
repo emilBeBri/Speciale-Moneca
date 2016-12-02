@@ -29,7 +29,8 @@ mob.mat <- XLConnect::loadWorkbook("./statistik/DST/DST_output/00_emil_speciale/
 # mob.mat <- XLConnect::loadWorkbook("./statistik/DST/DST_output/00_emil_speciale/MONECAs/allebeskaeftigede/moneca_disco_mse_250kat_version1_allebeskaeft_periode19962001.xlsx")
 nrowallbeskaeft <- 274
 allbeskaeft <- XLConnect::loadWorkbook("./statistik/DST/DST_output/00_emil_speciale/MONECAs/allebeskaeftigede_250kat_version1.xlsx")
-label.kode   <- read.csv("./statistik/R/moneca/vores/voresdata/Oversat Moneca kategorier_es_250kat.csv", sep = ";")
+label.kode   <- read.csv("./statistik/R/moneca/vores/voresdata/Oversat_Moneca kategorier_es_250kat.csv", sep = ";")
+
 label <- label.kode$Disco_tekstogkode
 label.short <- label.kode$Disco_kode
 nrowputexcel <- 273
@@ -51,9 +52,12 @@ source("./statistik/R/moneca/vores/vorescripts/6_skab_dplyrdatasaet_klasser.R")
 source("./statistik/R/moneca/vores/vorescripts/6_skab_dplyrdatasaet.seg.baggrund.R")
 #ekstra
 source("./statistik/R/moneca/vores/vorescripts/6_skab_dplyrdatasaet_efterbehandling.R")
+nrow(discodata) == 273
+nrow(seg.df) == 54
+
 
 discodata <- tbl_df(discodata)
-discodata_newestmoneca_bak <- discodata
+discodata_bak  <-  discodata 
 
 
 #0 

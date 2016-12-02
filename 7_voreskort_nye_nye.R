@@ -306,7 +306,7 @@ function (segmenter, niveau = seq(segmenter$segment.list), layout = layout.matri
 
 
 #hovedkort disco
-edges.default.all                <- segment.edges(seg.b, mode="directed",cut.off=3,small.cell.reduction = small.cell.default, segment.reduction = 5) #før var den 3 her og 5 nedenunder
+edges.default.all                <- segment.edge s(seg.b, mode="directed",cut.off=3,small.cell.reduction = small.cell.default, segment.reduction = 5) #før var den 3 her og 5 nedenunder
 edges.default.all[edges.default.all > 30] <- 30 
 
 kort.disco <- gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arrow = arrow.default,
@@ -326,7 +326,7 @@ kort.egp11 <- gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arro
                        edge.size=edge.size, vertex.fill = discodata$klasse_egp11,
                        vertex.size = vertex_stoerrelse) +  
   #default + scale_fill_manual(values = brewer.pal(11, "Paired"), labels=egp11_lab, name="EGP-11")
-  default + scale_fill_manual(values = skala_egp11, labels=egp11_lab, name="EGP-11")
+  default + scale_fill_manual(values = skala_egp11, labels=egp11_lab, name="EGP-11") + theme(legend.position = c(0.95, 0.9))
 cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort.egp11.pdf", onefile = TRUE, height = 30, width = 30)
 kort.egp11
 dev.off()
@@ -397,18 +397,6 @@ skala_skillvl <-  c("dodgerblue4" ,"dodgerblue1","indianred2","indianred4")
 
 discodata <- mutate(discodata,timelon.mean.gns.cutoff=replace(timelon.mean.gns, timelon.mean.gns>=351, 300))  
 
-kort.timelon <-  gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arrow = arrow.default, 
-           edge.size=edge.size, vertex.fill = discodata$timelon.mean.gns.cutoff,
-           vertex.size = vertex_stoerrelse) +  
-   ggtitle("timeløn") + scale_fill_gradientn(colours = skala.ired.dgreen.simple,
-                                                             values= rescale(timelon.rescale), guide=guide_colorbar(barwidth = 1, barheight = 12,draw.ulim = FALSE, draw.llim = FALSE), name = "timeløn", breaks=timeloen.num, labels=timeloen.lab) +  default  +
-#  guides(fill = guide_colorbar(barwidth = 1, barheight = 15,draw.ulim = FALSE, draw.llim = FALSE)) +
-  theme(legend.position = c(0.95, 0.9))
-cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_timelon.pdf", onefile = TRUE, height = 25, width = 25)
-kort.timelon 
-dev.off()
-
-
 #timeloen 
 timeloen.num = c(146,175,200,208,225,250,275,300,325,346)
 timeloen.lab <- paste(timeloen.num,"kr.")  #, "%")
@@ -420,66 +408,56 @@ timeloen.lab[length(timeloen.num)] <- c("350+ kr.")  #, "%")
 timelon.rescale = c(146,160,  175,199,     208,     217,265,    290,346)
 timelon.rescale = c(146,160,  175,190,     208,     226,265,    290,346)
 
-190-208
-217-208
-208+18
-146-300
-
-
-154/7
-
-1/7
-
-
-
-quants = seq(0,1,c(1/7))
-timelon.rescale =  round(quantile(discodata$timelon.helepop.gns.inf.cutoff,quants))
-timelon.rescale = insert.at(timelon.rescale, c(4),c(211))
-timelon.rescale[c(2)] = timelon.rescale[c(2)] -20
-timelon.rescale[c(3,4)] = timelon.rescale[c()] +20
-timelon.rescale
-
-timelon.rescale[c(6,7)] = timelon.rescale[c(6,7)] +10
-timelon.rescale
 
 
 
 
+kort.timelon <-  gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arrow = arrow.default, 
+           edge.size=edge.size, vertex.fill = discodata$timelon.mean.gns.cutoff,
+           vertex.size = vertex_stoerrelse) +  
+   ggtitle("timeløn") + scale_fill_gradientn(colours = skala.ired.dgreen.simple,
+                                                             values= rescale(timelon.rescale), guide=guide_colorbar(barwidth = 1, barheight = 12,draw.ulim = FALSE, draw.llim = FALSE), name = "timeløn", breaks=timeloen.num, labels=timeloen.lab) +  default  +
+#  guides(fill = guide_colorbar(barwidth = 1, barheight = 15,draw.ulim = FALSE, draw.llim = FALSE)) +
+  theme(legend.position = c(0.95, 0.9))
 
-seq(146,300,19.25)
-test = seq(146,300,22)
-
-test = insert.at(test,(c(4),   c(211))
-insert.at(test, c(4),c(211))
-                 
-                 
-                 
-                 
-# a = c(2,3,4,9,10,2,4,19)
-# b = c(2,1)
-# d = c(0,1)
-
-# insert.at(a, c(3,7), b, d) #indsætter b efter 3. element og d efter 7. element i a 
-# insert.at(1:10, c(4,7,9), 11, 12, 13) #andet eksempel
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_timelon.pdf", onefile = TRUE, height = 30, width = 30)
+kort.timelon 
+dev.off()
 
 
+# kun edges-kort
+
+edges.eksp                <- segment.edges(seg.b, mode="directed",cut.off=1,small.cell.reduction = small.cell.default, segment.reduction = 0.1) #før var den 3 her og 5 nedenunder
+edges.eksp[edges.eksp > 7.5] <- 7.5
+rr.breaks.edge <- seq(1,7,1) #c(70,80)
+rr.lab.edge <- paste(rr.breaks.edge)  #, "%")
+rr.lab.edge[length(rr.lab.edge)] <- paste(rr.breaks.edge[length(rr.lab.edge)],"+",sep="")
+rr.breaks.edge[1] <- c(1.01)
+kort.edges.default <- list()
+kort.edges.default$scale_size_continuous <-   scale_size_continuous(range = c(5, 30), name="antal beskaftigede", breaks=beskaeft.num, labels=beskaeft.lab,guide="legend")
+kort.edges.default$scale_alpha_continuous <-   scale_alpha_continuous(range = c(0.3, 0.6), guide="none")
+kort.edges.default$scale_colour_gradient2 = scale_colour_gradient2(low = "#575155", mid = "darkorange1", high = muted("darkred"), 
+                                                        midpoint =3.5 , space = "Lab", na.value = "pink", guide =guide_colorbar(barwidth = 1, barheight = 7,draw.ulim = FALSE, draw.llim = FALSE),name="Styrke af forbindelse", breaks=rr.breaks.edge,labels=rr.lab.edge)
+kort.edges <-  gg.jonas(seg, layout = lay, edges=edges.eksp, midpoint.arrow = arrow.default, 
+                          edge.size=edge.size,
+                          vertex.size = vertex_stoerrelse) +  
+  ggtitle("edges")  +  kort.edges.default  + theme(legend.position = c(0.95, 0.9)) + scale_fill_manual(values =   replicate(42, "grey22"),guide="none")
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_edges.pdf", onefile = TRUE, height = 25, width = 25)
+kort.edges
+dev.off()
+d
+
+
+
+  
+  
+  # [1] "my_string" "my_string"
 
 
 
 
-
-timelon.rescale = 1
-timelon.rescale[1] = min(discodata$timelon.helepop.gns.inf)
-
-
-
-
-timelon.rescale[2:8] = quantile(discodata$timelon.helepop.gns.inf,seq(0.125,0.875,0.125))
-timelon.rescale[9] = max(discodata$timelon.helepop.gns.inf)
-
-0.50,0.595,  0.625,0.659,    0.68,     0.695, 0.76,    0.80,1.00
-
-
+  strrep("ABC", 2)
+  strrep(c("A", "B", "C"), 1 : 3)
 
 
 

@@ -16,7 +16,7 @@ tmplist[[1]] <-  c(1,4,5,6,7,8,9)
 tmplist[[2]] <-  tmp1 +	rep(c(9),each=6)
 emilsvector <-  unlist(tmplist)
 
-emilsvector.bin <- seq(5,56,4)
+emilsvector.bin <- seq(5,56,4)  
 # emilsvector.bin <- append(emilsvector.bin,c(1))
 # emilsvector.bin <- sort(emilsvector.bin)
 

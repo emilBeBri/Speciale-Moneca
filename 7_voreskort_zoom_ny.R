@@ -26,11 +26,22 @@ kort.intern.mob.z <- gg.jonas(seg, layout = lay, edges=edges.default.zoom, midpo
 
 
 
+
 zoom.seg <- c(2.78)
 # enkelt segment
 pdf(file = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/zoom/kort_intern_mob_test.pdf", height = 15, width = 15)
-zoom.to.segment(kort.intern.mob.z, lay=lay, zoom.mem=discodata$membership==2.78, distance=400)
+kort.intern.mob.z
 dev.off()
+
+
+zoom.to.segment(kort.intern.mob.z, lay=lay, zoom.mem = seg.mem$membership == "5.1", distance=400)
+
+
+lapply(p.zoom.org.i, zoom.to.segment, lay = lay, zoom.mem = seg.mem$membership == "2.40", distance = 400)
+
+
+zoom.to.segment(kort.intern.mob.z,lay=lay, zoom.mem = seg.mem$membership == "5.1", distance=400)
+
 
 
 zoom.to.segment(kort.intern.mob.z, lay = lay, zoom.mem = seg.mem$membership == "2.78", distance = 400)

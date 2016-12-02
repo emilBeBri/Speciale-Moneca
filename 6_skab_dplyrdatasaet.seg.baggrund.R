@@ -95,7 +95,7 @@ koen.seg.helepop <- koen.seg.helepop %>%   rowwise()  %>%    mutate_each(., funs
 koen.seg.helepop.udv <- koen.seg.helepop %>%  select(membership,contains("gns")) %>%   select(membership,-contains("var")) 
 
 
-#########koen ###
+#########fagforening ###
 
 fagf.seg.helepop <- read_excel_allsheets("./statistik/DST/DST_output/00_emil_speciale/MONECAs/allebeskaeftigede/baggrundsvar/segmenter54/monecaseg_fagfmedl_kat250__helepop.xlsx")
 fagf.seg.helepop <- data.frame(matrix(unlist(fagf.seg.helepop), nrow=54),stringsAsFactors=FALSE)
@@ -130,12 +130,23 @@ fagf.seg.helepop.udv <- fagf.seg.helepop %>%  select(membership,contains("gns"))
 
 # #udvælgelse af variable
 
-
-
-
 discodata     <- inner_join(discodata, timelon.seg.helepop.udv)
 discodata     <- inner_join(discodata, koen.seg.helepop.udv)
 discodata     <- inner_join(discodata, fagf.seg.helepop.udv)
+
+seg.df_bak <- seg.df
+
+seg.df     <- left_join(seg.df, timelon.seg.helepop.udv)
+seg.df     <- left_join(seg.df, koen.seg.helepop.udv)
+seg.df     <- left_join(seg.df, fagf.seg.helepop.udv)
+
+
+
+
+
+
+
+
 
 
 

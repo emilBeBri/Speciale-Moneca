@@ -20,6 +20,11 @@ devtools::install_github("ndphillips/yarrr",
 
 
 install.packages("RDocumentation")
+install.packages("miniUI")
+install.packages("miniUI")
+install.packages("DT")
+install.packages("shiny")
+install.packages("gguitar")
 
 install.packages("MASS")
 install.packages("scales")

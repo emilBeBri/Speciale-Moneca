@@ -76,18 +76,50 @@ tmp  <-  tbl_df(segment.quality(seg.original,final.solution=TRUE))
 tmp$Density <- as.numeric(tmp$Density)
 view(tmp)
 
-tbl_df156,9204
-
 
 lavdens.df <- filter(df, Density <= .52)
 view(lavdens.df)
 
 
+
+
+
+
 ### delanalyse 2: indkomst 
+
+
+
+
+
+
+
+
+
+
+
+
+view(arrange(seg.df,desc(timelon.mean.gns.beregn)))
+
+
+# view(round_df(arrange(df,desc(timelon.sd.gns.beregn),desc(membership)) %>%   select(membership,disco,timelon.mean.gns.beregn,timelon.sd.gns.beregn,contains("timelon")),0))
+aabn_xls("./statistik/R/moneca/vores/00_emilspeciale_output/dataframes/disco.timelon.sd.gns.beregn.xlsx")
+
+
+# view(round_df(arrange(df,desc(timelon.mean.gns.beregn),desc(membership)) %>%   select(membership,disco,timelon.mean.gns.beregn,timelon.sd.gns.beregn,contains("timelon")),0))
+aabn_xls("./statistik/R/moneca/vores/00_emilspeciale_output/dataframes/disco.timelon.mean.gns.beregn.xlsx")
+
+
+
+
+##
 
 quants = seq(0.7,1,0.01) 
 round(quantile(discodata$timelon.mean.gns,quants),0)
 Hmisc::describe(discodata$timelon.mean.gns)
+quants = seq(0,1,0.05) 
+round(quantile(discodata$timelon.mean.gns.beregn,quants),0)
+Hmisc::describe(discodata$timelon.mean.gns.beregn)
+
 
 
 
@@ -107,6 +139,17 @@ theme_bw() + scale_fill_manual(values=getPalette(6), name="Udvalgte \npercentile
                                ) +
   xlab("timeløn i kroner") + ylab("antal observationer") 
   
+
+
+
+################## analyse af segmenter ###############
+
+view(seg.df)
+
+
+
+
+
 
 
 
@@ -140,15 +183,6 @@ ggplot(discodata,aes(x=beskaeft.andel.gns,y=timelon.mean.gns)) + geom_point(size
 
 ######### boxplot ##############
 
-view(seg.df)
-view(plot.df)
-
-brewer.pal(nfarve, "Paired")
-
-plot.df <- filter(discodata, !grepl("^1.*", membership), !grepl("^2.*", membership))
-pirateplot(formula=timelon.mean.gns~membership, data=plot.df)
-
-nfarve <-  length(unique(plot.df$membership))
 
 
 ######################## 
@@ -166,22 +200,53 @@ sd.op.emil <- function(x) {
  mean(x) + sd(x)
 } 
 
+is_outlier <- function(x) {
+  return(x < quantile(x, 0.25) - .5 * IQR(x) | x > quantile(x, 0.75) + .5 * IQR(x))
+}
+
+is_outlier <- function(x,y=.1,z=4) {
+  return(x < quantile(x, y) - (sd(x)/z) | x > quantile(x, 1-y)+ (sd(x)/z)) 
+}
+
+# is_outlier <- function(x,y=0.1) {
+# return(x < quantile(x,y) | x > quantile(x,1-y) )
+# }
+
+bp.vals <- function(x, probs=c(0.1, 0.25,0.5, 0.75, .9)) {
+  r <- quantile(x, probs , na.rm=TRUE)
+  # r = c(r[1:2], exp(mean(log(x))), r[3:4]) #hvorfor tage log, exp og mean af x??
+  # r = c(r[1:2], mean(x), r[3:4]) #hvorfor tage log, exp og mean af x??
+  names(r) <- c("ymin", "lower", "middle","upper", "ymax")
+  r
+}
+
+
 ##############################
 
-
-iwanthue <- c("#6673c2","#6db543","#c651bb","#5bbe7d","#8263d3","#c6ac36","#5ea1d8","#d64737","#4bb7a7","#db457a","#457d42","#d98fcb","#777629","#9c518c","#b7b368","#a8485a","#e3893c","#e0867b","#a8773b","#aa522c")
+nfarve <-  length(unique(plot.df$membership))
+xmen  <-  piratepal("xmen")
+getPalette= colorRampPalette(xmen)
+plot.df <- filter(discodata, !grepl("^1.*", membership), !grepl("^2.*", membership))
+plot.df <- filter(discodata, !grepl("^1.*", membership))
 plot.df <- filter(discodata, grepl("^3.*", membership)) #%>%   
 
+plot.df <- filter(discodata, grepl("^3.21", membership)) #%>%   
 
-plot.df$plot.order <- sortLvlsByVar.fnc(plot.df$membership, plot.df$koen.gns.kvinder.andel, ascending = TRUE)
-p <- ggplot(plot.df, aes(x=plot.order, y=koen.gns.kvinder.andel,fill=membership,label=plot.df$disco))
+plot.df <- plot.df %>%  group_by(membership) %>%  mutate(is.outlier = is_outlier(timelon.mean.gns,0.1))
+plot.df <-  plot.df %>%   mutate(outlier = ifelse(is.outlier==TRUE, as.character(disco),NA)) 
+plot.df$is.outlier
+plot.df$outlier
 
-plot.df$plot.df.order <- sortLvlsByVar.fnc(plot.df$membership, plot.df$ledighed.mean.gns, ascending = TRUE)
-p <- ggplot(plot.df, aes(x=plot.df.order, y=ledighed.mean.gns,fill=membership,label=plot.df$disco))
-p1 <-  p + scale_fill_manual(values=iwanthue)
-p2 <-  p1 +  sta t_summary(fun.data=bp.vals, geom="boxplot",alpha=0.7,color="black") + geom_point(position= position_jitter(width=0.2),aes(size=beskaeft.andel.gns),alpha=.75)
+plot.df$plot.order <- sortLvlsByVar.fnc(plot.df$membership, plot.df$timelon.mean.gns, ascending = TRUE) 
+##
+p <- ggplot(plot.df, aes(x=plot.order, y=timelon.mean.gns,fill=membership,label=plot.df$disco))
+p1 <-  p + scale_fill_manual(values=getPalette(length(unique(plot.df$membership))))
+p2 <-  p1 +  stat_summary(fun.data=bp.vals, geom="boxplot",alpha=0.7,color="black") + geom_point(position= position_jitter(width=0.2),aes(size=beskaeft.andel.gns),alpha=.75)
 p3 <-  p2 + stat_summary(fun.y=whisk.emil, geom="point",shape=95,size=8,color="black") + theme_bw() + theme(legend.position="none") 
-p3
+p3 + geom_text(aes(label = outlier), na.rm = TRUE, vjust = -0.6,size=2.75)
+
+
+
 p4 <-  p3 + stat_summary(fun.y=sd.op.emil, geom="point",shape=2,size=2,color="black") + stat_summary(fun.y=sd.ned.emil, geom="point",shape=6,size=2,color="black") + scale_size_continuous(range = c(0.5,8)) + stat_summary(fun.y="mean", geom="point",shape=95,size=8,color="black") 
 p4
 p3  + geom_text(size=2.5)
@@ -189,7 +254,9 @@ p3  + geom_text(size=2.5)
 p4 + geom_text_repel(aes(membership, timelon.mean.gns, label = disco),size=2.5,force=10)
 
 
-
+is_outlier <- function(x) {
+  return(x < quantile(x, 0.05) | x > quantile(x, 0.95)) 
+}
 
 ###############################3
 
@@ -223,7 +290,6 @@ fyn.y=
 
 
 
-xmen  <-  piratepal("xmen")
 
    <-   as.vector(xmen)
 
@@ -253,13 +319,6 @@ line <- "gold"
 
 x = plot.df$timelon.mean.gns
 
-bp.vals <- function(x, probs=c(0.1, 0.25,0.5, 0.75, .9)) {
-  r <- quantile(x, probs=probs , na.rm=TRUE)
-  # r = c(r[1:2], exp(mean(log(x))), r[3:4]) #hvorfor tage log, exp og mean af x??
-  # r = c(r[1:2], mean(x), r[3:4]) #hvorfor tage log, exp og mean af x??
-  names(r) <- c("ymin", "lower", "middle","upper", "ymax")
-  r
-}
 
 
 bp.vals(x)
@@ -282,14 +341,6 @@ bp.vals <- function(x, probs=c(0.1, 0.25, 0.75, .9)) {
 # Sample usage of the function with the built-in mtcars data frame
 ggplot(mtcars, aes(x=factor(cyl), y=mpg)) +
   stat_summary(fun.data=bp.vals, geom="boxplot")
-
-
-
-
-
-
-
-
 
 
 
@@ -318,35 +369,12 @@ pirateplot(formula = timelon.mean.gns~membership,
            quant.lwd=1
            )
 
-b.males <- c(6, 7, 8, 8, 8, 9, 10, 10, 11, 11, 12, 12, 12, 12, 13, 14, 15)
-b.females <- c(14, 13, 12, 12, 11, 10, 10, 9, 9, 9, 9, 9, 8, 8, 8, 7, 7, 7, 7)
-b.total<-c(b.males,b.females)
-
-b.m<-data.frame(b.males)
-b.f<-data.frame(b.females)
-b.t<-data.frame(b.total)
-
-myList<-list(b.m, b.f, b.t)
-df<-melt(myList)
-
-colnames(df) <- c("class","count")
-plt<-ggplot(df, aes(x=class,y=count))+geom_boxplot() 
-plt + geom_point(aes(x = as.numeric(class) + 0, colour=class))
-
-ggplot(df,aes(class,count))+geom_boxplot()+
-  geom_dotplot(aes(fill=class),binaxis="y",stackdir="center",dotsize=0.5)
 
 
 
 
 
-
-
-
-
-
-
-### antal beskæftigede 
+###  antal beskæftigede 
 
 deskall <- discodata %>% select(disco, max.path,membership,Nodes,Density,within.mob,within.mob.seg,share.of.mob,beskaeft.andel.gns,beskaeft.gns) %>% arrange(desc(beskaeft.andel.gns))
 view(deskall)
@@ -497,6 +525,371 @@ seg.lab2 <- paste(levels(seg.lab), as.character(segment.labels)[order(as.charact
 
 seg.lab3        <- format(as.character(seg.lab2))
 levels(seg.lab3) #levels fjernes igen? wtf? og det er vist ikke engang nødvendigt.
+
+
+
+########### røde halvmåne og grønne formation #############
+
+
+
+
+# analyse: er der forskel på grønne lønninger og ikke-grønne lønninger? 
+e.vals <-  c("3.7" ,"3.20" ,"3.21" ,"2.64" ,"3.18" ,"3.12" ,"4.11" ,"4.9" ,"3.34" ,"2.31" ,"3.4" ,"2.61" ,"1.45" ,"1.75" ,"3.3" ,"4.1" ,"1.99" ,"1.214")
+
+a.ind2  <-   filter(seg.df, !membership %in% e.vals)
+a.ind1  <-   filter(seg.df, membership %in% e.vals)
+
+
+mean(a.ind2$within.mob.seg)
+mean(a.ind1$within.mob.seg)
+sd(a.ind2$within.mob.seg)
+sd(a.ind1$within.mob.seg)
+median(a.ind2$within.mob.seg)
+median(a.ind1$within.mob.seg)
+#ikke meget. 
+
+
+#hvem har de forbindelser til?
+cut.off.default <-  median(relativrisiko.vector,na.rm=TRUE) 
+cut.off.default <- 1
+wm1            <- weight.matrix(mob.mat, cut.off = cut.off.default, symmetric = FALSE, small.cell.reduction = small.cell.default, diagonal=TRUE) 
+wm1[is.na(wm1)] <- 0
+
+
+mat.e <- wm1
+# mat.e.result <- mob.mat
+
+
+worklist_final =NULL
+worklist1 <-  seg$segment.list[[1]][[214]]
+worklist2 <-  seg$segment.list[[1]][[45]]
+worklist_final <- append(worklist1,worklist2)
+worklist3 <-  seg$segment.list[[1]][[75]]
+worklist_final <- append(worklist_final,worklist3)
+worklist4 <-  seg$segment.list[[1]][[99]]
+worklist_final <- append(worklist_final,worklist4)
+worklist5 <-  seg$segment.list[[2]][[31]]
+worklist_final <- append(worklist_final,worklist5)
+worklist6 <-  seg$segment.list[[2]][[61]]
+worklist_final <- append(worklist_final,worklist6)
+worklist7 <-  seg$segment.list[[2]][[64]]
+worklist_final <- append(worklist_final,worklist7)
+worklist8 <-  seg$segment.list[[3]][[12]]
+worklist_final <- append(worklist_final,worklist8)
+worklist9 <-  seg$segment.list[[3]][[18]]
+worklist_final <- append(worklist_final,worklist9)
+worklist10 <-  seg$segment.list[[3]][[20]]
+worklist_final <- append(worklist_final,worklist10)
+worklist11 <-  seg$segment.list[[3]][[21]]
+worklist_final <- append(worklist_final,worklist11)
+worklist12 <-  seg$segment.list[[3]][[3]]
+worklist_final <- append(worklist_final,worklist12)
+worklist13 <-  seg$segment.list[[3]][[34]]
+worklist_final <- append(worklist_final,worklist13)
+worklist14 <-  seg$segment.list[[3]][[4]]
+worklist_final <- append(worklist_final,worklist14)
+worklist15 <-  seg$segment.list[[3]][[7]]
+worklist_final <- append(worklist_final,worklist15)
+worklist16 <-  seg$segment.list[[4]][[1]]
+worklist_final <- append(worklist_final,worklist16)
+worklist17 <-  seg$segment.list[[4]][[11]]
+worklist_final <- append(worklist_final,worklist17)
+worklist18 <-  seg$segment.list[[4]][[9]]
+worklist_final <- append(worklist_final,worklist18)
+groenneformation <- sort(worklist_final)
+
+################ hvilke disco 1-3 er ikke med i median indtjeningerne?
+
+disco.1_3 <-  c(2:132)
+
+udenfordetgodeselskab <-  setdiff(disco.1_3,work.list)
+view(discodata$disco[udenfordetgodeselskab])
+view(discodata[udenfordetgodeselskab,] %>% select(disco,membership,within.mob,within.mob.seg,timelon.mean.gns.beregn,timelon.sd.gns.beregn))
+aabn_xls("./statistik/R/moneca/vores/00_emilspeciale_output/dataframes/udenfordetgodeselskab.xlsx")
+
+
+view(discodata[work.list,] %>% select(disco,membership,within.mob,within.mob.seg,timelon.mean.gns.beregn,timelon.sd.gns.beregn))
+nrow(discodata)
+aabn_xls("./statistik/R/moneca/vores/00_emilspeciale_output/dataframes/detgodeselskab.xlsx")
+
+
+# ser ud til at stort set alle DISCO-2 er repræsenteret, samt alt disco-1 der er fint nok. de eneste to disco-2 der ikke er med er tandlægerne og oversygeplejerske/jordemødre. finansfolkene er her, jura, etc etc. arbejde med religion er også med, men det er ikke pga deres lønninger. kunsterisk arbejde med musik, film og illustration er også med. det er med andre ord nogle cirkler der dækker en hel del magt. 
+
+
+
+
+#######################
+
+# forberedelse
+dimnames(mob.mat) <- list(label.short, label.short) 
+cut.off.default <-  median(relativrisiko.vector,na.rm=TRUE) 
+cut.off.default <- 1
+wm1            <- weight.matrix(mob.mat, cut.off = cut.off.default, symmetric = FALSE, small.cell.reduction = small.cell.default, diagonal=TRUE) 
+wm1[is.na(wm1)] <- 0
+
+mat.e <- wm1
+mat.e.tom <- mat.e 
+mat.e.tom[,] <- 0 
+
+#view(mat.e.backup)
+
+skala.heatmap =  c(    "whitesmoke","darkorange2", "darkorange4", "mediumpurple2","mediumpurple4")
+heatmap.rescale = c(0,1.0001,  1.1,2,     3,     5,13,    20,30)
+em.heatmap <-  function(x,y=30,z=0,mis=c("black")) {
+  require(stringr)
+  require(tibble)
+  require(tidyr)
+  dat <- x 
+  ## reshape data (tidy/tall form)
+  # colnames(dat2) <- colnames(dat2)
+  dat[dat > y] <- y
+  dat[dat < z] <- z
+  dat <- cbind(dat,label.short[-274])
+  dat <- tbl_df(dat) %>%  rename(Var1=) %>%   
+      gather(Var2, value, -Var1)
+  dat$Var1 <- as.factor(dat$Var1)
+  dat$Var2 <- as.factor(dat$Var2)    
+  dat$value <-  as.numeric(dat$value)
+    ggplot(dat, aes(Var1, Var2)) + geom_raster(aes(fill = value))  + scale_fill_gradientn(colors=skala.heatmap,values= rescale(heatmap.rescale),na.value=mis) 
+  }
+
+
+
+groenneformation <- groenneformation #pas på, er det nu den rigtigte?
+roedehalvmaane <-  setdiff(c(1:273),groenneformation)
+#### case 1: interne forbindelser 
+
+
+#den røde halvmånes interne forbindelser 
+mat.e <- wm1  
+mat.e[groenneformation,groenneformation] <- NA
+roede.ties.groen<- sort(unique(unlist(lapply(groenneformation, function(x) which(mat.e[,x] !=0 )))))
+mat.e[roede.ties.groen,roede.ties.groen] <- NA
+mat.e.roed.intern <- mat.e
+em.heatmap(mat.e.roed.intern,mis=c("pink"))
+sum(mat.e.roed.intern,na.rm=TRUE)
+
+
+# den grønne formations interne forbindelser
+mat.e <- wm1  
+mat.e[roedehalvmaane,roedehalvmaane] <- NA
+groen.ties.roed<- sort(unique(unlist(lapply(roedehalvmaane, function(x) which(mat.e[,x] !=0 )))))
+mat.e[groen.ties.roed,groen.ties.roed] <- NA
+mat.e.groen.intern <- mat.e
+em.heatmap(mat.e.groen.intern,mis=c("pink"))
+sum(mat.e.groen.intern,na.rm=TRUE)
+sum(mat.e.roed.intern,na.rm=TRUE)
+#### case 2: eksterne forbindelser 
+
+#den grønne formations eksterne forbindelser 
+
+mat.e <- wm1 
+dvals <-  diag(mat.e)
+diag(mat.e) <- 0  
+groenneformation <- work.list
+roedehalvmaane <-  setdiff(c(1:273),groenneformation)
+#interne forbindelser i grønne formation lig 0 
+mat.e[groenneformation,groenneformation] <- NA
+#forbindelser fra roede halvmåne til grøn formation 
+roede.ties.groen<- sort(unique(unlist(lapply(groenneformation, function(x) which(mat.e[,x] !=0 )))))
+# roede.ties.groen.r<- sort(unique(unlist(lapply(groenneformation, function(x) which(mat.e[x,] !=0 )))))
+# roede.ties.groen.master <-  union(roede.ties.groen.r,roede.ties.groen.c)
+
+
+#grønne interne ties plus ties til roed 
+groen.plus.ties.til.roed <- sort(union(roede.ties.groen,groenneformation))
+
+# roeds interne ties der ikke går til groen  
+irr.roede.ties <- setdiff(c(1:273),groen.plus.ties.til.roed)
+
+
+#fjern diagonal (for overblikkets skyld)
+diag(mat.e) <- NA
+#fjern de irrelevante roede ties 
+mat.e[irr.roede.ties,irr.roede.ties] <- NA
+
+#fjerner intern ties der er mellem de roede noder, der har groenne ties 
+mat.e[roede.ties.groen,roede.ties.groen] <- NA
+
+#fjerner de gronne ties-ties og roede ties internt 
+groen.ties.til.roed.og.irr.roede.ties  <-  union(groen.ties.roed,irr.roede.ties)
+
+mat.e[groen.ties.til.roed.og.irr.roede.ties,groen.ties.til.roed.og.irr.roede.ties] <- NA
+
+mat.e.kun.roed.til.gron <- mat.e 
+sum(mat.e.kun.roed.til.gron,na.rm=TRUE)
+
+
+
+#den røde halvmånes eksterne forbindelser 
+
+mat.e <- wm1 
+dvals <-  diag(mat.e)
+diag(mat.e) <- 0  
+#interne forbindelser i grønne formation lig 0 
+mat.e[roedehalvmaane,roedehalvmaane] <- NA
+#forbindelser fra roede halvmåne til grøn formation 
+groen.ties.roed<- sort(unique(unlist(lapply(roedehalvmaane, function(x) which(mat.e[,x] !=0 )))))
+
+#roede interne ties plus ties til groen 
+roed.plus.ties.til.groen <- sort(union(groen.ties.roed,groenneformation))
+
+# groens interne ties der ikke går til roed  
+irr.groen.ties <- setdiff(c(1:273),roed.plus.ties.til.groen)
+
+#fjern diagonal (for overblikkets skyld)
+diag(mat.e) <- NA
+#fjern de irrelevante roede ties 
+mat.e[irr.groen.ties,irr.groen.ties] <- NA
+
+#fjerner intern ties der er mellem de roede noder, der har groenne ties 
+mat.e[groen.ties.roed,groen.ties.roed] <- NA
+
+#fjerner de roede ties-ties og groennes ties internt 
+roed.ties.til.groen.og.irr.groen.ties  <-  union(groen.ties.roed, irr.groen.ties)
+
+mat.e[groen.ties.til.roed.og.irr.roede.ties,groen.ties.til.roed.og.irr.roede.ties] <- NA
+
+mat.e.kun.groen.til.roed <- mat.e 
+
+
+
+sum(mat.e.groen.intern,na.rm=TRUE) 
+em.heatmap(mat.e.groen.intern,mis="pink")
+rr.vector.mat.e.groen.intern  <-  as.vector(t(mat.e.groen.intern))
+rr.vector.mat.e.groen.intern[rr.vector.mat.e.groen.intern==0]  <-  NA
+Hmisc::describe(rr.vector.mat.e.groen.intern,na.rm=TRUE)
+
+sum(mat.e.kun.roed.til.gron,na.rm=TRUE)
+em.heatmap(mat.e.kun.roed.til.gron,mis="pink")
+rr.vector.mat.e.kun.roed.til.gron  <-  as.vector(t(mat.e.kun.roed.til.gron))
+rr.vector.mat.e.kun.roed.til.gron[rr.vector.mat.e.kun.roed.til.gron==0]  <-  NA
+Hmisc::describe(rr.vector.mat.e.kun.roed.til.gron,na.rm=TRUE)
+
+sum(mat.e.roed.intern,na.rm=TRUE)
+em.heatmap(mat.e.roed.intern,mis="pink")
+rr.vector.mat.e.roed.intern  <-  as.vector(t(mat.e.roed.intern))
+rr.vector.mat.e.roed.intern[rr.vector.mat.e.roed.intern==0]  <-  NA
+Hmisc::describe(rr.vector.mat.e.roed.intern,na.rm=TRUE)
+
+sum(mat.e.kun.groen.til.roed,na.rm=TRUE)
+em.heatmap(mat.e.kun.groen.til.roed,mis="pink")
+rr.vector.mat.e.kun.groen.til.roed  <-  as.vector(t(mat.e.kun.groen.til.roed))
+rr.vector.mat.e.kun.groen.til.roed[rr.vector.mat.e.kun.groen.til.roed==0]  <-  NA
+Hmisc::describe(rr.vector.mat.e.kun.groen.til.roed,na.rm=TRUE)
+
+
+
+em.heatmap(mat.e)
+
+
+
+## replace diagonal elements
+diag(mat.e) <- -dvals
+
+mat.e <- mat.e_bat 
+mat.e + mat.e_bat  
+
+
+# testdata 
+
+# jobdat <- matrix(c(
+#   1,   0,   1,   0,   1,   0,   0,
+#   1,   1,   1,   0,   0,   0,   0,
+#   0,   1,   1,   0,   1,   1,   0,
+#   0,   0,   0,   1,   0,   1,   0,
+#   0,   0,   0,   1,   1,   0,   0,
+#   0,   1,   0,   0,   0,   1,   0,
+#   1,   0,   0,   0,   0,   0,   1
+# ), 
+# nrow = 7, ncol = 7, byrow = TRUE,
+# dimnames = list(c("job 1","job 2","job 3","job 4","job 5","job 6","job 7"),
+#                 c("job 1","job 2","job 3","job 4","job 5","job 6","job 7")))
+
+
+jobdat <- matrix(c(
+1,  1,  0,  0,  0,  0,  0,  0,
+1,  1,  0,  0,  0,  0,  0,  0,
+0,  0,  1,  1,  0,  0,  0,  0,
+0,  1,  0,  1,  0,  0,  0,  0,
+1,  0,  0,  1,  1,  0,  1,  0,
+0,  0,  0,  0,  0,  1,  0,  1,
+1,  0,  1,  0,  0,  0,  1,  1,
+0,  0,  0,  0,  0,  1,  0,  1
+), 
+nrow = 8, ncol = 8, byrow = TRUE,
+dimnames = list(c("job 1","job 2","job 3","job 4","job 5","job 6","job 7","job 8"),
+                c("job 1","job 2","job 3","job 4","job 5","job 6","job 7","job 8")))
+jobdat <- matrix(c(
+1,  1,  0,  1,  0,  0,  1,  0,
+1,  1,  0,  0,  1,  0,  0,  1,
+0,  0,  1,  1,  0,  1,  1,  0,
+0,  1,  0,  1,  0,  0,  0,  1,
+1,  0,  0,  1,  1,  0,  1,  0,
+0,  1,  0,  0,  0,  1,  0,  1,
+1,  0,  1,  0,  0,  0,  1,  1,
+0,  1,  0,  0,  0,  0,  0,  1
+), 
+nrow = 8, ncol = 8, byrow = TRUE,
+dimnames = list(c("job 1","job 2","job 3","job 4","job 5","job 6","job 7","job 8"),
+                c("job 1","job 2","job 3","job 4","job 5","job 6","job 7","job 8")))
+
+sum(jobdat)
+# jobdat <-  jobdat_bak 
+dvals <-  diag(jobdat)
+diag(jobdat) <- 0  
+groenneformation <- c(1,5,7)
+roedehalvmaane <-  setdiff(c(1:8),groenneformation)
+#interne forbindelser i grønne formation lig 0 
+jobdat[groenneformation,groenneformation] <- 0
+#forbindelser fra roede halvmåne til grøn formation 
+roede.ties.groen<- sort(unique(unlist(lapply(groenneformation, function(x) which(jobdat[,x] !=0 )))))
+# roede.ties.groen.r<- sort(unique(unlist(lapply(groenneformation, function(x) which(jobdat[x,] !=0 )))))
+# roede.ties.groen.master <-  union(roede.ties.groen.r,roede.ties.groen.c)
+
+
+#grønne interne ties plus ties til roed 
+groen.plus.ties.til.roed <- sort(union(roede.ties.groen,groenneformation))
+
+# roeds interne ties der ikke går til groen  
+irr.roede.ties <- setdiff(c(1:8),groen.plus.ties.til.roed)
+
+
+#fjern diagonal (for overblikkets skyld)
+diag(jobdat) <- 0 
+#fjern de irrelevante roede ties 
+jobdat[irr.roede.ties,irr.roede.ties] <- NA
+
+#fjerner intern ties der er mellem de roede noder, der har groenne ties 
+# jobdat[roede.ties.groen.master,roede.ties.groen.master] <- NA
+jobdat[roede.ties.groen,roede.ties.groen] <- NA
+
+
+#fjerner de gronne ties-ties og roede ties internt 
+groen.ties.til.roed.og.irr.roede.ties  <-  union(roede.ties.groen,irr.roede.ties)
+
+jobdat[groen.ties.til.roed.og.irr.roede.ties,groen.ties.til.roed.og.irr.roede.ties] <- NA
+
+
+
+sum(jobdat,na.rm=TRUE)
+
+
+
+## replace diagonal elements
+diag(jobdat) <- -dvals
+
+jobdat <- jobdat_bat 
+jobdat + jobdat_bat  
+
+
+
+
+
+
+
+
+
 
 
 

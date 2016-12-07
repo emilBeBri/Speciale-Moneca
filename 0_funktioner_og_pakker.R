@@ -58,6 +58,88 @@ library(MONECA)
 
 # Emils funktioner 
 
+
+em.vis.ties <- function(klynge,undergr) {
+mat.e <- wm1
+work.list <-  seg$segment.list[[klynge]][[undergr]]
+########## simpel: kun segmentet
+mat.e.result <- mat.e[work.list,work.list]
+################ avanceret1: segment + ties 
+aug.work.list <- sort(unique(unlist(lapply(work.list, function(x) which(mat.e[,x] != 0)))))
+
+vis.ties.e <- discodata[aug.work.list,] 
+vis.ties.e <-  select(vis.ties.e,disco,membership) %>%     arrange(desc(membership))   
+view(vis.ties.e)
+    }
+
+
+em.circlize <-  function(segmentcircle,farvepal="xmen") {
+require("circlize")
+require("yarrr")
+farvepal <-  piratepal(farvepal)
+getPalette = colorRampPalette(farvepal)
+# getPalette = colorRampPalette(xmen_ext)
+diag(segmentcircle) <- 0
+df.c <- get.data.frame(graph.adjacency(segmentcircle,weighted=TRUE))
+n <-  unique(as.vector(df.c[2]))
+n2 <- unique(as.vector(df.c[1]))
+nfarve <-  length(unique(unlist(append(n,n2))))
+chordia.e <-  chordDiagram(x = df.c, grid.col = getPalette(nfarve),
+ transparency = 0.2, directional = 1, symmetric=FALSE, direction.type = c("arrows", "diffHeight"), diffHeight  = -0.065, link.arr.type = "big.arrow", link.largest.ontop = TRUE, link.border="black", link.sort=TRUE)
+ # farve <- c("#000000", "#FFDD89", "#957244", "#F26223")
+             #,
+             # self.link=1
+             # link.lwd = 2, 
+             # link.lty = 2
+return(chordia.e)
+}
+
+
+
+######### boxplot ##############
+
+
+
+######################## 
+whisk.emil <- function(x) {
+  r <- quantile(x, probs=c(0.1,0.9) , na.rm=TRUE)
+  # r = c(r[1:2], exp(mean(log(x))), r[3:4]) #hvorfor tage log, exp og mean af x??
+  # r = c(r[1:2], mean(x), r[3:4]) #hvorfor tage log, exp og mean af x??
+  r
+}
+sd.ned.emil <- function(x) {
+ mean(x) - sd(x)
+}
+
+sd.op.emil <- function(x) {
+ mean(x) + sd(x)
+} 
+
+# is_outlier <- function(x) {
+#   return(x < quantile(x, 0.25) - .5 * IQR(x) | x > quantile(x, 0.75) + .5 * IQR(x))
+# }
+
+is_outlier <- function(x,y=.1,z=4) {
+  return(x < quantile(x, y) - (sd(x)/z) | x > quantile(x, 1-y)+ (sd(x)/z)) 
+}
+
+# is_outlier <- function(x,y=0.1) {
+# return(x < quantile(x,y) | x > quantile(x,1-y) )
+# }
+
+bp.vals <- function(x, probs=c(0.1, 0.25,0.5, 0.75, .9)) {
+  r <- quantile(x, probs , na.rm=TRUE)
+  # r = c(r[1:2], exp(mean(log(x))), r[3:4]) #hvorfor tage log, exp og mean af x??
+  # r = c(r[1:2], mean(x), r[3:4]) #hvorfor tage log, exp og mean af x??
+  names(r) <- c("ymin", "lower", "middle","upper", "ymax")
+  r
+}
+
+
+
+
+
+
 # Batting_rel <- col_select(discodata) #uden kode til at reproducere
 # Batting_rel <- col_select(discodata, ret = 'dplyr_code') #med kode til at reproducere
 

@@ -76,6 +76,10 @@ skala.darkseagreen.indianred <-  rev(skala.indianred.darkseagreen)
 length(skala.indianred.darkseagreen) #yes, 4 røde, hvid som gns, og 4 grønne.
 skala.ired.dgreen.simple =  c(    "indianred4","indianred2", "white", "darkseagreen2","darkseagreen4")
 
+# xmen 
+xmen = c("#026CCBFF", "#F51E02FF" ,"#05B102FF" ,"#FB9F53FF" ,"#9B9B9BFF", "#FB82BEFF" ,"#BA6222FF"  ,    "#EEC229FF" )
+# xmen xtended 
+xmen_ext = c("#026CCBFF", "#F51E02FF" ,"#05B102FF" ,"#FB9F53FF" ,"#9B9B9BFF", "#FB82BEFF" ,"#BA6222FF"  ,    "#EEC229FF"   , "#9370DB")
 
 
 #egp 
@@ -143,10 +147,19 @@ default.maparray$scale_alpha_continuous <-   scale_alpha_continuous(range = c(0.
 default.maparray$scale_colour_continuous <-   scale_colour_continuous(high = "orange",  low = "#575155", name="Styrke af forbindelse", guide = "none")
 
 
+
+
 #disco defaults
 default.disco <- list()
 
-default.disco$disco <-   scale_fill_manual(values = brewer.pal(9, "Paired"), labels=disco_1cifret_lab, name="Disco 1-cifret")
+#default.disco$disco <-   scale_fill_manual(values = brewer.pal(9, "Paired"), labels=disco_1cifret_lab, name="Disco 1-cifret")
+default.disco$disco <-   scale_fill_manual(values = xmen_ext, labels=disco_1cifret_lab, name="Disco 1-cifret")
+
+
+ 
+
+
+
 
 #disco defaults map array
 default.disco.maparray <- list()
@@ -273,6 +286,49 @@ koen_lab <- c("5 %", "5 %","10 %", "25 %", "50 %", "75 %", "90 %", "99 %")
 
 
 
+#lay                          <- beskaeftigede.andel.seg[-l, 1:2]
+#lay[, 1]                     <- lay[, 1] * -10000
+#lay[, 2]                     <- lay[, 2] * 10000
+#lay                          <-  layout.matrix(seg, attraction = c(450, 125, 40, 22, 12), area.size=7000000, weight.adjustment = 1.14, start = lay, iter = 50000000000000000, niter=10000)
+#lay                          <-  layout.matrix(seg, attraction = c(450, 125, 40, 22, 12), area.size=7000000, weight.adjustment = 1.14, start = lay, iter = 50000000000000000, niter=10000)
+
+
+
+
+
+#lay_checkfile <- runif(1, 1, 100000)
+#lay_checkfile = round(lay_checkfile,0)
+#layout.moneca = list(lay, lay_checkfile)
+#save(layout.moneca, file = "./statistik/R/moneca/vores/voresdata/layout_igrah701.Rda")
+load(file = "./statistik/R/moneca/vores/voresdata/layout_igrah701.Rda")
+
+lay_checkfile = layout.moneca[2]
+#lay_checkfile # 81983
+lay_checkfile == 81983
+lay = layout.moneca[1]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #test <- seq(from=440, to=10, by=-90)
 
 #test <- c(7000,4500,2500,1500,1400)
@@ -288,11 +344,12 @@ koen_lab <- c("5 %", "5 %","10 %", "25 %", "50 %", "75 %", "90 %", "99 %")
 #view(discodata)
 
 
-#lay                          <- beskaeftigede.andel.seg[-l, 1:2]
-#lay[, 1]                     <- lay[, 1] * -10000
-#lay[, 2]                     <- lay[, 2] * 10000
-#lay                          <-  layout.matrix(seg, attraction = c(450, 125, 40, 22, 12), area.size=7000000, weight.adjustment = 1.14, start = lay, iter = 50000000000000000, niter=10000)
-#lay                          <-  layout.matrix(seg, attraction = c(450, 125, 40, 22, 12), area.size=7000000, weight.adjustment = 1.14, start = lay, iter = 50000000000000000, niter=10000)
+
+
+
+
+
+
 
 
 
@@ -327,19 +384,6 @@ koen_lab <- c("5 %", "5 %","10 %", "25 %", "50 %", "75 %", "90 %", "99 %")
 
 # alle beskaeftigede 250 kat
 # save(lay, file="./statistik/R/moneca/vores/voresdata/lay_FORSIDEMAASKE.Rdata")
-
-
-
-#lay_checkfile <- runif(1, 1, 100000)
-#lay_checkfile = round(lay_checkfile,0)
-#layout.moneca = list(lay, lay_checkfile)
-#save(layout.moneca, file = "./statistik/R/moneca/vores/voresdata/layout_igrah701.Rda")
-load(file = "./statistik/R/moneca/vores/voresdata/layout_igrah701.Rda")
-
-lay_checkfile = layout.moneca[2]
-#lay_checkfile # 81983
-lay_checkfile == 81983
-lay = layout.moneca[1]
 
 
 

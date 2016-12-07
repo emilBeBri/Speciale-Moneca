@@ -145,23 +145,14 @@
 			"path": "/media/EcoGreen_2/Dropbox"
 		},
 		{
-			"file_exclude_patterns":
-			[
-				"*.bib",
-				"moneca_data"
-			],
 			"folder_exclude_patterns":
 			[
-				"/home/emil/Dropbox/Speciale/Emil_Soeren/latexopgave",
-				"/home/emil/Dropbox/Speciale/Emil_Soeren/latexold",
-				"/home/emil/Dropbox/Speciale/Emil_Soeren/trash",
+				"statistik",
+				"latexold",
+				"trash",
 				".Rproj.user",
-				"/home/emil/Dropbox/Speciale/Emil_Soeren/latexopgave_bak",
-				"/home/emil/Dropbox/Speciale/Emil_Soeren/statistik/R/moneca/0_trash",
-				"/home/emil/Dropbox/Speciale/Emil_Soeren/statistik/R/moneca/Til Soeren og Emil BB",
-				"/home/emil/Dropbox/Speciale/Emil_Soeren/statistik/R/moneca/Anton",
-				"/home/emil/Dropbox/Speciale/Emil_Soeren/statistik/R/moneca/vores/voresgamlescripts_old",
-				"/home/emil/Dropbox/Speciale/Emil_Soeren/statistik/R/moneca/vores/voresscripts_backup"
+				"./latexopgave/tex/trash",
+				"./latexopgave/tex/trash/ny"
 			],
 			"follow_symlinks": true,
 			"path": "/home/emil/Dropbox/Speciale/Emil_Soeren"

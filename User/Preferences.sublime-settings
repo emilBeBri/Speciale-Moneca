@@ -81,7 +81,7 @@
 		"*.zip",
 		".DS_Store"
 	],
-	"font_size": 16,
+	"font_size": 12,
 	"ignored_packages":
 	[
 		"Pywin32",

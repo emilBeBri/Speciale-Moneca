@@ -81,6 +81,23 @@ lavdens.df <- filter(df, Density <= .52)
 view(lavdens.df)
 
 
+### delanalyse 2: køn 
+
+view(df)
+
+koen.analyse.df <- df  %>%     arrange(desc(koen.gns.kvinder.mean.beregn
+),desc(membership)) %>% select(membership,disco,contains("koen"), max.path,Density,beskaeft.andel.gns,beskaeft.gns, within.mob,within.mob.seg, share.of.mob, share.total.size,  `1: share.of.mobility`,skillvl) %>%  select(membership,disco,koen.gns.kvinder.mean.beregn,koen.gns.kvinder.sd.beregn,everything())
+view(koen.analyse.df)
+
+aabn_xls("./statistik/R/moneca/vores/00_emilspeciale_output/dataframes/disco.koen.gns.kvinder.andel.xlsx")
+
+# 36 %
+mean(discodata$koen.gns.kvinder.mean.beregn) 
+
+# 36 %
+mean(discodata$koen.gns.kvinder.sd.beregn,na.rm=TRUE) 
+
+
 
 
 
@@ -89,27 +106,31 @@ view(lavdens.df)
 
 
 
+mean(discodata$timelon.sd.gns)
 
 
 
 
 
+view(DST_fagbet %>% filter(membership=="3.35") %>%    arrange(disco_4cifret))
 
 
+view()
 
 
 view(arrange(seg.df,desc(timelon.mean.gns.beregn)))
 
+view(df)
+view(seg.df)
 
-# view(round_df(arrange(df,desc(timelon.sd.gns.beregn),desc(membership)) %>%   select(membership,disco,timelon.mean.gns.beregn,timelon.sd.gns.beregn,contains("timelon")),0))
-aabn_xls("./statistik/R/moneca/vores/00_emilspeciale_output/dataframes/disco.timelon.sd.gns.beregn.xlsx")
-
-
-# view(round_df(arrange(df,desc(timelon.mean.gns.beregn),desc(membership)) %>%   select(membership,disco,timelon.mean.gns.beregn,timelon.sd.gns.beregn,contains("timelon")),0))
+timelon.analyse.df <-  arrange(df,desc(timelon.mean.gns.beregn),desc(membership)) %>% select(membership,disco,timelon.mean.gns.beregn, timelon.sd.gns.beregn,contains("timelon"), max.path,Density,beskaeft.andel.gns,beskaeft.gns, within.mob,within.mob.seg, share.of.mob, share.total.size,  `1: share.of.mobility`,skillvl             ) %>%select(-timelon.total.seg.gns)
 aabn_xls("./statistik/R/moneca/vores/00_emilspeciale_output/dataframes/disco.timelon.mean.gns.beregn.xlsx")
 
+view( timelon.analyse.df %>%   arrange(disco,desc(membership)))
 
-
+# segment 4.9 indeholder 
+7/27
+# af hovedgrp klyngerne 
 
 ##
 
@@ -181,50 +202,12 @@ ggplot(discodata,aes(x=beskaeft.andel.gns,y=timelon.mean.gns)) + geom_point(size
 
 
 
-######### boxplot ##############
+
+
+############################## boxplot whatever *************
 
 
 
-######################## 
-whisk.emil <- function(x) {
-  r <- quantile(x, probs=c(0.1,0.9) , na.rm=TRUE)
-  # r = c(r[1:2], exp(mean(log(x))), r[3:4]) #hvorfor tage log, exp og mean af x??
-  # r = c(r[1:2], mean(x), r[3:4]) #hvorfor tage log, exp og mean af x??
-  r
-}
-sd.ned.emil <- function(x) {
- mean(x) - sd(x)
-}
-
-sd.op.emil <- function(x) {
- mean(x) + sd(x)
-} 
-
-is_outlier <- function(x) {
-  return(x < quantile(x, 0.25) - .5 * IQR(x) | x > quantile(x, 0.75) + .5 * IQR(x))
-}
-
-is_outlier <- function(x,y=.1,z=4) {
-  return(x < quantile(x, y) - (sd(x)/z) | x > quantile(x, 1-y)+ (sd(x)/z)) 
-}
-
-# is_outlier <- function(x,y=0.1) {
-# return(x < quantile(x,y) | x > quantile(x,1-y) )
-# }
-
-bp.vals <- function(x, probs=c(0.1, 0.25,0.5, 0.75, .9)) {
-  r <- quantile(x, probs , na.rm=TRUE)
-  # r = c(r[1:2], exp(mean(log(x))), r[3:4]) #hvorfor tage log, exp og mean af x??
-  # r = c(r[1:2], mean(x), r[3:4]) #hvorfor tage log, exp og mean af x??
-  names(r) <- c("ymin", "lower", "middle","upper", "ymax")
-  r
-}
-
-
-##############################
-
-nfarve <-  length(unique(plot.df$membership))
-xmen  <-  piratepal("xmen")
 getPalette= colorRampPalette(xmen)
 plot.df <- filter(discodata, !grepl("^1.*", membership), !grepl("^2.*", membership))
 plot.df <- filter(discodata, !grepl("^1.*", membership))
@@ -232,14 +215,17 @@ plot.df <- filter(discodata, grepl("^3.*", membership)) #%>%
 
 plot.df <- filter(discodata, grepl("^3.21", membership)) #%>%   
 
-plot.df <- plot.df %>%  group_by(membership) %>%  mutate(is.outlier = is_outlier(timelon.mean.gns,0.1))
+plot.df <- plot.df %>%  group_by(membership) %>%  mutate(is.outlier = is_outlier(koen.gns.kvinder.andel,0.1))
 plot.df <-  plot.df %>%   mutate(outlier = ifelse(is.outlier==TRUE, as.character(disco),NA)) 
 plot.df$is.outlier
 plot.df$outlier
 
-plot.df$plot.order <- sortLvlsByVar.fnc(plot.df$membership, plot.df$timelon.mean.gns, ascending = TRUE) 
+
+nfarve <-  length(unique(plot.df$membership))
+
+plot.df$plot.order <- sortLvlsByVar.fnc(plot.df$membership, plot.df$koen.gns.kvinder.andel, ascending = TRUE) 
 ##
-p <- ggplot(plot.df, aes(x=plot.order, y=timelon.mean.gns,fill=membership,label=plot.df$disco))
+p <- ggplot(plot.df, aes(x=plot.order, y=koen.gns.kvinder.andel,fill=membership,label=plot.df$disco))
 p1 <-  p + scale_fill_manual(values=getPalette(length(unique(plot.df$membership))))
 p2 <-  p1 +  stat_summary(fun.data=bp.vals, geom="boxplot",alpha=0.7,color="black") + geom_point(position= position_jitter(width=0.2),aes(size=beskaeft.andel.gns),alpha=.75)
 p3 <-  p2 + stat_summary(fun.y=whisk.emil, geom="point",shape=95,size=8,color="black") + theme_bw() + theme(legend.position="none") 
@@ -247,11 +233,13 @@ p3 + geom_text(aes(label = outlier), na.rm = TRUE, vjust = -0.6,size=2.75)
 
 
 
+
+
 p4 <-  p3 + stat_summary(fun.y=sd.op.emil, geom="point",shape=2,size=2,color="black") + stat_summary(fun.y=sd.ned.emil, geom="point",shape=6,size=2,color="black") + scale_size_continuous(range = c(0.5,8)) + stat_summary(fun.y="mean", geom="point",shape=95,size=8,color="black") 
 p4
 p3  + geom_text(size=2.5)
 
-p4 + geom_text_repel(aes(membership, timelon.mean.gns, label = disco),size=2.5,force=10)
+p4 + geom_text_repel(aes(membership, koen.gns.kvinder.andel, label = disco),size=2.5,force=10)
 
 
 is_outlier <- function(x) {

@@ -227,16 +227,16 @@ egp11_lab  =  c("I"="I: Oevre Serviceklasse","II"="II: Nedre Serviceklasse","III
 
 
 discodata$skillvl <-  recode_factor(discodata$disco_1cifret,
-# '110'="		",
-# '1'="",
-'2'="4",
-'3'="3",
-'4'="2",
-'5'="2",
-'6'="2",
-'7'="2",
-'8'="2",
-'9'="1",
+'110'="Heterogent færdighedsniveau",
+'1'="Heterogent færdighedsniveau",
+'2'="4: højeste færdighedsniveau (≃LVU)",
+'3'="3: mellemste færdighedsniveau (≃MVU)",
+'4'="2: laveste færdighedsniveau (≃KVU)",
+'5'="2: laveste færdighedsniveau (≃KVU)",
+'6'="2: laveste færdighedsniveau (≃KVU)",
+'7'="2: laveste færdighedsniveau (≃KVU)",
+'8'="2: laveste færdighedsniveau (≃KVU)",
+'9'="1: Uden udddannelsesfærdigheder",
 .default=NA_character_)
 
 

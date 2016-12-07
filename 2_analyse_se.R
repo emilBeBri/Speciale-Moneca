@@ -10,14 +10,19 @@ mode.default             <- 1
 small.cell.default       <- 5
 # help(anton)
 
-set.controls.for.the.heart.of.the.sun <- 4 #her betyder 6 *OVER* det første niveau, dvs 7 i alt. 
-# seg           <- anton(mob.mat, cut.off = cut.off.default, small.cell.reduction = small.cell.default, segment.levels = set.controls.for.the.heart.of.the.sun)
+# set.controls.for.the.heart.of.the.sun <- 4 #her betyder 6 *OVER* det første niveau, dvs 7 i alt. 
+ #seg           <- anton(mob.mat, cut.off = cut.off.default, small.cell.reduction = small.cell.default, segment.levels = set.controls.for.the.heart.of.the.sun)
 
-
+  
 
 # alle beskaeftigede 250 kat
-# save(seg, file="./statistik/R/moneca/vores/voresdata/seg_objekter/objekt_seg_allebeskaeftigede_250kat.Rdata")
+#save(seg, file="./statistik/R/moneca/vores/voresdata/seg_objekter/objekt_seg_allebeskaeftigede_250kat.Rdata")
 load(file="./statistik/R/moneca/vores/voresdata/seg_objekter/objekt_seg_allebeskaeftigede_250kat.Rdata")
+
+#save(seg, file="./statistik/R/moneca/vores/voresdata/seg_objekter/objekt_seg_allebeskaeftigede_250kat_test.Rdata")
+# load(file="./statistik/R/moneca/vores/voresdata/seg_objekter/objekt_seg_allebeskaeftigede_250kat_test.Rdata")
+
+
 
 seg.original  <- seg
 

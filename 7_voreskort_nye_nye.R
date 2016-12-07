@@ -112,34 +112,67 @@ levels(seg.lab.A)
 
 seg.lab = seg.df$seg.lab
 
+
+
+
 View(seg.lab)
 
 length(seg.lab.A)
 
+#egp-11 kort 
+kort.test <- gg.jonas(seg, layout = lay,border.labels = seg.lab)   
+  
+#default + scale_fill_manual(values = brewer.pal(11, "Paired"), labels=egp11_lab, name="EGP-11")
+  default + scale_fill_manual(values = skala_egp11, labels=egp11_lab, name="EGP-11") + theme(legend.position = c(0.95, 0.9))
+
+
+nrow(layout)
+
+
 kort.test <- gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arrow = arrow.default,
-                       edge.size=edge.siz  e, vertex.fill = discodata$disco_1cifret,
-                       vertex.size = vertex_stoerrelse, border.labels = discodata$seg.lab, border.text.hjust = 0.32) +  
-  default +
-  default.disco
-
-kort.disco <- gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arrow = arrow.default,
-                       edge.size=edge.size, vertex.fill = discodata$disco_1cifret,
-                       vertex.size = vertex_stoerrelse, border.labels = seg.lab, border.text.hjust = 0.32) +  
+                      edge.size=edge.siz  e, vertex.fill = discodata$disco_1cifret,
+                      vertex.size = vertex_stoerrelse, border.labels = seg.lab, border.text.hjust = 0.32) +  
   default +
   default.disco
 
 
 
-
-segment.labels <- read.csv("./Data/Segment_labels_DK.csv", sep = ";", encoding = "latin1")$X
+segment.labels <- read.csv("./statistik/R/moneca/vores/voresdata/Segment_labels_DK_test_52.csv", sep = ";", encoding = "latin1")$X
 seg.lab        <- seg.mem$membership
+levels(seg.lab) <- paste(levels(seg.lab), as.character(segment.labels)[order(as.character(seg.qual.final$Membership))])
+seg.lab        <- format(as.character(seg.lab))
+
+seg.lab 
+seg.lab.2
+seg.lab.2 = seg.lab 
+
+levels(seg.lab)
+is.character(seg.lab)
+
+length(seg.df$membership)
+
+
+is.factor((seg.mem$membership))
+
 levels(seg.lab) <- paste(levels(seg.lab), as.character(segment.labels)[order(as.character(seg.qual.final$Membership))])
 seg.lab        <- format(as.character(seg.lab))
 
 
 
+segment.labels <- read.csv("./statistik/R/moneca/vores/voresdata/Segment_labels_DK_test.csv", sep = ";", encoding = "latin1")
+
+is.factor(segment.labels)
+
+
+seg.lab = test 
+length(levels(test))
+
+
+
+
 length(discodata$seg.lab) == nrow(layout)
 
+test
 
 layout = as.data.frame(lay)
 
@@ -149,7 +182,7 @@ length(border.labels) == nrow(layout)
 
 
 
-
+length(seg.lab)
 
 
 
@@ -306,8 +339,9 @@ function (segmenter, niveau = seq(segmenter$segment.list), layout = layout.matri
 
 
 #hovedkort disco
-edges.default.all                <- segment.edge s(seg.b, mode="directed",cut.off=3,small.cell.reduction = small.cell.default, segment.reduction = 5) #før var den 3 her og 5 nedenunder
+edges.default.all                <- segment.edges(seg.b, mode="directed",cut.off=3,small.cell.reduction = small.cell.default, segment.reduction = 5) #før var den 3 her og 5 nedenunder
 edges.default.all[edges.default.all > 30] <- 30 
+
 
 kort.disco <- gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arrow = arrow.default,
                    edge.size=edge.size, vertex.fill = discodata$disco_1cifret,
@@ -316,7 +350,7 @@ kort.disco <- gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arro
           default.disco
 
 #kort.disco
-cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort.disco.pdf", onefile = TRUE, height = 30, width = 30)
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort.disco.pdf", onefile = TRUE, height = 25, width = 25)
 kort.disco
 dev.off()
 
@@ -420,7 +454,7 @@ kort.timelon <-  gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.a
 #  guides(fill = guide_colorbar(barwidth = 1, barheight = 15,draw.ulim = FALSE, draw.llim = FALSE)) +
   theme(legend.position = c(0.95, 0.9))
 
-cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_timelon.pdf", onefile = TRUE, height = 30, width = 30)
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/zoom_kort_timelon.pdf", onefile = TRUE, height = 40, width = 40)
 kort.timelon 
 dev.off()
 

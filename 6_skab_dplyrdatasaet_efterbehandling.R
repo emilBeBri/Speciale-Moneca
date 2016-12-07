@@ -10,11 +10,12 @@ til.df.1 <-  discodata %>% group_by(membership) %>% summarise_each(funs(sd), tim
 til.df.2 <-  discodata %>% group_by(membership) %>% summarise_each(funs(mean), timelon.mean.gns.beregn=timelon.mean.gns, koen.gns.kvinder.mean.beregn=koen.gns.kvinder.andel,ledighed.mean.gns.beregn=ledighed.mean.gns)
 
 
-
 seg.df <-  left_join(seg.df,til.df.1)
 seg.df <-  left_join(seg.df,til.df.2)
 discodata <-  inner_join(discodata,til.df.1)
 discodata <-  inner_join(discodata,til.df.2)
+
+
 
 seg.df$membership <- as.factor(seg.df$membership)
 discodata$membership <- as.factor(discodata$membership)
@@ -154,6 +155,28 @@ cut.off.default <-  1 #skal måske ikke være 1 her jo
 wm1            <- weight.matrix(mob.mat, cut.off = cut.off.default, symmetric = FALSE, small.cell.reduction = small.cell.default, diagonal=TRUE)
 # wm1[is.na(wm1)] <- 0
 relativrisiko.vector  <-  as.vector(t(wm1))
+
+
+
+
+
+########## DST fagbetegnelser register ###########
+
+DST_fagbet   <- read.csv2("./statistik/R/moneca/vores/voresdata/DST_fagbetegnelser_DISCO88.csv", sep = ";")
+discogmem  <- select(discodata,disco,disco_4cifret, membership,skillvl) 
+discogmem$disco_4cifret <-  as.numeric(as.character(discogmem$disco_4cifret))
+DST_fagbet$disco_4cifret <-  as.numeric(DST_fagbet$disco_4cifret)	
+DST_fagbet  <-  	full_join(DST_fagbet, discogmem )
+
+
+#
+# esm_omkodningsliste   <- read.csv2("./statistik/R/moneca/vores/voresdata/Disco_esm_omkodningsliste.csv", sep = ";")
+
+# test  <-  	anti_join(DST_fagbet, esm_omkodningsliste)
+
+
+
+
 
 
 

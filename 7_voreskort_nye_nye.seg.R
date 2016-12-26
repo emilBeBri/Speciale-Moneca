@@ -6,9 +6,7 @@ kort.intern.mob.seg <- gg.jonas(seg, layout = lay, edges=edges.default.all, midp
                                                                         values= rescale(c(0.50,0.595,  0.625,0.659,    0.68,     0.695, 0.76,    0.80,1.00)), guide="colorbar"
                                                                         , name = "% intern mobilitet\npå segmentniveau", breaks=intern.mob.seg_num, labels=intern.mob.seg_lab)
 
-
-
-cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_intern_mob_seg.pdf", onefile = TRUE, height = 25, width = 25)
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_intern_mob_seg.pdf", onefile = TRUE, height = 30, width = 30)
 kort.intern.mob.seg
 dev.off()
 
@@ -22,7 +20,7 @@ kort.fagf.seg  <- gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.
                                                                         
                                                                         ,
                                                                         values= rescale(c(0.50,0.595,  0.625,0.659,    0.68,     0.695, 0.76,    0.80,1.00)), guide="colorbar"
-                                                                        , name = "% intern mobilitet\npå segmentniveau", breaks=intern.mob.seg_num, labels=intern.mob.seg_lab)
+                                                                        , name = "% intern mobilitet\npå segmentniveau", breaks=intern.mob.seg_num, labels=intern.mob.seg_lab) 
 
 
 

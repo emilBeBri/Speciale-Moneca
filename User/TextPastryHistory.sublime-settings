@@ -55,16 +55,43 @@
 			},
 			"key": "ed8b329f6b295a0e2770c666dfb081a4",
 			"label": "wrod wef wedf wdf wd "
+		},
+		{
+			"data":
+			{
+				"args":
+				{
+					"text": "range 1:16"
+				},
+				"command": "text_pastry_range_parser",
+				"text": "range 1:16"
+			},
+			"key": "120b0d03bca88dd289194a034bce6b5f",
+			"label": "range 1:16"
+		},
+		{
+			"data":
+			{
+				"args":
+				{
+					"start": "1",
+					"stop": "16"
+				},
+				"command": "text_pastry_range",
+				"text": "range 1,16"
+			},
+			"key": "e7fce201948ea7a74f1cf374343c4009",
+			"label": "range 1,16"
 		}
 	],
 	"last_command":
 	{
 		"args":
 		{
-			"text": "wrod wef wedf wdf wd ",
-			"threshold": 3
+			"start": "1",
+			"stop": "16"
 		},
-		"command": "text_pastry_insert_text",
-		"text": "wrod wef wedf wdf wd "
+		"command": "text_pastry_range",
+		"text": "range 1,16"
 	}
 }

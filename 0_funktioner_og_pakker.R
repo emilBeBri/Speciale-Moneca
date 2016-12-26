@@ -56,7 +56,78 @@ library(MONECA)
 ###################################### egne funktioner #########
 
 
+## ideer til funktioner
+
+# sådan her kan man lave en pipe der "gør" noget ved de subgrupper man har delt op tidligere:
+# We define our “window function” (function we want applied to sub-groups of data in a given order) and then use dplyr to apply the function to grouped and arranged data:
+# # define our windowed operation, in this case ranking
+# rank_in_group <- . %>% mutate(constcol=1) %>%
+#           mutate(rank=cumsum(constcol)) %>% select(-constcol)
+# # calculate
+# res <-
+#   iris %>% group_by(Species) %>% arrange(desc(Sepal.Length)) %>% 
+#   rank_in_group
+# # display first few results
+# res %>% filter(rank<=2) %>% arrange(Species,rank)
+
+
 # Emils funktioner 
+
+
+
+
+# ikke brugt endnu d. d. 26/12/2016
+
+# One of my latest problems with R involved trying to make a two-way table of relative frequencies by column with weighted data… yes, a simple contingency table! The table() function cannot even compare with Stata’s tabulate twoway command, since:
+# it does not handle weights;
+# it does not report marginal distributions in the last row and column of the table (which I always find helpful);
+# it calculates cell frequencies but not relative frequencies by row or column.
+# Luckily, writing an R function that can achieve this is not too hard:
+# col.table <- function(var1, var2, weights=rep(1,length(var1)), margins=TRUE){
+# Creating table of (weighted) relative frequencies by column, and adding row variable margins as the last column
+# crosstab <- prop.table(xtabs(weights ~ var1 + var2), margin=2)
+# t <- cbind(crosstab, Total=prop.table(xtabs(weights ~ var1)))
+# # Adding column sums in the last row
+# t <- rbind(t,Total = colSums(t))
+# # Naming rows and columns of the table after var1 and var2 used, and returning result
+# names(dimnames(t)) <- c(deparse(substitute(var1)), deparse(substitute(var2)))
+# return(round(100*t,2))
+# }
+# col.table(x,y,w) gives the same output as Stata’s “tabulate x y [fw=w], col nofreq”. Note that the weight argument is optional so that: col.table(x,y) is equivalent to tabulate x y, col nofreq.
+# Here’s the same function, but for relative distributions by row:
+row.table <- function(var1, var2, weights=rep(1,length(var1)), margins=TRUE){
+t <- rbind(prop.table(xtabs(weights ~ var1 + var2), margin=1),
+Total=prop.table(xtabs(weights ~ var2)))
+t <- cbind(t,Total = rowSums(t))
+names(dimnames(t)) <- c(deparse(substitute(var1)), deparse(substitute(var2)))
+return(round(100*t,2))
+}
+
+
+
+
+##
+
+
+skala.heatmap =  c(    "whitesmoke","darkorange2", "darkorange4", "mediumpurple2","mediumpurple4")
+heatmap.rescale = c(0,1.0001,  1.1,2,     3,     5,13,    20,30)
+em.heatmap <-  function(x,y=30,z=0,mis=c("black")) {
+  require(stringr)
+  require(tibble)
+  require(tidyr)
+  dat <- x 
+  ## reshape data (tidy/tall form)
+  # colnames(dat2) <- colnames(dat2)
+  dat[dat > y] <- y
+  dat[dat < z] <- z
+  dat <- cbind(dat,label.short[-274])
+  dat <- tbl_df(dat) %>%  rename(Var1=) %>%   
+      gather(Var2, value, -Var1)
+  dat$Var1 <- as.factor(dat$Var1)
+  dat$Var2 <- as.factor(dat$Var2)    
+  dat$value <-  as.numeric(dat$value)
+    ggplot(dat, aes(Var1, Var2)) + geom_raster(aes(fill = value))  + scale_fill_gradientn(colors=skala.heatmap,values= rescale(heatmap.rescale),na.value=mis) 
+  }
 
 
 em.vis.ties <- function(klynge,undergr) {
@@ -75,17 +146,16 @@ view(vis.ties.e)
 
 em.circlize <-  function(segmentcircle,farvepal="xmen") {
 require("circlize")
-require("yarrr")
-farvepal <-  piratepal(farvepal)
-getPalette = colorRampPalette(farvepal)
-# getPalette = colorRampPalette(xmen_ext)
+# xmen 
+xmen = c("#026CCBFF", "#F51E02FF" ,"#05B102FF" ,"#FB9F53FF" ,"#9B9B9BFF", "#FB82BEFF" ,"#BA6222FF"  ,    "#EEC229FF" )
+getPalette = colorRampPalette(xmen)
 diag(segmentcircle) <- 0
 df.c <- get.data.frame(graph.adjacency(segmentcircle,weighted=TRUE))
 n <-  unique(as.vector(df.c[2]))
 n2 <- unique(as.vector(df.c[1]))
 nfarve <-  length(unique(unlist(append(n,n2))))
 chordia.e <-  chordDiagram(x = df.c, grid.col = getPalette(nfarve),
- transparency = 0.2, directional = 1, symmetric=FALSE, direction.type = c("arrows", "diffHeight"), diffHeight  = -0.065, link.arr.type = "big.arrow", link.largest.ontop = TRUE, link.border="black", link.sort=TRUE)
+ transparency = 0.2, directional = 1, symmetric=FALSE, direction.type = c("arrows", "diffHeight"), diffHeight  = -0.065, link.arr.type = "big.arrow", link.largest.ontop = TRUE, link.border="black", link.sort=FALSE)
  # farve <- c("#000000", "#FFDD89", "#957244", "#F26223")
              #,
              # self.link=1
@@ -137,11 +207,44 @@ bp.vals <- function(x, probs=c(0.1, 0.25,0.5, 0.75, .9)) {
 
 
 
-
-
+col_select <- function(df,
+ret = c("df_select", "m_kode"),
+top_n = 100) {
+require(shiny)
+require(miniUI)
+require(dplyr)
+require(DT) 
+ret <- match.arg(ret)
+stopifnot(is.data.frame(df))
+df_head <- head(df, top_n)
+ui <- miniPage(
+gadgetTitleBar("Have your pick"),
+miniContentPanel(
+dataTableOutput("selection_df", height = "100%")
+)
+)
+server <- function(input, output, session){
+options(DT.options = list(pageLength = 10))
+output$selection_df <- renderDataTable(
+df_head, server = FALSE, selection = list(target = "column")
+)
+observeEvent(input$done, stopApp( input$selection_df_columns_selected))
+}
+cols_selected <- runGadget(ui, server)
+if (ret == "df_select") {
+return( df %>% select(cols_selected) )
+} else {
+df_name <- deparse(substitute(df))
+colnames_selected <- colnames(df)[cols_selected] %>%
+paste(collapse = ", ")
+rstudioapi::insertText(
+paste(df_name, " %>% select(", colnames_selected, ")", sep = "")
+)
+}
+}
 
 # Batting_rel <- col_select(discodata) #uden kode til at reproducere
-# Batting_rel <- col_select(discodata, ret = 'dplyr_code') #med kode til at reproducere
+# Batting_rel <- col_select(discodata, ret = 'm_code') #med kode til at reproducere
 
 #skal laves til funktion på et tidspunkt
 # objekt <- discodata %>% select(disco, timelon.helepop.gns.inf)
@@ -246,12 +349,21 @@ round_df <- function(x, digits) {
 }
 
 
-#funktion til at indsætte en ny row et bestemt sted i en dataframe (ikke testet endnu, d. 27 marts 2016)
+#funktion til at indsætte en row eller col et bestemt sted i en df 
 insertRow <- function(existingDF, newrow, r) {
   existingDF[seq(r+1,nrow(existingDF)+1),] <- existingDF[seq(r,nrow(existingDF)),]
   existingDF[r,] <- newrow
   existingDF
 }
+insertCol <- function(existingDF, newcol, c) {
+  existingDF[,seq(c+1,ncol(existingDF)+1)] <- existingDF[,seq(c,ncol(existingDF))]
+  existingDF[,c] <- newcol
+  existingDF
+}
+
+
+
+
 
 
 # fordel at det ikke kræver java og alt muligt pis, bruger readxl pakken 

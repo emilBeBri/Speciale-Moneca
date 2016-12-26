@@ -157,7 +157,6 @@ timelon.helepop.udv <- timelon.helepop %>% 	select(disco_s,contains("gns")) %>% 
 ## ledighed 
 ledighed.helepop <- read_excel_allsheets("./statistik/DST/DST_output/00_emil_speciale/MONECAs/allebeskaeftigede/baggrundsvar/arledgr_kat250_helepop.xlsx")
 ledighed.helepop <- data.frame(matrix(unlist(ledighed.helepop), nrow=273),stringsAsFactors=FALSE)
-
 ledighed.helepop <- ledighed.helepop[,c(emilsvector)]
 # view(ledighed.helepop)
 ledighed.helepop[,1] <- strtrim(ledighed.helepop[,1], 4)
@@ -166,7 +165,8 @@ ledighed.helepop[1,1] <- 110
 #l1_r            <- nrow(ledighed.helepop)
 #l1_r
 ledighed.helepop <- sapply(ledighed.helepop, as.numeric)
-# view(ledighed.helepop)
+ledighed.helepop[,-1] <- ledighed.helepop[,-1]/1000 # fra promille til procent
+
 # moneca.labels.num <- as.vector(ledighed.helepop[, 1])
 #View(moneca.labels.num)
 # ledighed.helepop           <- as.matrix(ledighed.helepop[, -1]) 

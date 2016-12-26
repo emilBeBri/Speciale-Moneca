@@ -1,0 +1,44 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+		"Pywin32",
+		"StataEditor"
+	],
+	"installed_packages":
+	[
+		"All Autocomplete",
+		"ColorPicker",
+		"Dayle Rees Color Schemes",
+		"Dictionaries",
+		"Facebook Material Theme",
+		"FileDiffs",
+		"FileSystem Autocompletion",
+		"FindKeyConflicts",
+		"InsertDate",
+		"LaTeX Word Count",
+		"LaTeXTools",
+		"Markdown Extended",
+		"Markdown Preview",
+		"MarkdownHighlighting",
+		"Monokai Extended",
+		"One Dark Color Scheme",
+		"One Dark Material - Theme",
+		"Package Control",
+		"Package Syncing",
+		"Pandoc",
+		"Predawn",
+		"Pywin32",
+		"R-Box",
+		"SendTextPlus",
+		"SideBarEnhancements",
+		"SideBarFolders",
+		"StataEditor",
+		"Text Pastry",
+		"Theme - Flatland",
+		"Theme - Soda SolarizedDark",
+		"Theme - Spacegray",
+		"Tomorrow Color Schemes",
+		"WordCount"
+	]
+}

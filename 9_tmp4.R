@@ -1,3 +1,128 @@
+
+
+
+
+There is another way to specify the list components using names() command after the list is created.
+names(my_list) <- c("v", "m", "df")
+
+Then one can print
+
+names(my_list)
+[1] "v" "m" "df"
+my_list$v
+[1] 1 2 3 4 5 6 7 8 9 10
+my_list$m
+[,1] [,2] [,3]
+[1,] 1 4 7
+[2,] 2 5 8
+[3,] 3 6 9
+
+
+view(df)
+
+
+
+
+
+##########
+
+
+
+
+seg$segment.list[[4]][[11]] 
+
+
+
+
+seg$segment.list[[4]][[1]]
+
+
+
+
+
+
+2.79
+2.66
+
+
+klynge <- 2
+undergr <- 79
+work.list <-  seg$segment.list[[klynge]][[undergr]]
+aug.work.list <- sort(unique(unlist(lapply(work.list, function(x) which(mat.e[,x] != 0)))))
+se <- discodata[aug.work.list,]
+view(  select(se,disco,membership,Nodes) )
+
+
+se <- discodata[aug.work.list,]
+view(  select(se,disco,membership,Nodes) )
+
+
+work.list <- append(work.list,c(93))
+
+
+work.list <-  c(99)
+
+view(seg.qual.final)
+
+view(discodata)
+
+
+
+source("./statistik/R/moneca/vores/vorescripts/source.R")
+seg.opsummering[5]
+seg.qual <- arrange(seg.qual,`1: Segment`)
+seg.qual <- cbind(discodata$disco,seg.qual)
+seg.qual <- arrange(seg.qual,desc(Membership),`3: Segment`,`2: Segment`)
+view(seg.qual)
+
+
+
+
+lst <- list(a="one", b="two", c=c(1:3))
+names(seg$segment.list[[4]][6]) <- c("TESTOMG2")
+
+
+
+
+
+seg$segment.list[[4]][["TESTOMG2"]]
+
+
+seg[[2]]
+
+names(lst)
+[1] "a" "b" "c"
+names(lst) <- c("x", "y", "z")
+
+
+
+
+> lst
+$x
+[1] "one"
+
+$y
+[1] "two"
+
+$z
+[1] 1 2 3
+
+
+
+
+
+
+
+
+######################## gammelt lort fra langt før d. 20/12/2016
+
+
+
+
+
+
+
+
  # socio/socstil VORES MONECA REAL AU
 
 desk.aupop.ledsoc_tael.voresmoneca <- NULL 

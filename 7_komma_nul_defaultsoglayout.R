@@ -71,10 +71,19 @@ edges.default.zoom[edges.default.zoom > 15] <- 15
 
 
 # grøn-rød 
-skala.indianred.darkseagreen         <- c( "#8B3A3A", "#CD5555", "#EE6363", "#FF6A6A", "white", "#B4EEB4", "#9BCD9B", "#698B69", "#2F4F4F")
+
+skala.indianred.darkseagreen         <- c( "indianred4", "indianred3", "indianred2", "indianred1", "whitesmoke", "darkseagreen1", "darkseagreen2", "darkseagreen3", "darkseagreen4")
 skala.darkseagreen.indianred <-  rev(skala.indianred.darkseagreen)
-length(skala.indianred.darkseagreen) #yes, 4 røde, hvid som gns, og 4 grønne.
-skala.ired.dgreen.simple =  c(    "indianred4","indianred2", "white", "darkseagreen2","darkseagreen4")
+
+
+#skala.indianred.darkseagreen.3col         <- c( "indianred4", "indianred3", "indianred2","whitesmoke","darkseagreen2", "darkseagreen3", "darkseagreen4")
+#skala.darkseagreen.indianred.3col <-  rev(skala.indianred.darkseagreen)
+
+
+skala.ired.dgreen.simple =  c(    "indianred4","indianred2", "whitesmoke", "darkseagreen2","darkseagreen4")
+skala.dgreen.ired.simple =  rev(skala.ired.dgreen.simple)
+
+
 
 # xmen 
 xmen = c("#026CCBFF", "#F51E02FF" ,"#05B102FF" ,"#FB9F53FF" ,"#9B9B9BFF", "#FB82BEFF" ,"#BA6222FF"  ,    "#EEC229FF" )
@@ -87,9 +96,41 @@ xmen_ext = c("#026CCBFF", "#F51E02FF" ,"#05B102FF" ,"#FB9F53FF" ,"#9B9B9BFF", "#
 # darkseagreen1 darkseagreen4             middelklassen
 # indianred1 indianred3 indianred4        arbejderklassen
 # yellow1 yellow3 yellowgreen             småborgerskabet
-skala_egp11 <-  c("dodg erblue4" ,"dodgerblue1","darkseagreen4","darkseagreen1","yellow3","yellow1","grey","indianred4","indianred3","indianred1")
+skala_egp11 <-  c("dodgerblue4" ,"dodgerblue1","darkseagreen4","darkseagreen1","yellow3", "yellow1","grey","indianred4","indianred3","indianred1","pink")
 
 
+
+
+
+"1" = "1 Store forretningsdrivende" ,     "dodgerblue4"
+"2" = "2 Selvstaendige profesionelle" ,    
+"3" = "3 Smaa forretningsdrivende m. ansatte" , "dodgerblue2"
+"4" = "4 Smaa forretningsdrivende u. ansatte" , "dodgerblue1"
+"5" = "5 Teknikere (eksperter)" ,  "mediumpurple4"
+"6" = "6 Teknikere" , "mediumpurple1"
+"7" = "7 Manuelle arbejdere, hoejt niveau" , "indianred4"
+"8" = "8 Manuelle arbejdere, lavt niveau" ,  "indianred2"
+"9" = "9 Managere, hoejt niveau" , "steelblue4"
+"10" = "10 Managere, lavt niveau" , "steelblue1"
+"11" = "11 Clerks, hoejt niveau" , "yellow4"
+"12" = "12 Clerks, lavt niveau" , "yellow1"
+"13" = "13 Socio-kulturelle profesionelle" , "darkseagreen4"
+"14" = "14 Socio-kulutrelle semiprofesineolle" , "darkseagreen1"
+"15" = "15 Servicearbejdere, hoejt niveau" , "chocolate4" 
+"16" = "16 Servicearbejdere, lavt niveau") "chocolate1"
+
+
+
+
+
+
+
+
+ levels(discodata$klasse_egp11)
+
+ 
+ 
+ 
 
 # help(brewer.pal)
 # display.brewer.all()
@@ -303,8 +344,7 @@ koen_lab <- c("5 %", "5 %","10 %", "25 %", "50 %", "75 %", "90 %", "99 %")
 load(file = "./statistik/R/moneca/vores/voresdata/layout_igrah701.Rda")
 
 lay_checkfile = layout.moneca[2]
-#lay_checkfile # 81983
-lay_checkfile == 81983
+lay_checkfile == 59047
 lay = layout.moneca[1]
 
 

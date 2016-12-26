@@ -81,23 +81,179 @@ lavdens.df <- filter(df, Density <= .52)
 view(lavdens.df)
 
 
-### delanalyse 2: køn 
+###################### delanalyse 2: ledighed ################
+
+
+Hmisc::describe(seg.df$seg.koen.fordeling)
+
+
+Hmisc::describe(discodata$klasse_oesch16)
+
+
+# forsøg på emulering af statas tab1 command.
+cbind(Freq=table(discodata$klasse_oesch16), Cumul=cumsum(table(discodata$klasse_oesch16)), relative=prop.table(table(discodata$klasse_oesch16))*100,cumrela=cumsum(table(discodata$klasse_oesch16)/nrow(discodata))*100)
+
+
+
+
+
+
+
+
+Hmisc::describe(seg.df$seg.ledighed.fordeling)
+# ikke den store forskel på de to 
+
+
+
+
+valg.seg <-  c("4.11")
+view(DST_fagbet %>% filter(membership==valg.seg) %>%    arrange(disco_4cifret))
+df %>% filter(membership==valg.seg) %>% arrange(beskaeft.andel.gns) %>% select(disco)   %>%   print(n=40)
+view(df)
+
+
+mean(seg.df$ledighed.mean.gns.beregn) *100
+median(seg.df$ledighed.mean.gns.beregn) *100
+mean(seg.df$ledighed.sd.gns.beregn,na.rm=TRUE) *100
+median(seg.df$ledighed.sd.gns.beregn,na.rm=TRUE) *100
+
+
+
+
 
 view(df)
+ledighed.analyse.df <- df  %>%     arrange(desc(ledighed.mean.gns.beregn ),desc(membership)) %>% select(membership,disco,contains("ledig"), max.path,Density,beskaeft.andel.gns,beskaeft.gns, within.mob,within.mob.seg, share.of.mob, share.total.size,  `1: share.of.mobility`,skillvl) %>%  select(membership,disco,ledighed.mean.gns.beregn ,ledighed.sd.gns.beregn,ledighed.mean.gns,ledighed.sd.gns ,everything())
+view(ledighed.analyse.df)
+ledighed.analyse.seg.df <- seg.df  %>%     arrange(desc(ledighed.mean.gns.beregn ),desc(membership)) %>% select(membership,contains("ledig"), max.path,Density, within.mob.seg, share.of.mob, share.total.size) %>%  select(membership,ledighed.mean.gns.beregn ,ledighed.sd.gns.beregn,everything())
+view(ledighed.analyse.seg.df)
+aabn_xls("./statistik/R/moneca/vores/00_emilspeciale_output/dataframes/df_ledighed.xlsx")
+aabn_xls("./statistik/R/moneca/vores/00_emilspeciale_output/dataframes/seg.df_ledighed.xlsx")
+
+############# boxplot ledighed whatever##########
+
+
+plot.df <- filter(discodata, !grepl("^1.*", membership), !grepl("^2.*", membership))
+
+plot.df <- plot.df %>%  group_by(membership) %>%  mutate(is.outlier = is_outlier(ledighed.mean.gns,0.1,5))
+plot.df <-  plot.df %>%   mutate(outlier = ifelse(is.outlier==TRUE, as.character(disco),NA)) 
+getPalette= colorRampPalette(xmen)
+plot.df$plot.order <- sortLvlsByVar.fnc(plot.df$membership, plot.df$ledighed.mean.gns, ascending = TRUE) 
+p <- ggplot(plot.df, aes(x=plot.order, y=ledighed.mean.gns,fill=membership,label=plot.df$disco))
+p1 <-  p + scale_fill_manual(values=getPalette(length(unique(plot.df$membership))))
+p2 <-  p1 +  stat_summary(fun.data=bp.vals, geom="boxplot",alpha=0.7,color="black") + geom_point(position= position_jitter(width=0.2),aes(size=beskaeft.andel.gns),alpha=.75)
+p3 <-  p2 + stat_summary(fun.y=whisk.emil, geom="point",shape=95,size=8,color="black") + theme_bw() + theme(legend.position="none") 
+ p_out <-  p3 + geom_text(aes(label = outlier), na.rm = TRUE, vjust = -0.6,size=2.75) + scale_y_continuous(labels=percent)
+p_out
+
+
+
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/boxplots/ledighed_seg3-5.pdf", onefile = TRUE, height = 20, width = 20)
+p_out 
+dev.off()
+
+
+
+
+
+
+
+###################### delanalyse 2: køn ############################
+
+
+discodata %>%    group_by(seg.koen.fordeling) %>%   summarise(sum=sum(beskaeft.andel.gns*100))
+# 1/4 er i delmarkeder hvor der kun er jobs med en overvægt af kvinder eller mænd, og 2/4 er i miks. 
+
+
+
+# ledelse
+
+ledelse <- df
+nrow(ledelse)
+
+
+ledelse <- col_select(df)
+view(ledelse[2:28,])
+# gns kvind andel  22 %, sd 38 %
+# 16 / 27 = 59 % har kun 1/4 kvinder
+
+
+
+
+view(select(seg.df,membership,within.mob.seg,share.of.mob,Density,Nodes,max.path,koen.gns.kvinder.mean.beregn,seg.antal.kvindgrp,  seg.koen.fordeling,share.total.size))
+
+
+Hmisc::describe(seg.df$seg.koen.fordeling)
+
+
+
+
+# plot.df <- filter(discodata, !grepl("^1.*", membership))
+# ggplot(plot.df2, aes(x=timelon.mean.gns
+# ,y=koen.gns.kvinder.andel,color=membership)) + geom_point(size=4) find ud af hvordan du laver en regressionslinje for hele populationen, #todo
+
+
+
+Hmisc::describe(seg.df$seg.koen.fordeling)
+seg.df %>%  group_by(seg.koen.fordeling) %>%   summarise(sum(share.total.size*100))
+view(seg.df)
+view(df)
+
 
 koen.analyse.df <- df  %>%     arrange(desc(koen.gns.kvinder.mean.beregn
 ),desc(membership)) %>% select(membership,disco,contains("koen"), max.path,Density,beskaeft.andel.gns,beskaeft.gns, within.mob,within.mob.seg, share.of.mob, share.total.size,  `1: share.of.mobility`,skillvl) %>%  select(membership,disco,koen.gns.kvinder.mean.beregn,koen.gns.kvinder.sd.beregn,everything())
-view(koen.analyse.df)
+aabn_xls("./statistik/R/moneca/vores/00_emilspeciale_output/dataframes/disco.koen.mean.gns.beregn.xlsx")
+aabn_xls("./statistik/R/moneca/vores/00_emilspeciale_output/dataframes/seg.df_koen.xlsx")
 
-aabn_xls("./statistik/R/moneca/vores/00_emilspeciale_output/dataframes/disco.koen.gns.kvinder.andel.xlsx")
-
-# 36 %
-mean(discodata$koen.gns.kvinder.mean.beregn) 
-
-# 36 %
-mean(discodata$koen.gns.kvinder.sd.beregn,na.rm=TRUE) 
+valg.seg <-  c("3.4")
+view(DST_fagbet %>% filter(membership==valg.seg) %>%    arrange(disco_4cifret))
+df %>% filter(membership==valg.seg) %>% arrange(beskaeft.andel.gns) %>% select(disco)   %>%   print(n=40)
 
 
+
+
+
+
+# lineplot over kønsfordeling 
+
+
+
+
+til.df.1 <-  discodata %>% group_by(membership) %>% summarise_each(funs(sd), timelon.sd.gns.beregn=timelon.mean.gns, koen.gns.kvinder.sd.beregn=koen.gns.kvinder.andel,ledighed.sd.gns.beregn=ledighed.mean.gns)
+
+sammen med Holger! 
+
+
+
+
+
+
+maend.au <- koen.helepop %>%   select(contains("koen.maend."))
+maend.au <- colSums(maend.au[-length(maend.au)])
+maend.au <- tbl_df(maend.au)
+maend.au$Aar <- cbind(1996:2009)
+maend.au$koen <- cbind(rep(c("maend"),14))
+kvinder.au <- koen.helepop %>%   select(contains("koen.kvinder."))
+kvinder.au <- colSums(kvinder.au[-length(kvinder.au)])
+kvinder.au <- tbl_df(kvinder.au)
+kvinder.au$Aar <- cbind(1996:2009)
+kvinder.au$koen <- cbind(rep(c("kvinder"),14))
+
+koen.au <-  bind_rows(maend.au,kvinder.au)
+koen.au     <- tbl_df(koen.au)
+koen.au$koen <- rev(as.factor(koen.au$koen))
+
+ecol <-  rev(c("dodgerblue", "firebrick"))
+### plot  ###
+koen.desk <- NULL 
+p1 <-  ggplot(koen.au, aes(x=Aar, y=value, colour=koen, group=rev(koen))) + 
+                      geom_line(size=1.6) +
+                      geom_point(size=3) + 
+                      xlab("") + ylab("") +
+                      theme(legend.margin = unit(0, "cm")) +
+                      scale_colour_manual(name = "antal beskæftigede", labels = c("Mænd","Kvinder"),values=muted(ecol)) +  
+                      # scale_colour_brewer(palette="Set1",name = "arbejdsløse",labels = c("sociosocstil","socstil","socio","disco_sociosocstil","socio.netto","socstilnetto")) + 
+                      theme_bw() + theme.desk + scale_x_continuous(breaks=c(1996:2009)) + scale_y_continuous(breaks=seq(0, 1500000, 50000),
+  expand = c(0,1500000)  ) 
 
 
 
@@ -204,24 +360,22 @@ ggplot(discodata,aes(x=beskaeft.andel.gns,y=timelon.mean.gns)) + geom_point(size
 
 
 
-############################## boxplot whatever *************
+############################## boxplot koen whatever *************
 
 
 
-getPalette= colorRampPalette(xmen)
-plot.df <- filter(discodata, !grepl("^1.*", membership), !grepl("^2.*", membership))
 plot.df <- filter(discodata, !grepl("^1.*", membership))
 plot.df <- filter(discodata, grepl("^3.*", membership)) #%>%   
 
-plot.df <- filter(discodata, grepl("^3.21", membership)) #%>%   
+plot.df <- filter(discodata, !grepl("^1.*", membership), !grepl("^2.*", membership))
 
+getPalette= colorRampPalette(xmen)
 plot.df <- plot.df %>%  group_by(membership) %>%  mutate(is.outlier = is_outlier(koen.gns.kvinder.andel,0.1))
 plot.df <-  plot.df %>%   mutate(outlier = ifelse(is.outlier==TRUE, as.character(disco),NA)) 
-plot.df$is.outlier
-plot.df$outlier
+
+is_outlier
 
 
-nfarve <-  length(unique(plot.df$membership))
 
 plot.df$plot.order <- sortLvlsByVar.fnc(plot.df$membership, plot.df$koen.gns.kvinder.andel, ascending = TRUE) 
 ##
@@ -229,8 +383,11 @@ p <- ggplot(plot.df, aes(x=plot.order, y=koen.gns.kvinder.andel,fill=membership,
 p1 <-  p + scale_fill_manual(values=getPalette(length(unique(plot.df$membership))))
 p2 <-  p1 +  stat_summary(fun.data=bp.vals, geom="boxplot",alpha=0.7,color="black") + geom_point(position= position_jitter(width=0.2),aes(size=beskaeft.andel.gns),alpha=.75)
 p3 <-  p2 + stat_summary(fun.y=whisk.emil, geom="point",shape=95,size=8,color="black") + theme_bw() + theme(legend.position="none") 
-p3 + geom_text(aes(label = outlier), na.rm = TRUE, vjust = -0.6,size=2.75)
+ p_out <-  p3 + geom_text(aes(label = outlier), na.rm = TRUE, vjust = -0.6,size=2.75)
 
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/boxplots/koen_seg3-5.pdf", onefile = TRUE, height = 20, width = 20)
+p_out + scale_y_continuous(labels=percent)
+dev.off()
 
 
 
@@ -616,30 +773,10 @@ wm1            <- weight.matrix(mob.mat, cut.off = cut.off.default, symmetric = 
 wm1[is.na(wm1)] <- 0
 
 mat.e <- wm1
-mat.e.tom <- mat.e 
-mat.e.tom[,] <- 0 
+# mat.e.tom <- mat.e 
+# mat.e.tom[,] <- 0 
 
 #view(mat.e.backup)
-
-skala.heatmap =  c(    "whitesmoke","darkorange2", "darkorange4", "mediumpurple2","mediumpurple4")
-heatmap.rescale = c(0,1.0001,  1.1,2,     3,     5,13,    20,30)
-em.heatmap <-  function(x,y=30,z=0,mis=c("black")) {
-  require(stringr)
-  require(tibble)
-  require(tidyr)
-  dat <- x 
-  ## reshape data (tidy/tall form)
-  # colnames(dat2) <- colnames(dat2)
-  dat[dat > y] <- y
-  dat[dat < z] <- z
-  dat <- cbind(dat,label.short[-274])
-  dat <- tbl_df(dat) %>%  rename(Var1=) %>%   
-      gather(Var2, value, -Var1)
-  dat$Var1 <- as.factor(dat$Var1)
-  dat$Var2 <- as.factor(dat$Var2)    
-  dat$value <-  as.numeric(dat$value)
-    ggplot(dat, aes(Var1, Var2)) + geom_raster(aes(fill = value))  + scale_fill_gradientn(colors=skala.heatmap,values= rescale(heatmap.rescale),na.value=mis) 
-  }
 
 
 

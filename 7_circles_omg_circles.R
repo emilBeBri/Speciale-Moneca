@@ -14,11 +14,20 @@ cut.off.default <-  median(relativrisiko.vector,na.rm=TRUE)
 cut.off.default <- 1
 wm1            <- weight.matrix(mob.mat, cut.off = cut.off.default, symmetric = FALSE, small.cell.reduction = small.cell.default, diagonal=TRUE) 
 wm1[is.na(wm1)] <- 0
+
 mat.e <-  mob.mat
 mat.e <- wm1
+colnames(mat.e) <- paste(as.character(discodata$membership),as.character(discodata$disco),sep=":")
 klynge <- 3
-undergr <- 36
+undergr <- 40
 work.list <-  seg$segment.list[[klynge]][[undergr]]
+work.list <- append(work.list,c(159))
+
+work.list <- c(159)
+
+
+
+
 ########## simpel: kun segmentet
 mat.e.result <- mat.e[work.list,work.list]
 ################ avanceret1: segment + ties 
@@ -32,7 +41,7 @@ dvals <- diag(mat.e.result)[irr.job.indices]
 mat.e.result[irr.job.indices,irr.job.indices] <- 0
 ## replace diagonal elements
 diag(mat.e.result)[irr.job.indices] <- dvals
-
+#view(mat.e.result)
 
 ######## selve grafen 
 # library(circlize)
@@ -51,10 +60,16 @@ relativrisiko.vector.mat.e.result[relativrisiko.vector.mat.e.result<=0] <- NA
 quants= seq(0,1,0.05)
 quantile(relativrisiko.vector.mat.e.result, quants,na.rm=TRUE)
 
+
+
 segmentcircle <- mat.e.result
-segmentcircle[segmentcircle<=50] <- 0
 em.circlize(segmentcircle)
+segmentcircle[segmentcircle<=3] <- 0
 segmentcircle[segmentcircle>=50] <- 50
+
+
+
+view(mat.e.result)
 
 
 cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/chorddiagrams/seg_3_36_RR1_9.pdf", onefile = TRUE, height = 20, width = 20)

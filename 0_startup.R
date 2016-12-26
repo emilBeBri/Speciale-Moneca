@@ -38,7 +38,6 @@ nrowtab2xl <- 274
 source("./statistik/R/moneca/vores/vorescripts/1_data_se_ny.R")
 # tmp data 
 source("./statistik/R/moneca/vores/vorescripts/2_analyse_se.R")
-
 save.image("./foerdplyr")
 rm(list=ls())
 load("./foerdplyr")
@@ -48,22 +47,22 @@ source("./statistik/R/moneca/vores/vorescripts/6_skab_dplyrdatasaet_essentials.R
 source("./statistik/R/moneca/vores/vorescripts/6_skab_dplyrdatasaet_udvidet.R")
 # Dplyr datasaet klasser
 source("./statistik/R/moneca/vores/vorescripts/6_skab_dplyrdatasaet_klasser.R")
-#segment niveau
-source("./statistik/R/moneca/vores/vorescripts/6_skab_dplyrdatasaet.seg.baggrund.R")
+#segment niveau - skal først fikset ifht. ændringer af kulturklyngen
+# source("./statistik/R/moneca/vores/vorescripts/6_skab_dplyrdatasaet.seg.baggrund.R")
 #ekstra
 source("./statistik/R/moneca/vores/vorescripts/6_skab_dplyrdatasaet_efterbehandling.R")
 nrow(discodata) == 273
-nrow(seg.df) == 54
-
+nrow(seg.df) == 47 #fra 54 til 47
 
 discodata <- tbl_df(discodata)
 discodata_bak  <-  discodata 
 
 
+
 #0 
 ### load ovenstaende 
 save.image("./statistik/R/moneca/vores/voresdata/WORKINGPROGRESS_allebeskaeft250")
-setwd("/home/emil/Dropbox/Speciale/Emil_Soeren")
+qsetwd("/home/emil/Dropbox/Speciale/Emil_Soeren")
 setwd("//VBOXSVR/Emil_Soeren")
 
 setwd("C:/Users/bubba/Dropbox/Speciale/Emil_Soeren")
@@ -71,8 +70,7 @@ rm(list=ls())
 checkpoint::checkpoint("2015-06-25")
 source("./statistik/R/moneca/vores/vorescripts/0_funktioner_og_pakker.R")
 load("./statistik/R/moneca/vores/voresdata/WORKINGPROGRESS_allebeskaeft250")
-
-
+ 
 source("./statistik/R/moneca/vores/vorescripts/7_komma_nul_defaultsoglayout.R")
 
 

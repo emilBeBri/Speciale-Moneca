@@ -1,7 +1,7 @@
 <snippet>
 	<content><![CDATA[
 %
-\subsection{${1:} \label${2:}}
+\subsection{${1:} ${2:\label{subsec_}}}
 %
 
 ${3:}

@@ -1,9 +1,19 @@
 [
   {
     "caption": "R-Box",
-    "mnemonic": "r",
     "id": "R-Box",
     "children": [
+      {
+        "command": "send_text_plus",
+        "caption": "Send Current Line/Selection"
+      },
+      {
+        "command": "send_text_plus",
+        "args": {
+          "cmd": "source(\"$file\")"
+        },
+        "caption": "Source Current File"
+      },
       {
         "command": "send_text_plus",
         "args": {
@@ -21,14 +31,14 @@
         "args": {
           "cmd": "devtools::install(\"$project_path\")"
         },
-        "caption": "Build and reload"
+        "caption": "Build and Reload Package"
       },
       {
         "command": "send_text_plus",
         "args": {
           "cmd": "devtools::install(\"$project_path\", local=FALSE)"
         },
-        "caption": "Clean and Build"
+        "caption": "Clean and Build Package"
       },
       {
         "command": "send_text_plus",
@@ -37,26 +47,27 @@
         },
         "caption": "Devtools: Load All"
       },
+      { "caption": "-"},
       {
         "command": "send_text_plus",
         "args": {
           "cmd": "devtools::check(\"$project_path\")"
         },
-        "caption": "Devtools: Check"
+        "caption": "Devtools: Check Package"
       },
       {
         "command": "send_text_plus",
         "args": {
           "cmd": "devtools::test(\"$project_path\")"
         },
-        "caption": "Devtools: Test"
+        "caption": "Devtools: Test Package"
       },
       {
         "command": "send_text_plus",
         "args": {
           "cmd": "devtools::document(\"$project_path\")"
         },
-        "caption": "Devtools: Document"
+        "caption": "Devtools: Document Package"
       },
       {
         "command": "send_text_plus",
@@ -88,17 +99,6 @@
         "caption": "Rnw: Kintr + PdfLaTeX"
       },
       { "caption": "-"},
-      {
-        "command": "send_text_plus",
-        "args": {
-          "cmd": "source(\"$file\")"
-        },
-        "caption": "Source Current File"
-      },
-      {
-        "command": "send_text_plus",
-        "caption": "Send Current Line/Selection"
-      }
     ]
   }
 ]

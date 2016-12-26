@@ -37,6 +37,23 @@ df <- tbl_df(df)
 # mean(df$alder.sd.gns)
 # sd(df$alder.sd.gns)
 
+## forsøg med "naturlige breaks"
+
+discodata <- mutate(discodata,ledighed.mean.gns.cutoff=replace(ledighed.mean.gns, ledighed.mean.gns>=0.0750001, 0.075))
+
+
+natur.interval.ledighed.jenks = classInt::classIntervals(discodata$ledighed.mean.gns.cutoff, n = 8, style = 'jenks')$brks
+natur.interval.ledighed.fisher = classInt::classIntervals(discodata$ledighed.mean.gns.cutoff, n = 8, style = 'fisher')$brks
+natur.interval.ledighed.quantile.cut = classInt::classIntervals(discodata$ledighed.mean.gns.cutoff, n = 8, style = 'quantile')$brks
+
+
+
+#Hmisc::describe(discodata$ledighed.mean.gns.cutoff)
+natur.interval.ledighed.kmeans = classInt::classIntervals(discodata$ledighed.mean.gns.cutoff, n = 8, style = 'kmeans')$brks
+
+
+
+
 
 #### segmentbeskrivelser - kunne godt laves til funktion #todoinr
 
@@ -165,7 +182,7 @@ relativrisiko.vector  <-  as.vector(t(wm1))
 DST_fagbet   <- read.csv2("./statistik/R/moneca/vores/voresdata/DST_fagbetegnelser_DISCO88.csv", sep = ";")
 discogmem  <- select(discodata,disco,disco_4cifret, membership,skillvl) 
 discogmem$disco_4cifret <-  as.numeric(as.character(discogmem$disco_4cifret))
-DST_fagbet$disco_4cifret <-  as.numeric(DST_fagbet$disco_4cifret)	
+DST_fagbet$disco_4cifret <-  as.numeric(DST_fagbet$disco_4cifret)
 DST_fagbet  <-  	full_join(DST_fagbet, discogmem )
 
 
@@ -176,10 +193,36 @@ DST_fagbet  <-  	full_join(DST_fagbet, discogmem )
 
 
 
+### delanalyse 2 om koen 
+
+#find de grupper der har mix af de to koen 
+discodata <- discodata %>%  mutate(seg.flest.kvinder = koen.gns.kvinder.andel > .5)
+discodata <- discodata %>%  mutate(seg.flest.maend = koen.gns.kvinder.andel < .5)
 
 
+seg.df.mix.koen <-  discodata %>% group_by(membership) %>% summarise(seg.antal.kvindgrp=sum(seg.flest.kvinder)) %>%   filter(!grepl("^1.*", membership))
+tmp1 <- seg.df %>%   select(Nodes,membership) %>%   filter(!grepl("^1.*", membership))
+seg.df.mix.koen <- left_join(seg.df.mix.koen,tmp1)
+seg.df.mix.koen <- mutate(seg.df.mix.koen, seg.koen.fordeling = mosaic::derivedFactor("Kun kvinder" = (Nodes == seg.antal.kvindgrp), "Kun Maend" = (seg.antal.kvindgrp == 0), .method = "first", .default = "Mikset"))
+seg.df <- left_join(seg.df,seg.df.mix.koen)
+discodata <- left_join(discodata,seg.df.mix.koen)
+#view(discodata)
 
 
+### delanalyse 2 om ledighed 
+
+discodata <- discodata %>%  mutate(ledighed.over.median = ledighed.mean.gns > median(discodata$ledighed.mean.gns))
+discodata <- discodata %>%  mutate(ledighed.under.median = ledighed.mean.gns < median(discodata$ledighed.mean.gns))
+#find de grupper der har mix af over/under median i ledighed 
+seg.df.mix.ledig <-  discodata %>% group_by(membership) %>% summarise(seg.antal.lang.ledighed=sum(ledighed.over.median)) %>%   filter(!grepl("^1.*", membership))
+tmp1 <- seg.df %>%   select(Nodes,membership) %>%   filter(!grepl("^1.*", membership))
+seg.df.mix.ledig <- left_join(seg.df.mix.ledig,tmp1)
+seg.df.mix.ledig <- mutate(seg.df.mix.ledig, seg.ledighed.fordeling = mosaic::derivedFactor("Kun hoej ledighed" = (Nodes == seg.antal.lang.ledighed), "Kun lav ledighed" = (seg.antal.lang.ledighed == 0), .method = "first", .default = "Mikset"))
+seg.df <- left_join(seg.df,seg.df.mix.ledig)
+discodata <- left_join(discodata,seg.df.mix.ledig)
+#view(discodata)
+# view(seg.df.mix.ledig)
+# view(seg.df)
 
 
 ############# mob.mat manipulation ##########################

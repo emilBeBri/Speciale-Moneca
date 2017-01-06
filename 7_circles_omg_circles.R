@@ -1,9 +1,17 @@
 
 
+# kan bruges til at sorte hele matrixen 
+heat.krit.df <-  df %>% filter(membership=="3.4") %>%  rename(segkrit=`2: Segment`) %>% select(disco,segkrit)   
+ heat.krit.df$disco  <-  as.character(heat.krit.df$disco)
+ heat.krit.df$segkrit  <-  as.character(heat.krit.df$segkrit)
+
+
+all.equal(colnames(mat.e.result),heat.krit.df$disco) #test for at se om rækkefølgen er som den skal være 
+
+mat.e.result <-  mat.e.result[order(heat.krit.df$segkrit), order(heat.krit.df$segkrit)]
 
 
 
-library(circlize)
 
 
 #####################
@@ -17,14 +25,11 @@ wm1[is.na(wm1)] <- 0
 
 mat.e <-  mob.mat
 mat.e <- wm1
-colnames(mat.e) <- paste(as.character(discodata$membership),as.character(discodata$disco),sep=":")
+# colnames(mat.e) <- paste(as.character(discodata$`2: Segment`),as.character(discodata$disco),sep=":")
 klynge <- 3
-undergr <- 40
+undergr <- 4
 work.list <-  seg$segment.list[[klynge]][[undergr]]
-work.list <- append(work.list,c(159))
-
-work.list <- c(159)
-
+work.list <- sort(work.list) #Hvis det skal være i raekkefolge til 
 
 
 
@@ -55,24 +60,38 @@ diag(mat.e.result)[irr.job.indices] <- dvals
 # view(segmentcircle)
 
 
+
+#forhindrer diagonalen i at fucke det hele op 
+
+diag(mat.e.result)[] <- 0
+diag(mat.e.result)[] <- round_any(max(mat.e.result), 5, ceiling)
+
+
 relativrisiko.vector.mat.e.result  <-  as.vector(t(mat.e.result))
 relativrisiko.vector.mat.e.result[relativrisiko.vector.mat.e.result<=0] <- NA
+relativrisiko.vector.mat.e.result[relativrisiko.vector.mat.e.result>130] <- 130
 quants= seq(0,1,0.05)
 quantile(relativrisiko.vector.mat.e.result, quants,na.rm=TRUE)
+quantile(relativrisiko.vector, quants,na.rm=TRUE)
 
 
 
 segmentcircle <- mat.e.result
 em.circlize(segmentcircle)
-segmentcircle[segmentcircle<=3] <- 0
+segmentcircle[segmentcircle<=18] <- 0
 segmentcircle[segmentcircle>=50] <- 50
 
+
+view(df.c)
+
+
+sample(seq(1,10,1))
 
 
 view(mat.e.result)
 
 
-cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/chorddiagrams/seg_3_36_RR1_9.pdf", onefile = TRUE, height = 20, width = 20)
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/chorddiagrams/seg_3_4_RR_7_5.pdf", onefile = TRUE, height = 20, width = 20)
 em.circlize(segmentcircle)
 dev.off()
 

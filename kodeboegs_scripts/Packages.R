@@ -5,7 +5,11 @@
 install.packages("lubridate")
 install.packages("plotly")
 install.packages("timevis")
+install.packages("corrgram")
 
+install.packages("ggmap")
+install.packages("raster")
+install.packages("RgoogleMaps")
 
 
 
@@ -136,7 +140,7 @@ devtools::install_local("/home/emil/Dropbox/Speciale/Emil_Soeren/statistik/R/mon
 #p? windows skal Rtools.exe installeres f?r devtools kan hentes, den findes her (R 3.1.3 skal bruge Rtools 3.1)
 # http://cran.r-project.org/bin/windows/Rtools/
 
-
+	
 install.packages("devtools") #Hadley Wickham
 install.packages("checkpoint")
 devtools::install_github("jalvesaq/colorout")
@@ -226,13 +230,14 @@ install.packages("XLConnect")
 # til moneca 
 
 #  nyeste version af igraph
-library(devtools)
 devtools::install_github("gaborcsardi/pkgconfig")
 devtools::install_github("igraph/rigraph")
 
 # Antons pakker 
-install_github("antongrau/soc.report") #Anton Grau
-install_github("antongrau/soc.elite") #Anton Grau
+devtools::install_github("antongrau/soc.report") #Anton Grau
+devtools::install_github("antongrau/soc.elite") #Anton Grau
+
+
 	
 	install.packages("toOrdinal")
 devtools::install_github("antongrau/MONECA") #Anton Grau

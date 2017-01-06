@@ -298,11 +298,11 @@ stor.mob.seg                     <- aggregate.membership(stor.mob, seg.mem[, 2])
 
 
 # juli 2016 warning message på 351 kat version
-beskaeftigede.seg                 <- apply(beskaeftigede.smooth[-l, ], 2, aggregate.membership, y = seg.mem[, 2])  #fjerner column totals fra beskaeftigede.smooth, applier aggregate.membership-funktionen p? columns i beskaeftigede.smooth, og s?tter y til at v?re column 2 (ud af to) i seg.mem, dvs den column der indeholder segment.membership, og som bruges af aggregate.membership.
+# beskaeftigede.seg                 <- apply(beskaeftigede.smooth[-l, ], 2, aggregate.membership, y = seg.mem[, 2])  #fjerner column totals fra beskaeftigede.smooth, applier aggregate.membership-funktionen p? columns i beskaeftigede.smooth, og s?tter y til at v?re column 2 (ud af to) i seg.mem, dvs den column der indeholder segment.membership, og som bruges af aggregate.membership.
 #View(beskaeftigede.seg)
 #beskaeftigede.seg
 
-beskaeftigede.andel.seg           <- t(t(beskaeftigede.seg) / c(beskaeftigede.smooth[l,])) #Det giver nogle absurd lave v?rdier, fordi beskaeftigede.seg ikke indeholder v?rdier, men bare segment-niveauer, nu som v?rdier i matricen. Det tror jeg virkelig ikke er meningen. #sp?rganton #l?st p? s?rens pc, tjek op p? om det virker p? din egen
+# beskaeftigede.andel.seg           <- t(t(beskaeftigede.seg) / c(beskaeftigede.smooth[l,])) #Det giver nogle absurd lave v?rdier, fordi beskaeftigede.seg ikke indeholder v?rdier, men bare segment-niveauer, nu som v?rdier i matricen. Det tror jeg virkelig ikke er meningen. #sp?rganton #l?st p? s?rens pc, tjek op p? om det virker p? din egen
 #View(beskaeftigede.andel.seg)
 
 #samme historie som ovenst?ende.
@@ -316,7 +316,7 @@ beskaeftigede.andel.seg.unsmooth   <- t(t(beskaeftigede.seg.unsmooth) / c(beskae
 
 #det her har jeg ikke styr p? endnu #todoiR
 ind                               <- duplicated(seg.lab) == FALSE
-beskaeftigede.seg.u                <- beskaeftigede.seg[ind,]
+# beskaeftigede.seg.u                <- beskaeftigede.seg[ind,]
 beskaeftigede.seg.unsmooth.u       <- beskaeftigede.seg.unsmooth[ind,]
 
 

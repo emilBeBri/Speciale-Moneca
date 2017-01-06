@@ -28,6 +28,7 @@
 ######## Library #############
 
 library(devtools)
+library(reshape)
 #library(digest) #slet igen
 library(MASS) #slet igen
 library(ggplot2)
@@ -38,6 +39,7 @@ library(reshape2)
 #nlibrary(soc.ca) #(måske ikke så vigtigt)
 library(plyr)
 library(dplyr)
+library(forcats)
 #library(readstata13)
 library(readxl)
 # library(rmarkdown)
@@ -50,6 +52,22 @@ library(MONECA)
 # library(circlize)
 # library(RDocumentation)
 #library(yarrr)
+
+
+
+
+
+############ farveskalaer/farvepaletter #####################
+
+iwanthue <-  c("#6db643","#bdad45","#7263d0","#e28337","#7183ca","#d2413f","#d14385","#5c7c37","#c66774","#45b0cf","#b15b38")
+
+#RColorBrewer
+RColorBrewer.Set1 <-  c("#E41A1C", "#377EB8", "#4DAF4A", "#984EA3", "#FF7F00", "#FFFF33", "#A65628", "#F781BF", "#999999")
+
+# xmen 
+xmen = c("#026CCBFF", "#F51E02FF" ,"#05B102FF" ,"#FB9F53FF" ,"#9B9B9BFF", "#FB82BEFF" ,"#BA6222FF"  ,    "#EEC229FF" )
+
+
 
 
 
@@ -71,8 +89,48 @@ library(MONECA)
 # res %>% filter(rank<=2) %>% arrange(Species,rank)
 
 
+
+
+
 # Emils funktioner 
 
+
+# forsøg på emulering af statas tab1 command. Hvordan henter man en variabel inde i en df på en generisk måde? #todoiR
+# tab1 <-  function(df,var) {  cbind(Freq=table(df$var), Cumul=cumsum(table(df$var)), relative=prop.table(table(df$var))*100,cumrela=cumsum(table(df$var)/nrow(df))*100) }
+
+
+
+
+# to funktioner til at se på memoryforbrug af objekter, 
+#fra:  http://stackoverflow.com/questions/1358003/tricks-to-manage-the-available-memory-in-an-r-session
+
+
+.ls.objects <- function (pos = 1, pattern, order.by,
+                        decreasing=FALSE, head=FALSE, n=5) {
+    napply <- function(names, fn) sapply(names, function(x)
+                                         fn(get(x, pos = pos)))
+    names <- ls(pos = pos, pattern = pattern)
+    obj.class <- napply(names, function(x) as.character(class(x))[1])
+    obj.mode <- napply(names, mode)
+    obj.type <- ifelse(is.na(obj.class), obj.mode, obj.class)
+    obj.size <- napply(names, object.size)
+    obj.dim <- t(napply(names, function(x)
+                        as.numeric(dim(x))[1:2]))
+    vec <- is.na(obj.dim)[, 1] & (obj.type != "function")
+    obj.dim[vec, 1] <- napply(names, length)[vec]
+    out <- data.frame(obj.type, obj.size, obj.dim)
+    names(out) <- c("Type", "Size", "Rows", "Columns")
+    if (!missing(order.by))
+        out <- out[order(out[[order.by]], decreasing=decreasing), ]
+    if (head)
+        out <- head(out, n)
+    out
+}
+
+lsos <- function(..., n=10) {
+    .ls.objects(..., order.by="Size", decreasing=TRUE, head=TRUE, n=n)
+}
+#lsos() #bruges sådan her, lissom getwd()
 
 
 
@@ -104,30 +162,83 @@ return(round(100*t,2))
 }
 
 
+#rund up til nærmeste "lækre" tal, dvs 1:10. 
+# http://stackoverflow.com/questions/6461209/how-to-round-up-to-the-nearest-10-or-100-or-x
+roundUpNice <- function(x, nice=c(1,2,4,5,6,8,10)) {
+    if(length(x) != 1) stop("'x' must be of length 1")
+    10^floor(log10(x)) * nice[[which(x <= 10^floor(log10(x)) * nice)[[1]]]]
+}
+# The above doesn't work when x is a vector - too late in the evening right now :)
+# roundUpNice(0.0322)
+# roundUpNice(3.22)
+# roundUpNice(32.2)
+# roundUpNice(42.2)
+# roundUpNice(422.2)
 
+
+# finder første sted der sker en ændring i en vektor
+first.changes <- function(d) {
+  p <- cumsum(rle(d)$lengths)
+  p[-length(p)]
+}
+#v = c(1, 1, 1, 1, 1, 1, 1, 1.5, 1.5, 2, 2, 2, 2, 2)
+#first.changes(v)
+#sæt et +1 på efter cumsum-linjen hvis det skal være *efter* skiftet og ikke før det. 
 
 ##
 
 
-skala.heatmap =  c(    "whitesmoke","darkorange2", "darkorange4", "mediumpurple2","mediumpurple4")
-heatmap.rescale = c(0,1.0001,  1.1,2,     3,     5,13,    20,30)
-em.heatmap <-  function(x,y=30,z=0,mis=c("black")) {
+
+em.heatmap <-  function(x,max=500,min=0,nbreaks=10,stylebreak="jenks",mis="pink") {
   require(stringr)
   require(tibble)
   require(tidyr)
   dat <- x 
+diag(dat)[] <- 0
+diag(dat)[] <- round_any(max(dat), 5, ceiling)
+  dat[dat > max] <- max
+  dat[dat < min] <- min
+heatmap.rescale = classInt::classIntervals(as.vector(t(dat)), n = nbreaks, style = stylebreak )$brks
   ## reshape data (tidy/tall form)
   # colnames(dat2) <- colnames(dat2)
-  dat[dat > y] <- y
-  dat[dat < z] <- z
-  dat <- cbind(dat,label.short[-274])
-  dat <- tbl_df(dat) %>%  rename(Var1=) %>%   
-      gather(Var2, value, -Var1)
+  dat <- cbind(dat,label.short[work.list])
+  dat <-  tbl_df(dat) %>%  rename(Var1=) %>%
+        gather(Var2, value, -Var1)
   dat$Var1 <- as.factor(dat$Var1)
   dat$Var2 <- as.factor(dat$Var2)    
   dat$value <-  as.numeric(dat$value)
-    ggplot(dat, aes(Var1, Var2)) + geom_raster(aes(fill = value))  + scale_fill_gradientn(colors=skala.heatmap,values= rescale(heatmap.rescale),na.value=mis) 
+    ggplot(dat, aes(Var1, Var2)) + geom_raster(aes(fill = value))  + scale_fill_gradientn(colors=skala.heatmap,values= rescale(heatmap.rescale),na.value=mis) + theme(panel.background = element_blank(),
+          panel.grid.major.x = element_blank(),
+          panel.grid.minor.x = element_blank(),
+          panel.grid.minor.y = element_blank(),
+          )
   }
+
+
+#original
+# em.heatmap <-  function(x,y=30,z=0,mis=c("black")) {
+#   require(stringr)
+#   require(tibble)
+#   require(tidyr)
+#   dat <- x 
+#   ## reshape data (tidy/tall form)
+#   # colnames(dat2) <- colnames(dat2)
+#   dat[dat > y] <- y
+#   dat[dat < z] <- z
+#   dat <- cbind(dat,label.short[-274])
+#   dat <- tbl_df(dat) %>%  rename(Var1=) %>%   
+#       gather(Var2, value, -Var1)
+#   dat$Var1 <- as.factor(dat$Var1)
+#   dat$Var2 <- as.factor(dat$Var2)    
+#   dat$value <-  as.numeric(dat$value)
+#     ggplot(dat, aes(Var1, Var2)) + geom_raster(aes(fill = value))  + scale_fill_gradientn(colors=skala.heatmap,values= rescale(heatmap.rescale),na.value=mis) 
+#   }
+
+
+
+
+
+
 
 
 em.vis.ties <- function(klynge,undergr) {
@@ -144,17 +255,17 @@ view(vis.ties.e)
     }
 
 
-em.circlize <-  function(segmentcircle,farvepal="xmen") {
+
+em.circlize <-  function(segmentcircle) {
 require("circlize")
-# xmen 
-xmen = c("#026CCBFF", "#F51E02FF" ,"#05B102FF" ,"#FB9F53FF" ,"#9B9B9BFF", "#FB82BEFF" ,"#BA6222FF"  ,    "#EEC229FF" )
 getPalette = colorRampPalette(xmen)
 diag(segmentcircle) <- 0
 df.c <- get.data.frame(graph.adjacency(segmentcircle,weighted=TRUE))
+df.c <- arrange(df.c,from)
 n <-  unique(as.vector(df.c[2]))
 n2 <- unique(as.vector(df.c[1]))
 nfarve <-  length(unique(unlist(append(n,n2))))
-chordia.e <-  chordDiagram(x = df.c, grid.col = getPalette(nfarve),
+chordia.e <-  chordDiagram(x = df.c, grid.col = sample(getPalette(nfarve)),
  transparency = 0.2, directional = 1, symmetric=FALSE, direction.type = c("arrows", "diffHeight"), diffHeight  = -0.065, link.arr.type = "big.arrow", link.largest.ontop = TRUE, link.border="black", link.sort=FALSE)
  # farve <- c("#000000", "#FFDD89", "#957244", "#F26223")
              #,
@@ -290,7 +401,7 @@ insert.at <- function(a, pos, ...){
 # funktion til at runde procent op så det summer til 100 fremfor round() der skærer det sidste af - ikke afprøvet
 
 
-round_to <- function(x, digits = 0) {
+round2 <- function(x, digits = 0) {
   up <- 10 ^ digits
   x <- x * up
   y <- floor(x)

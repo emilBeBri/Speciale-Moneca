@@ -381,7 +381,6 @@ discodata <-  discodata %>%
 
 
 
-
 ### EGP-11
 
 # aabn_xls("./statistik/DST/DST_output/00_emil_speciale/klasseskemaer/klasser_egp11_kat250_v1.xlsx")

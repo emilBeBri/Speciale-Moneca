@@ -1,5 +1,62 @@
 
 
+standard.percentiler = c(10,25,50,75,90,100)/100
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#relation mellem variable 
+
+library(corrgram)
+
+corrgram(train, order=NULL, panel=panel.shade, text.panel=panel.txt,
+           main="Correlogram") 
+
+
+
+library(help = MONECA)
+
+
+
+occupations
+
+moneca_stat1 <-  overordnede.niveau(seg)
+moneca_stat2 <-  first.level.summary(seg)
+moneca_stat3 <- vertex.mobility(seg)
+view(moneca_stat3)
+
+moneca_stat4 <-  neighborhood.share.of(seg,5)
+
+
+# moneca_stat3 <- ego.plot(seg) # ved ikke hvad den her kan 
+
+
+
+
+print.first_level_summary
+
+ego.plot
+
+segment.edges
+
+
+
+vertex.mobility
+
+
+
+
+
 
 
 # nøgletal for intern mobilitet (delanalyse1)
@@ -85,33 +142,41 @@ view(lavdens.df)
 
 
 Hmisc::describe(seg.df$seg.koen.fordeling)
-
-
-Hmisc::describe(discodata$klasse_oesch16)
-
-
-# forsøg på emulering af statas tab1 command.
-cbind(Freq=table(discodata$klasse_oesch16), Cumul=cumsum(table(discodata$klasse_oesch16)), relative=prop.table(table(discodata$klasse_oesch16))*100,cumrela=cumsum(table(discodata$klasse_oesch16)/nrow(discodata))*100)
-
-
-
-
-
-
-
-
 Hmisc::describe(seg.df$seg.ledighed.fordeling)
-# ikke den store forskel på de to 
+Hmisc::describe(seg.df$seg.timelon.fordeling)
+
+#hvis vi tager dem som udtryk for en "tilfældig" fordeling? Kan man det? Nok først når man har set på hvor mange der er i hver. 
+Hmisc::describe(seg.df$seg.alder.fordeling)
+Hmisc::describe(seg.df$seg.within.mob.fordeling)
 
 
 
 
-valg.seg <-  c("4.11")
+valg.seg <-  c("3.4")
 view(DST_fagbet %>% filter(membership==valg.seg) %>%    arrange(disco_4cifret))
 df %>% filter(membership==valg.seg) %>% arrange(beskaeft.andel.gns) %>% select(disco)   %>%   print(n=40)
-view(df)
+view(DST_fagbet)
 
 
+
+view(DST_fagbet %>% filter(grepl("*arbejde*", disco)))
+view(DST_fagbet %>% filter(grepl("*revisions*", disco))
+
+ view(df %>% filter(membership==valg.seg) %>%    group_by(`2: Segment`) %>% summarise(lavklynge_gns = mean(ledighed.mean.gns*100)) %>%   left_join(.,df) )
+
+
+
+
+
+
+#gennemsnitsstatistik - noder 
+Hmisc::describe(df$ledighed.mean.gns*100)
+round2(quantile(df$ledighed.mean.gns,standard.percentiler)*100,1)
+#gennemsnitsstatistik - segmenter 
+Hmisc::describe(seg.df$ledighed.mean.gns.beregn*100)
+round2(quantile(seg.df$ledighed.mean.gns.beregn,standard.percentiler)*100,1)
+round2(mean(seg.df$ledighed.sd.gns.beregn,na.rm=TRUE)*100,2)
+#mere
 mean(seg.df$ledighed.mean.gns.beregn) *100
 median(seg.df$ledighed.mean.gns.beregn) *100
 mean(seg.df$ledighed.sd.gns.beregn,na.rm=TRUE) *100
@@ -119,10 +184,8 @@ median(seg.df$ledighed.sd.gns.beregn,na.rm=TRUE) *100
 
 
 
-
-
 view(df)
-ledighed.analyse.df <- df  %>%     arrange(desc(ledighed.mean.gns.beregn ),desc(membership)) %>% select(membership,disco,contains("ledig"), max.path,Density,beskaeft.andel.gns,beskaeft.gns, within.mob,within.mob.seg, share.of.mob, share.total.size,  `1: share.of.mobility`,skillvl) %>%  select(membership,disco,ledighed.mean.gns.beregn ,ledighed.sd.gns.beregn,ledighed.mean.gns,ledighed.sd.gns ,everything())
+ledighed.analyse.df <- df  %>%     arrange(desc(ledighed.mean.gns.beregn ),desc(membership)) %>% select(membership,disco,contains("ledig"), max.path,Density,beskaeft.andel.gns,beskaeft.gns, within.mob,within.mob.seg, share.of.mob, share.total.size,  `1: share.of.mobility`,skillvl) %>%   select(-ledighed.total.gns,-ledighed.mean.gns.cutoff,-ledighed.min.gns) %>% select(membership,disco,ledighed.mean.gns.beregn ,ledighed.sd.gns.beregn,ledighed.mean.gns,ledighed.sd.gns ,everything())
 view(ledighed.analyse.df)
 ledighed.analyse.seg.df <- seg.df  %>%     arrange(desc(ledighed.mean.gns.beregn ),desc(membership)) %>% select(membership,contains("ledig"), max.path,Density, within.mob.seg, share.of.mob, share.total.size) %>%  select(membership,ledighed.mean.gns.beregn ,ledighed.sd.gns.beregn,everything())
 view(ledighed.analyse.seg.df)
@@ -132,18 +195,48 @@ aabn_xls("./statistik/R/moneca/vores/00_emilspeciale_output/dataframes/seg.df_le
 ############# boxplot ledighed whatever##########
 
 
+# alle 
 plot.df <- filter(discodata, !grepl("^1.*", membership), !grepl("^2.*", membership))
 
-plot.df <- plot.df %>%  group_by(membership) %>%  mutate(is.outlier = is_outlier(ledighed.mean.gns,0.1,5))
+# dem under 2 % ledighed 
+plot.df <- filter(discodata, ledighed.mean.gns.beregn<.0195) %>% filter(!grepl("^1.*", membership))
+
+# dem under 2 % ledighed 
+plot.df <- filter(discodata, ledighed.mean.gns.beregn>.045) %>% filter(!grepl("^1.*", membership))
+
+plot.df <- plot.df %>%  group_by(membership) %>%  mutate(is.outlier = is_outlier(ledighed.mean.gns,0.25,5))
 plot.df <-  plot.df %>%   mutate(outlier = ifelse(is.outlier==TRUE, as.character(disco),NA)) 
 getPalette= colorRampPalette(xmen)
-plot.df$plot.order <- sortLvlsByVar.fnc(plot.df$membership, plot.df$ledighed.mean.gns, ascending = TRUE) 
-p <- ggplot(plot.df, aes(x=plot.order, y=ledighed.mean.gns,fill=membership,label=plot.df$disco))
+p <- ggplot(plot.df, aes(x=fct_reorder(membership,ledighed.mean.gns), y=ledighed.mean.gns,fill=membership,label=plot.df$disco))
 p1 <-  p + scale_fill_manual(values=getPalette(length(unique(plot.df$membership))))
 p2 <-  p1 +  stat_summary(fun.data=bp.vals, geom="boxplot",alpha=0.7,color="black") + geom_point(position= position_jitter(width=0.2),aes(size=beskaeft.andel.gns),alpha=.75)
-p3 <-  p2 + stat_summary(fun.y=whisk.emil, geom="point",shape=95,size=8,color="black") + theme_bw() + theme(legend.position="none") 
- p_out <-  p3 + geom_text(aes(label = outlier), na.rm = TRUE, vjust = -0.6,size=2.75) + scale_y_continuous(labels=percent)
+p3 <-  p2 + stat_summary(fun.y=whisk.emil, geom="point",shape=95,size=8,color="black") + theme_bw() + theme(legend.position="none") + scale_y_continuous(labels=percent)
+
+p3 +  geom_label_repel(aes(fill=membership,label=outlier),    box.padding = unit(0.35, "lines"), point.padding = unit(0.5, "lines"),size=3.5) # kan evt manuelt ændre de segmenter hvor der ikke er noget label, bare så man kan se hvad det indeholder. Nok meget god ide. 
+
+
+p_out <-  p3 + geom_text(aes(label = outlier), na.rm = TRUE, vjust = -0.6,size=2.75) 
+
 p_out
+
+
+
+
+
+p2 + geom_label(hjust=-0.1,aes(size=beskaeft.andel.gns)) + scale_size_continuous(range=c(1,3))
+p2 + geom_text_repel(size=2,force=0.3,nudge_x=1)
+p2 + geom_text(nudge_x=1,hjust=-0.05,aes(size=beskaeft.andel.gns),check_overlap=TRUE) + scale_size_continuous(range=c(1,3))
+
+
+ geom_label_repel(
+    aes(wt, mpg, fill = factor(cyl), label = rownames(mtcars)),
+    fontface = 'bold', color = 'white',
+    box.padding = unit(0.35, "lines"),
+    point.padding = unit(0.5, "lines"),
+    segment.color = 'grey50'
+  ) +
+
+
 
 
 
@@ -157,7 +250,7 @@ dev.off()
 
 
 
-###################### delanalyse 2: køn ############################
+###################### delanalyse 2: køn ########################
 
 
 discodata %>%    group_by(seg.koen.fordeling) %>%   summarise(sum=sum(beskaeft.andel.gns*100))

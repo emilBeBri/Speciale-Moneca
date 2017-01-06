@@ -1,5 +1,735 @@
 
 
+heat.krit.df <-  df %>% filter(membership=="3.4") %>%  rename(segkrit=`2: Segment`) %>% select(disco,segkrit)   
+# view(heat.krit.df)
+heat.krit.df$disco  <-  as.character(heat.krit.df$disco)
+heat.krit.df$segkrit <-  as.factor(heat.krit.df$segkrit)
+# mat.e.result.bak <- mat.e.result
+mat.e.result <-  mat.e.result[order(heat.krit.df$segkrit), order(heat.krit.df$segkrit)]
+# pheatmap(mat.e.result, cluster_cols=FALSE,cluster_rows=FALSE)
+annotation <- as.data.frame(heat.krit.df$segkrit)
+rownames(annotation) <- heat.krit.df$disco 
+colnames(annotation) <- c("klynge")
+
+
+pheatmap(mat.e.result, cluster_cols=FALSE,cluster_rows=FALSE, annotation_col = annotation,display_numbers = round(mat.e.result,0))
+
+
+
+
+
+mat.e.result.bak <- mat.e.result
+
+mat.e.result <- mat.e.result.bak
+
+
+
+
+
+
+mat.e.result[mat.e.result>=15] <- 15
+
+pheatmap.disp <- round(mat.e.result,0)
+diag(pheatmap.disp)[] <- c("-")
+pheatmap.disp[pheatmap.disp==15] <- c("15+")
+klynge <-  sample(iwanthue,size=length(levels(annotation[,1])))
+names(klynge) <- levels(annotation[,1])
+anno_farver <- list(klynge = klynge)
+breaksList = seq(0, ceiling(max(mat.e.result,na.rm=true)), by = 1)
+pheatmap(mat.e.result, color = colorRampPalette(rev(brewer.pal(n = 7, name = "RdYlBu")))(length(breaksList)), breaks = breaksList, cluster_cols=FALSE,cluster_rows=FALSE, annotation_row = annotation,annotation_col = annotation,display_numbers = pheatmap.disp, fontsize_number=10,annotation_colors = anno_farver, gaps_row=first.changes(sort(as.numeric(as.character(heat.krit.df$segkrit)))),gaps_col=first.changes(sort(as.numeric(as.character(heat.krit.df$segkrit)))))
+
+
+
+
+
+
+
+names(Var1) <- c("Exp1", "Exp2")
+
+anno_colors <- list(Var1 = Var1)
+
+
+
+
+## For pheatmap_1.0.8 and later:
+library(grid)  
+library(pheatmap)
+draw_colnames_45 <- function (coln, gaps, ...) {
+    coord = pheatmap:::find_coordinates(length(coln), gaps)
+    x = coord$coord - 0.5 * coord$size
+    res = textGrob(coln, x = x, y = unit(1, "npc") - unit(3,"bigpts"), vjust = 0.5, hjust = 1, rot = 45, gp = gpar(...))
+    return(res)}
+
+## 'Overwrite' default draw_colnames with your own version 
+assignInNamespace(x="draw_colnames", value="draw_colnames_45",
+ns=asNamespace("pheatmap"))
+
+## Try it out
+pheatmap(d)
+
+
+
+display_numbers = round(mat.e.result,0)
+
+
+
+color = colorRampPalette(rev(brewer.pal(n = 7, 
+    name = "RdYlBu")))(100)
+
+
+# fremragende måde at få en almindelig colorpalette expanderet på. 
+color = colorRampPalette(skala.heatmap)(length(breaksList))
+
+
+
+colorRampPalette(skala.heatmap)(length(breaksList))
+
+
+
+
+pheatmap
+a
+
+
+
+
+
+######################################
+
+
+mat = structure(c(2L, 5L, 0L, 6L, 3L, 0L, 5L, 0L, 0L, 1L, 1L, 0L, 0L, 0L, 0L, 1L, 5L, 1L, 1L, 1L, 0L, 3L, 2L, 1L, 3L, 5L, 0L, 4L, 1L, 7L, 6L, 9L, 1L, 4L, 6L, 9L), .Dim = c(6L, 6L), .Dimnames = list(c("A", "B", "C", "D", "E", "F"), c("A", "B", "C", "D", "E", "F")))
+crit = structure(list(NAME = c("A", "B", "C", "D", "E", "F"), TYPE = c("Dog", "Other", "Cat", "Other", "Cat", "Dog")), .Names = c("NAME", "TYPE"), row.names = c(NA, -6L), class = "data.frame")
+
+
+rownames(mat)
+colnames(mat.e.result)
+
+
+
+heat.krit.df$segkrit <-  as.factor(heat.krit.df$segkrit)
+
+
+view(heat.krit.df)
+
+all.equal(colnames(test),heat.krit.df$disco)
+
+
+view(crit)
+view(heat.krit.df)
+
+
+is.data.frame(crit)
+is.data.frame(heat.krit.df)
+
+is.character(crit$NAME)
+is.factor(crit$NAME)
+is.character(crit$TYPE)
+is.factor(crit$TYPE)
+
+
+is.character(heat.krit.df$disco)
+is.factor(heat.krit.df$disco)
+
+is.character(heat.krit.df$segkrit)
+is.factor(heat.krit.df$segkrit)
+
+heat.krit.df$disco  <-  as.character(heat.krit.df$disco)
+heat.krit.df$segkrit  <-  as.character(heat.krit.df$segkrit)
+
+view(mat)
+view(mat.e.result)
+view(crit)
+
+
+
+
+
+mat[order(crit$TYPE), order(crit$TYPE)]
+
+view(mat.e.result[order(heat.krit.df$segkrit), order(heat.krit.df$segkrit)])
+
+
+
+
+
+
+mat.e.result <-  mat.e.result[order(colnames(mat.e.result)), order(colnames(mat.e.result))]
+
+
+
+rownames(test)
+
+
+
+
+view(test[order(heat.krit.df$segkrit), order(heat.krit.df$segkrit)])
+
+
+view(heat.krit.df)
+
+
+em.heatmap(mat.e.result)
+
+
+
+
+order(as.factor(heat.krit.df$segkrit))
+
+
+
+view(mat.e.result)
+
+em.vis.ties(3,4)
+
+
+
+
+view(heat.krit.df)
+
+
+)
+
+
+  %>% summarise(lavklynge_gns = mean(ledighed.mean.gns*100)) %>%   left_join(.,df) )
+
+
+
+
+view(df)
+
+
+irr.job.indices <- which(!(aug.work.list %in% work.list))
+
+
+  which(work.list %in% seg$segment.list[[3]])
+
+
+
+test  <-  seg$segment.list[[2]]
+
+
+
+lapply(work.list, function(x) which(mat.e[,x] != 0))
+
+
+
+aug.work.list <- sort(unique(unlist(lapply(work.list, function(x) which(mat.e[,x] != 0)))))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#####################################
+
+
+heatmap.rescale <- natur.breaks.heatmap
+
+
+view(mat.e.result)
+
+ skala.heatmap.2 <- c("mediumpurple4" ,"mediumpurple1", "orange", "yellow2", "yellow1") 
+
+
+1
+2
+matz <- mat1[,c(2,3,6)]
+head(matz)
+
+
+
+
+Cast the matrix to have variable names as row names and column names
+
+mat2df <- cast(matz, Row~Column) # Eureka!
+
+
+
+
+mat2 <- as.matrix(mat2df)
+head(mat2)
+The matrix is ready!
+
+
+
+corfac <- data.frame(gender,var2,var3,var4,var5,var6)
+summary(corfac)
+class(corfac)
+view(corfac)
+
+
+combos <- expand.grid(rep(list(1:ncol(corfac)), 2 )) # combinations with repetitions
+view(combos)
+
+combos <- as.matrix(combos)
+combos <- t(combos) # transpose matrix
+view(combos)
+
+
+
+mat1 <- adply(combos, 2, function(x) {
+test <- chisq.test(corfac[, x[1]], corfac[, x[2]])
+ 
+out <- data.frame("Row" = colnames(corfac)[x[1]]
+, "Column" = colnames(corfac[x[2]])
+, "Chi.Square" = round(test$statistic,3)
+,  "df"= test$parameter
+,  "p.value" = round(test$p.value, 3)
+)
+return(out)
+})
+
+
+mat.e.result <- get.data.frame(graph.adjacency(mat.e.result,weighted=TRUE))
+
+view(mat1)
+view(mat.e.result)
+#ens, tror jeg 
+
+
+
+
+ggplot(mat1, aes(Row, Column, fill = p.value)) +
+geom_tile(colour="gray80") +
+theme_gray(8) +
+scale_fill_gradient2(low = muted("blue"), mid = "white", high = muted("red"),
+midpoint = 0.04, space = "Lab", na.value = "grey50", guide = "colourbar")
+
+ggplot(mat.e.result, aes(from, to, fill = weight)) +
+geom_tile(colour="gray80") +
+theme_gray(8) +
+scale_fill_gradient2(low = muted("blue"), mid = "white", high = muted("red"),
+midpoint = 0.04, space = "Lab", na.value = "grey50", guide = "colourbar")
+
+
+
+matz <- mat1[,c(2,3,6)]
+
+#yes. ens. skal ligge som en adjecancy matrice. to variable, én vægt. 
+
+
+
+head(matz)
+Cast the matrix to have variable names as row names and column names
+
+
+
+mat2df <- cast(matz, Row~Column) # Eureka!
+view(mat2)
+
+mat2 <- as.matrix(mat2df)
+head(mat2)
+
+view(mat2)
+view(mat.e.result)
+
+library(gplots)
+ 
+# Defining breaks for the color scale
+myCol <- c("yellow", "orange", "red", "gray20", "gray15")
+myBreaks <- c(0, 0.001, 0.01, 0.05, 0.8, 1)
+hm <- heatmap.2(mat2, scale="none", Rowv=T, Colv=T,
+col = myCol, ## using your colors
+breaks = myBreaks, ## using your breaks
+#                 dendrogram = "none",  ## to suppress warnings
+margins=c(5,5), cexRow=0.7, cexCol=0.7, key=FALSE, keysize=1.5,
+trace="none")
+ 
+legend("topleft", fill = myCol, cex=0.9,
+legend = c("0 to 0.001", "0.001 to 0.01", "0.01 to 0.05", "0.05 to 0.8", ">0.8"))
+hm <- heatmap.2(mat.e.result, scale="none", Rowv=T, Colv=T,
+col = myCol, ## using your colors
+breaks = myBreaks, ## using your breaks
+#                 dendrogram = "none",  ## to suppress warnings
+margins=c(5,5), cexRow=0.7, cexCol=0.7, key=FALSE, keysize=1.5,
+trace="none")
+ 
+legend("topleft", fill = myCol, cex=0.9,
+legend = c("0 to 0.001", "0.001 to 0.01", "0.01 to 0.05", "0.05 to 0.8", ">0.8"))
+
+
+set.seed(21)
+A <- matrix(rnorm(9),3,3)
+A[order(A[,1]),]
+
+
+
+library(plyr)
+library(ggplot2)
+library(scales)
+library(reshape)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+gender <- c(
+"1", "2", "1", "2", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "2", "2", "1", "1", "1", "2", "1", "2", "1", "1", "1", "1", "1", "1", "1", "2", "2", "1", "2", "1", "1", "1", "1", "1", "1", "2", "1", "1", "1", "1", "1", "1",
+"2", "2", "1", "2", "1", "2", "2", "1", "1", "1", "2", "1", "2", "2", "2", "2", "2", "1", "1", "1", "1", "1", "1", "1", "1", "2", "1", "1", "1", "2", "1", "1", "1", "1", "2", "1", "1", "1", "1", "1", "2", "1", "2", "1", "1", "1", "1",
+"1", "1", "1", "2", "1", "1", "1", "2", "1", "1", "2", "1", "1", "2", "2", "2", "1", "2", "1", "2", "1", "1", "1", "1", "2", "2", "2", "2", "2", "1", "1", "1", "1", "2", "2", "1", "1", "1", "1", "1", "1", "2", "1", "1", "2", "1", "2",
+"1", "1", "1", "1", "1", "2", "1", "1", "1", "1", "1", "2", "1", "1", "2", "1", "2", "1", "1", "1", "1", "1", "2", "1", "2", "2", "1", "2", "2", "1", "1", "1", "1", "1", "2", "2", "1", "1", "1", "2", "1", "2", "1", "1", "1", "1", "1",
+"1", "1", "1", "1", "1", "2", "1", "1", "1", "2", "2", "1", "2", "1", "1", "1", "1", "2", "1", "1", "1", "1", "1", "1", "2", "2", "1", "1", "1", "1", "2", "1", "1", "1", "1", "2", "1", "2", "1", "1", "2", "1", "1", "1", "1", "1", "2",
+"2", "1", "1", "1", "1", "1", "1", "1", "1", "1", "2", "1", "2", "1", "1", "1", "2", "1", "2", "2", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "2", "1", "2", "1", "1", "1", "1", "2", "1", "1", "1", "2", "1", "2", "2", "1", "1",
+"1", "1", "2", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "2", "1", "1", "1", "2", "1", "1", "1", "2", "2", "1", "1", "2", "2", "1", "1", "1", "2", "1", "1", "1", "1", "1", "2", "1", "1", "1", "1", "1", "2", "1", "2", "2",
+"1", "1", "1", "1", "1", "2", "1", "2", "1", "1", "1", "1", "1", "1", "2", "1", "2", "1", "1", "1", "1", "1", "1", "2", "2", "1", "1", "2", "1", "2", "2", "1", "2", "2", "1", "2", "2", "2", "1", "2", "1", "2", "2", "1", "1", "1", "1",
+"1", "1", "1", "1", "1", "2", "2", "1", "1", "2", "2", "2", "1", "2", "2", "2", "2", "1", "2", "1", "1", "2")
+ 
+var2 <- c(
+"0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "1", "0", "1", "0", "0", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0",
+"0", "0", "0", "0", "0", "0", "0", "1", "1", "0", "0", "1", "1", "0", "0", "0", "0", "1", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "1", "0", "0", "1", "1", "0", "0", "0", "0", "1", "1", "1", "1", "0",
+"0", "1", "0", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "1", "0", "1", "0", "0", "1", "1", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0",
+"1", "1", "1", "1", "1", "0", "0", "1", "1", "0", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "1", "0", "1", "1", "0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0",
+"0", "1", "0", "0", "0", "0", "1", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "1", "1", "1", "0", "0", "1", "0", "1", "0", "1", "0", "0", "1", "0", "0", "0", "1", "0", "0", "1", "1", "0", "0", "0", "0", "1", "0", "1", "1", "0",
+"1", "1", "1", "0", "0", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "1", "0", "0", "0", "1", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0",
+"0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0",
+"1", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "1", "0", "0", "0", "0", "0", "1", "1", "0", "1", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0",
+"1", "0", "0", "0", "0", "1", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0")
+ 
+var3 <- c(
+"0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0",
+"0", "1", "0", "0", "0", "0", "1", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0",
+"0", "0", "0", "1", "0", "0", "0", "1", "0", "0", "0", "0", "1", "0", "1", "0", "0", "0", "1", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0",
+"0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "1", "0", "0", "1", "0", "0", "0", "0", "0", "0", "1", "1", "0", "0", "0", "1",
+"0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "1", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "1", "0", "0", "1", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0",
+"1", "0", "0", "0", "1", "1", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "1", "0",
+"0", "0", "1", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "1", "1", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "1", "0", "0", "1", "0", "0", "0", "0", "1", "0",
+"1", "0", "1", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "1", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "1", "0", "1", "0", "1", "1", "1", "1", "0", "0", "0", "0", "1", "0", "0", "1", "0", "0", "0",
+"1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "1", "0", "0", "0", "1", "0", "0", "0", "1", "0")
+ 
+var4 <- c(
+"0", "1", "0", "0", "0", "0", "1", "0", "1", "1", "0", "1", "0", "1", "1", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "1", "1", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "1",
+"1", "0", "1", "0", "1", "1", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "1", "1", "1", "1", "0", "0",
+"0", "1", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "1", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "1", "1", "0", "0", "0", "1", "0", "1", "1",
+"1", "1", "0", "1", "1", "1", "1", "1", "1", "1", "0", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "0", "1", "1", "1", "1", "1", "1", "0", "0", "0", "1", "0", "1", "0", "0", "0", "1", "1", "0", "0", "1", "0", "1", "0", "1",
+"0", "0", "1", "1", "1", "1", "1", "0", "0", "0", "0", "0", "0", "1", "0", "1", "1", "0", "1", "1", "0", "1", "0", "1", "0", "1", "0", "0", "0", "0", "1", "1", "1", "1", "0", "0", "1", "1", "1", "1", "1", "0", "1", "0", "1", "1", "1",
+"1", "0", "0", "1", "1", "1", "1", "1", "1", "1", "1", "1", "0", "1", "1", "1", "1", "1", "0", "1", "1", "1", "0", "1", "0", "0", "1", "1", "1", "1", "0", "0", "1", "1", "0", "0", "1", "1", "0", "0", "1", "0", "1", "1", "0", "0", "1",
+"0", "0", "0", "0", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "1", "1", "0", "0", "0", "1", "0", "1", "0", "0", "0", "1", "0", "0", "1", "1", "1", "1", "1", "0", "1", "1", "1", "0", "1", "1", "1", "0", "0", "1", "1", "1",
+"1", "1", "0", "1", "1", "1", "0", "1", "1", "0", "0", "0", "0", "0", "1", "0", "1", "0", "1", "1", "1", "1", "0", "1", "1", "0", "1", "0", "0", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "0", "0", "0", "1",
+"1", "1", "0", "0", "0", "0", "1", "1", "1", "1", "1", "1", "1", "1", "0", "1", "1", "1", "1", "0", "1", "0")
+ 
+var5 <- c(
+"0", "1", "1", "0", "0", "1", "0", "0", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0",
+"0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "1", "0", "0", "1", "0", "0", "1", "0", "0",
+"1", "1", "0", "0", "0", "0", "0", "1", "0", "0", "1", "0", "1", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0",
+"1", "1", "0", "1", "1", "0", "1", "1", "1", "1", "1", "1", "0", "1", "1", "0", "0", "1", "1", "0", "1", "0", "0", "0", "1", "0", "1", "1", "1", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "1", "0", "1",
+"0", "0", "1", "1", "0", "0", "1", "1", "1", "0", "0", "0", "0", "0", "0", "1", "1", "0", "1", "1", "1", "1", "0", "1", "0", "1", "1", "0", "0", "0", "0", "1", "1", "1", "1", "0", "1", "1", "0", "0", "1", "0", "1", "1", "0", "1", "1",
+"0", "1", "0", "0", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "0", "1", "1", "1", "0", "1", "0", "0", "1", "0", "1", "0", "0", "0", "1", "1", "0", "0", "1", "0", "0", "0", "1", "0", "0", "1", "0", "0", "0",
+"0", "0", "1", "0", "0", "0", "0", "0", "1", "0", "1", "0", "0", "0", "1", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "1", "0", "1", "1", "1", "1", "0", "1", "1", "0", "1", "0", "0", "1", "1", "1", "1",
+"1", "1", "0", "1", "1", "0", "1", "1", "1", "0", "0", "0", "0", "0", "1", "1", "1", "0", "1", "1", "0", "0", "0", "1", "0", "0", "1", "0", "0", "0", "1", "1", "1", "1", "1", "1", "1", "0", "1", "0", "1", "1", "0", "1", "1", "0", "1",
+"1", "1", "0", "0", "0", "0", "1", "1", "1", "1", "0", "1", "1", "1", "0", "1", "1", "1", "1", "1", "1", "0")
+ 
+var6 <- c(
+"1", "1", "0", "0", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0",
+"1", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "0", "0", "0", "0", "0", "1", "1", "1", "1", "1", "1",
+"1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "1",
+"1", "1", "1", "1", "1", "1", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "1", "1", "1", "1", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "0", "1", "1", "1", "0", "0", "0", "1", "1", "1",
+"1", "1", "1", "1", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "0", "0", "0", "1", "1", "1", "1", "1", "1", "1",
+"1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "0", "0", "1", "1", "1", "1", "0", "0", "1", "1", "0", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "0", "0", "0", "1", "1", "0", "0",
+"0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "1", "0", "0", "1", "1", "1", "1", "0", "0", "0", "0", "1", "0", "0", "0",
+"1", "1", "1", "1", "1", "1", "0", "1", "0", "0", "0", "1", "1", "0", "0", "1", "1", "0", "1", "1", "1", "1", "1", "1", "1", "1", "0", "0", "0", "1", "1", "1", "0", "1", "1", "1", "1", "0", "1", "0", "0", "1", "1", "1", "1", "0", "1",
+"1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "0")
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##################
+
+library(pheatmap)
+# Generate some data
+test = matrix(rnorm(200), 20, 10)
+test[1:10, seq(1, 10, 2)] = test[1:10, seq(1, 10, 2)] + 3
+test[11:20, seq(2, 10, 2)] = test[11:20, seq(2, 10, 2)] + 2
+test[15:20, seq(2, 10, 2)] = test[15:20, seq(2, 10, 2)] + 4
+colnames(test) = paste("Test", 1:10, sep = "")
+rownames(test) = paste("Gene", 1:20, sep = "")
+# original figure
+pheatmap(test)
+
+
+
+
+
+
+
+
+# Add annotation as described above, and change the name of annotation
+annotation <- data.frame(Var1 = factor(1:10 %% 2 == 0, labels = c("Exp1", "Exp2")))
+rownames(annotation) <- colnames(test) # check out the row names of annotation
+
+
+view(annotation)
+view(heat.krit.df)
+
+
+
+
+pheatmap(test, annotation = annotation)
+
+
+
+pheatmap(mat.e.result, cluster_cols=FALSE,cluster_rows=FALSE)
+
+
+test2 <- as.data.frame(as.factor(heat.krit.df$segkrit))
+
+
+rownames(test2) <- colnames(mat.e.result) 
+
+
+pheatmap(mat.e.result, cluster_cols=FALSE,cluster_rows=FALSE, annotation_col = test2)
+
+
+
+
+diag(wm1)[] <- 0
+wm1[wm1>=13] <- 13
+pheatmap(wm1)
+pheatmap(wm1, cluster_cols=FALSE,cluster_rows=FALSE)
+
+
+
+
+
+
+
+
+
+library(pheatmap)
+pheatmap(mat.e.result, color = colorRampPalette(rev(brewer.pal(n = 7, name = "RdYlBu")))(100), kmeans_k = NA, breaks = NA, border_color = "grey60", cellwidth = NA, cellheight = NA, scale = "none", cluster_rows = FALSE, cluster_cols = FALSE, clustering_distance_rows = "euclidean", clustering_distance_cols = "euclidean", clustering_method = "complete", cutree_rows = NA, cutree_cols = NA)
+
+
+
+pheatmap(mat.e.result, color = colorRampPalette(rev(brewer.pal(n = 7, name = "RdYlBu")))(100), kmeans_k = NA, breaks = NA, border_color = "grey60", cellwidth = NA, cellheight = NA, scale = "none", cluster_rows = FALSE, cluster_cols = FALSE, clustering_distance_rows = "euclidean", clustering_distance_cols = "euclidean", clustering_method = "complete", cutree_rows = NA, cutree_cols = NA)
+
+
+
+
+  , treeheight_row = ifelse((class(cluster_rows) == "hclust") || cluster_rows, 50, 0))
+
+
+  , treeheight_col = ifelse((class(cluster_cols) == "hclust") || cluster_cols, 50, 0))
+
+
+  , legend = TRUE, legend_breaks = NA, legend_labels = NA, annotation_row = NA, annotation_col = NA, annotation = NA, annotation_colors = NA, annotation_legend = TRUE, annotation_names_row = TRUE, annotation_names_col = TRUE, drop_levels = TRUE, show_rownames = T, show_colnames = T, main = NA, fontsize = 10, fontsize_row = fontsize, fontsize_col = fontsize, display_numbers = F, number_format = "%.2f", number_color = "grey30", fontsize_number = 0.8 * fontsize, gaps_row = NULL, gaps_col = NULL, labels_row = NULL, labels_col = NULL, filename = NA, width = NA, height = NA, silent = FALSE)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ M2=t(apply(mat.e.result,1,sort))
+  M2=t(apply(M2,2,sort))
+view(M2)
+
+help(pheatmap)
+
+view(mat.e.result)
+
+
+
+
+
+
+
+
+
+
+
+
+     [,1] [,2] [,3] [,4] [,5] [,6]
+[1,]    5    6    7   11   17   23
+[2,]    1    9   15   18   21   24
+[3,]    2    3    8   13   19   22
+[4,]    4   10   12   14   16   20
+Nice, elements are sorted by row. But for symmetric reasons, I also wanted to sort them by column. So from this sorted matrix, I decided to sort elements by column,
+
+ (M3=apply(M2,2,sort))
+     [,1] [,2] [,3] [,4] [,5] [,6]
+[1,]    1    3    7   11   16   20
+[2,]    2    6    8   13   17   22
+[3,]    4    9   12   14   19   23
+[4,]    5   10   15   18   21   24
+
+
+
+
+
+> set.seed(1)
+> u=sample(1:(nc*nl))
+> (M1=matrix(u,nl,nc))
+     [,1] [,2] [,3] [,4] [,5] [,6]
+[1,]    7    5   11   23    6   17
+[2,]    9   18    1   21   24   15
+[3,]   13   19    3    8   22    2
+[4,]   20   12   14   16    4   10
+I had to sort elements in this matrix, by row.
+
+> (M2=t(apply(M1,1,sort)))
+     [,1] [,2] [,3] [,4] [,5] [,6]
+[1,]    5    6    7   11   17   23
+[2,]    1    9   15   18   21   24
+[3,]    2    3    8   13   19   22
+[4,]    4   10   12   14   16   20
+Nice, elements are sorted by row. But for symmetric reasons, I also wanted to sort them by column. So from this sorted matrix, I decided to sort elements by column,
+
+> (M3=apply(M2,2,sort))
+     [,1] [,2] [,3] [,4] [,5] [,6]
+[1,]    1    3    7   11   16   20
+[2,]    2    6    8   13   17   22
+[3,]    4    9   12   14   19   23
+[4,]    5   10   15   18   21   24
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###############################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

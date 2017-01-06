@@ -137,14 +137,14 @@
 		// Note: only tweak this if sync after launching the PDF viewer does not seem to work,
 		// or if the PDF viewer opens instantly and you don't want to wait.
 		// Default: 1.5 (works on my MBP4,1...)
-		"sync_wait": 1.5,
+		"sync_wait": 0.01,
 		// Command to invoke Sublime Text. Used if the keep_focus toggle is true.
 		// If blank, "subl" or "sublime_text" will be used.
 		"sublime_executable": "",
 		// how long (in ms) to wait after the jump_to_pdf command completes
 		// before switching focus back to Sublime Text. This may need to be
 		// adjusted depending on your machine and configuration.
-		"keep_focus_delay": 0.25
+		"keep_focus_delay": 0.05
 	},
 
 // ------------------------------------------------------------------
@@ -221,7 +221,7 @@
 	// if you do so, however, note that the path will be interpreted
 	// relative to the location of your project file
 
-	"output_directory": "",
+	"output_directory": "./aux_directory",
 
 	// OPTION: "jobname"
 	// Specifies the jobname to use when building the document

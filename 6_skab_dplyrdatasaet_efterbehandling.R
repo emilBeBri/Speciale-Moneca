@@ -193,6 +193,55 @@ DST_fagbet  <-  	full_join(DST_fagbet, discogmem )
 
 
 
+
+### delanalyse 2 om within.mob 
+
+discodata <- discodata %>%  mutate(within.mob.over.median = within.mob > median(discodata$within.mob))
+discodata <- discodata %>%  mutate(within.mob.under.median = within.mob < median(discodata$within.mob))
+#find de grupper der har mix af over/under median i within.mob 
+seg.df.mix.within.mob <-  discodata %>% group_by(membership) %>% summarise(seg.antal.hoj.within.mob=sum(within.mob.over.median)) %>%   filter(!grepl("^1.*", membership))
+tmp1 <- seg.df %>%   select(Nodes,membership) %>%   filter(!grepl("^1.*", membership))
+seg.df.mix.within.mob <- left_join(seg.df.mix.within.mob,tmp1)
+seg.df.mix.within.mob <- mutate(seg.df.mix.within.mob, seg.within.mob.fordeling = mosaic::derivedFactor("Kun hoej within.mob" = (Nodes == seg.antal.hoj.within.mob), "Kun lav within.mob" = (seg.antal.hoj.within.mob == 0), .method = "first", .default = "Mikset"))
+seg.df <- left_join(seg.df,seg.df.mix.within.mob)
+discodata <- left_join(discodata,seg.df.mix.within.mob)
+#view(discodata)
+# view(seg.df.mix.within.mob)
+# view(seg.df)
+
+### delanalyse 2 om alder 
+
+discodata <- discodata %>%  mutate(alder.over.median = alder.mean.gns > median(discodata$alder.mean.gns))
+discodata <- discodata %>%  mutate(alder.under.median = alder.mean.gns < median(discodata$alder.mean.gns))
+#find de grupper der har mix af over/under median i alder 
+seg.df.mix.alder <-  discodata %>% group_by(membership) %>% summarise(seg.antal.hoj.alder=sum(alder.over.median)) %>%   filter(!grepl("^1.*", membership))
+tmp1 <- seg.df %>%   select(Nodes,membership) %>%   filter(!grepl("^1.*", membership))
+seg.df.mix.alder <- left_join(seg.df.mix.alder,tmp1)
+seg.df.mix.alder <- mutate(seg.df.mix.alder, seg.alder.fordeling = mosaic::derivedFactor("Kun hoej alder" = (Nodes == seg.antal.hoj.alder), "Kun lav alder" = (seg.antal.hoj.alder == 0), .method = "first", .default = "Mikset"))
+seg.df <- left_join(seg.df,seg.df.mix.alder)
+discodata <- left_join(discodata,seg.df.mix.alder)
+#view(discodata)
+# view(seg.df.mix.alder)
+# view(seg.df)
+
+
+
+### delanalyse 2 om timelon 
+
+discodata <- discodata %>%  mutate(timelon.over.median = timelon.mean.gns > median(discodata$timelon.mean.gns))
+discodata <- discodata %>%  mutate(timelon.under.median = timelon.mean.gns < median(discodata$timelon.mean.gns))
+#find de grupper der har mix af over/under median i timelon 
+seg.df.mix.timelon <-  discodata %>% group_by(membership) %>% summarise(seg.antal.hoj.timelon=sum(timelon.over.median)) %>%   filter(!grepl("^1.*", membership))
+tmp1 <- seg.df %>%   select(Nodes,membership) %>%   filter(!grepl("^1.*", membership))
+seg.df.mix.timelon <- left_join(seg.df.mix.timelon,tmp1)
+seg.df.mix.timelon <- mutate(seg.df.mix.timelon, seg.timelon.fordeling = mosaic::derivedFactor("Kun hoej timelon" = (Nodes == seg.antal.hoj.timelon), "Kun lav timelon" = (seg.antal.hoj.timelon == 0), .method = "first", .default = "Mikset"))
+seg.df <- left_join(seg.df,seg.df.mix.timelon)
+discodata <- left_join(discodata,seg.df.mix.timelon)
+#view(discodata)
+# view(seg.df.mix.timelon)
+# view(seg.df)
+
+
 ### delanalyse 2 om koen 
 
 #find de grupper der har mix af de to koen 

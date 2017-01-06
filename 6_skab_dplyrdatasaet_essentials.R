@@ -14,20 +14,20 @@ coltab2xl <- c(2, 6, 10, 14, 18, 22, 26, 30, 34, 38, 42, 46, 50, 54)
 #                     sheet = c("count", "count.smooth", "andel", "andel.smooth"),
 #                     startRow = c(1,1,1,1), startCol = c(1,1,1,1), header=TRUE)
 beskaeftigede               <-   beskaeftigede[-nrowtab2xl,]
-beskaeftigede.smooth        <-   beskaeftigede.smooth[-nrowtab2xl,]
+# beskaeftigede.smooth        <-   beskaeftigede.smooth[-nrowtab2xl,]
 beskaeftigede.andel         <-   beskaeftigede.andel[-nrowtab2xl,]
-beskaeftigede.andel.smooth  <-   beskaeftigede.andel.smooth[-nrowtab2xl,]
+# beskaeftigede.andel.smooth  <-   beskaeftigede.andel.smooth[-nrowtab2xl,]
 label_moneca_beskaeftigede   <- list("beskaeftigede1996" ,"beskaeftigede1997" , "beskaeftigede1998" , "beskaeftigede1999" , "beskaeftigede2000" , "beskaeftigede2001", "beskaeftigede2002" , "beskaeftigede2003" , "beskaeftigede2004" , "beskaeftigede2005", "beskaeftigede2006",  "beskaeftigede2007",  "beskaeftigede2008",  "beskaeftigede2009")
-label_moneca_beskaeftigede.smooth   <- list("beskaeftigede.smooth1996" ,"beskaeftigede.smooth1997" , "beskaeftigede.smooth1998" , "beskaeftigede.smooth1999" , "beskaeftigede.smooth2000" , "beskaeftigede.smooth2001", "beskaeftigede.smooth2002" , "beskaeftigede.smooth2003" , "beskaeftigede.smooth2004" , "beskaeftigede.smooth2005", "beskaeftigede.smooth2006",  "beskaeftigede.smooth2007",  "beskaeftigede.smooth2008",  "beskaeftigede.smooth2009")
+# label_moneca_beskaeftigede.smooth   <- list("beskaeftigede.smooth1996" ,"beskaeftigede.smooth1997" , "beskaeftigede.smooth1998" , "beskaeftigede.smooth1999" , "beskaeftigede.smooth2000" , "beskaeftigede.smooth2001", "beskaeftigede.smooth2002" , "beskaeftigede.smooth2003" , "beskaeftigede.smooth2004" , "beskaeftigede.smooth2005", "beskaeftigede.smooth2006",  "beskaeftigede.smooth2007",  "beskaeftigede.smooth2008",  "beskaeftigede.smooth2009")
 label_moneca_beskaeftigede.andel   <- list("beskaeftigede.andel1996" ,"beskaeftigede.andel1997" , "beskaeftigede.andel1998" , "beskaeftigede.andel1999" , "beskaeftigede.andel2000" , "beskaeftigede.andel2001", "beskaeftigede.andel2002" , "beskaeftigede.andel2003" , "beskaeftigede.andel2004" , "beskaeftigede.andel2005", "beskaeftigede.andel2006",  "beskaeftigede.andel2007",  "beskaeftigede.andel2008",  "beskaeftigede.andel2009")
-label_moneca_beskaeftigede.andel.smooth   <- list("beskaeftigede.andel.smooth1996" ,"beskaeftigede.andel.smooth1997" , "beskaeftigede.andel.smooth1998" , "beskaeftigede.andel.smooth1999" , "beskaeftigede.andel.smooth2000" , "beskaeftigede.andel.smooth2001", "beskaeftigede.andel.smooth2002" , "beskaeftigede.andel.smooth2003" , "beskaeftigede.andel.smooth2004" , "beskaeftigede.andel.smooth2005", "beskaeftigede.andel.smooth2006",  "beskaeftigede.andel.smooth2007",  "beskaeftigede.andel.smooth2008",  "beskaeftigede.andel.smooth2009")
+# label_moneca_beskaeftigede.andel.smooth   <- list("beskaeftigede.andel.smooth1996" ,"beskaeftigede.andel.smooth1997" , "beskaeftigede.andel.smooth1998" , "beskaeftigede.andel.smooth1999" , "beskaeftigede.andel.smooth2000" , "beskaeftigede.andel.smooth2001", "beskaeftigede.andel.smooth2002" , "beskaeftigede.andel.smooth2003" , "beskaeftigede.andel.smooth2004" , "beskaeftigede.andel.smooth2005", "beskaeftigede.andel.smooth2006",  "beskaeftigede.andel.smooth2007",  "beskaeftigede.andel.smooth2008",  "beskaeftigede.andel.smooth2009")
 beskaeftigede <- disco.df(beskaeftigede, label_moneca_beskaeftigede)
-beskaeftigede.smooth <- disco.df(beskaeftigede.smooth, label_moneca_beskaeftigede.smooth)
+# beskaeftigede.smooth <- disco.df(beskaeftigede.smooth, label_moneca_beskaeftigede.smooth)
 beskaeftigede.andel <- disco.df(beskaeftigede.andel, label_moneca_beskaeftigede.andel)
-beskaeftigede.andel.smooth <- disco.df(beskaeftigede.andel.smooth, label_moneca_beskaeftigede.andel.smooth)
-beskaeft.samlet.tmp1 <- left_join(beskaeftigede, beskaeftigede.smooth)
-beskaeft.samlet.tmp2 <- left_join(beskaeftigede.andel, beskaeftigede.andel.smooth)
-beskaeft.samlet <- left_join(beskaeft.samlet.tmp1, beskaeft.samlet.tmp2)
+# beskaeftigede.andel.smooth <- disco.df(beskaeftigede.andel.smooth, label_moneca_beskaeftigede.andel.smooth)
+# beskaeft.samlet.tmp1 <- left_join(beskaeftigede, beskaeftigede.smooth)
+# beskaeft.samlet.tmp2 <- left_join(beskaeftigede.andel, beskaeftigede.andel.smooth)
+beskaeft.samlet <- left_join(beskaeftigede, beskaeftigede.andel)
 #View(beskaeft.samlet)
 # is.character(beskaeft.samlet$disco)
 

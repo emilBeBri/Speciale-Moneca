@@ -41,14 +41,21 @@ dev.off()
 # oesch
 
 skala_oesch16 <-  c("dodgerblue4", "dodgerblue2", "dodgerblue1","mediumpurple4","mediumpurple1","firebrick4","firebrick2","grey","grey71","yellow3","yellow1","olivedrab4","olivedrab1","darkorange3" ,"darkorange1")
+
+
+skala_oesch16 <- c("yellow4", "yellow3","yellow1", # selvstændige
+"mediumpurple4", "mediumpurple1", # teknikere -  mediumpink? slateblue?
+"firebrick4","firebrick1", #arbejdere
+"dodgerblue4", "dodgerblue1", #managers
+"grey40", "grey88", #clerks
+"palegreen4", "palegreen1", #sociokulturelle
+"rosybrown4", "rosybrown1") #servicearbejdere
 kort.oesch16 <- gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arrow = arrow.default,
                        edge.size=edge.size, vertex.fill = discodata$klasse_oesch16,
                        vertex.size = vertex_stoerrelse) +  
   #default + scale_fill_manual(values = brewer.pal(11, "Paired"), labels=egp11_lab, name="EGP-11")
   default + scale_fill_manual(values = skala_oesch16, labels=oesch16_lab, name="Oesch 16") + theme(legend.position = c(0.9, 0.9)) 
 #+ theme(legend.key.width ="2 cm", legend.key.height="2 cm",legend.text=50,legend.key.size=100 )
-
- 
 cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_oesch16.pdf", onefile = TRUE, height = 25, width = 25)
 kort.oesch16
 dev.off()

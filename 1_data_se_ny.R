@@ -13,8 +13,7 @@ colnames(allbeskaeft) <- label_moneca_[]
 l1_r            <- nrow(allbeskaeft)
 allbeskaeft[l1_r,1]            <- c(9999)
 allbeskaeft <- sapply(allbeskaeft, as.numeric)
-# view(allbeskaeft)
-
+ view(allbeskaeft)
 
 
 

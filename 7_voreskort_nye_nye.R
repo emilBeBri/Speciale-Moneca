@@ -4,7 +4,7 @@
 
 ############### kort model ############
 
-
+ 
 
 #hovedkort disco
 edges.default.all                <- segment.edges(seg.b, mode="directed",cut.off=3,small.cell.reduction = small.cell.default, segment.reduction = 5) #før var den 3 her og 5 nedenunder

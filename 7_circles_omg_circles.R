@@ -22,15 +22,15 @@ cut.off.default <-  median(relativrisiko.vector,na.rm=TRUE)
 cut.off.default <- 1
 wm1            <- weight.matrix(mob.mat, cut.off = cut.off.default, symmetric = FALSE, small.cell.reduction = small.cell.default, diagonal=TRUE) 
 wm1[is.na(wm1)] <- 0
-
 mat.e <-  mob.mat
 mat.e <- wm1
 # colnames(mat.e) <- paste(as.character(discodata$`2: Segment`),as.character(discodata$disco),sep=":")
 klynge <- 3
-undergr <- 4
+undergr <- 33
 work.list <-  seg$segment.list[[klynge]][[undergr]]
 work.list <- sort(work.list) #Hvis det skal være i raekkefolge til 
 
+work.list <- c(62)
 
 
 ########## simpel: kun segmentet
@@ -46,7 +46,7 @@ dvals <- diag(mat.e.result)[irr.job.indices]
 mat.e.result[irr.job.indices,irr.job.indices] <- 0
 ## replace diagonal elements
 diag(mat.e.result)[irr.job.indices] <- dvals
-#view(mat.e.result)
+view(mat.e.result)
 
 ######## selve grafen 
 # library(circlize)

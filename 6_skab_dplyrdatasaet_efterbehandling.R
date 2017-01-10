@@ -5,8 +5,7 @@
 
 discodata$membership <- as.factor(discodata$membership)
 
-
-til.df.1 <-  discodata %>% group_by(membership) %>% summarise_each(funs(sd), timelon.sd.gns.beregn=timelon.mean.gns, koen.gns.kvinder.sd.beregn=koen.gns.kvinder.andel,ledighed.sd.gns.beregn=ledighed.mean.gns)
+til.df.1 <-  discodata %>% group_by(membership) %>% summarise_each(funs(sd), timelon.sd.gns.beregn=timelon.mean.gns, koen.gns.kvinder.sd.beregn=koen.gns.kvinder.andel,ledighed.sd.gns.beregn=ledighed.mean.gns, within.mob.sd.beregn=within.mob)
 til.df.2 <-  discodata %>% group_by(membership) %>% summarise_each(funs(mean), timelon.mean.gns.beregn=timelon.mean.gns, koen.gns.kvinder.mean.beregn=koen.gns.kvinder.andel,ledighed.mean.gns.beregn=ledighed.mean.gns)
 
 
@@ -16,6 +15,16 @@ discodata <-  inner_join(discodata,til.df.1)
 discodata <-  inner_join(discodata,til.df.2)
 
 
+
+##
+seg.df$raekkefoelge.seg <- seq(1:nrow(seg.df))
+
+tmp.df.1 <-  led.tid.df %>% group_by(membership) %>% summarise_each(funs(mean), contains("mean")) %>% 	arrange(desc(membership))
+# View(tmp.df.1)
+seg.df <- arrange(seg.df,desc(membership))
+ledighed.tid.sd.seg <- apply(tmp.df.1[-1],1,sd)
+seg.df <- cbind(seg.df,ledighed.tid.sd.seg)
+seg.df <- arrange(seg.df,raekkefoelge.seg)
 
 seg.df$membership <- as.factor(seg.df$membership)
 discodata$membership <- as.factor(discodata$membership)
@@ -30,6 +39,34 @@ df <- tbl_df(df)
 # # tmp <-  select(df,disco_s,membership)
 # # tmp$label <- as.numeric(factor(tmp$membership))
 # # tmp$label2 <- as.numeric(as.character(tmp$membership))*1000
+
+
+### standardiser variable 
+
+# til.df.3 <-  discodata %>% select(timelon.mean.gns, koen.gns.kvinder.andel,ledighed.mean.gns, within.mob)
+# til.df.3 <- apply(til.df.3,2,scale)
+# beta_sum <- rowSums(til.df.3)
+# til.df.3 <- cbind(til.df.3,beta_sum)
+# til.df.3 <- rename(til.df.3,  timelon.beta.gns =timelon.mean.gns,koen.gns.kvinder.beta =koen.gns.kvinder.andel,ledighed.beta.gns =ledighed.mean.gns,within.mob.beta =within.mob)
+
+
+#ensartethed i segmenterne 
+
+
+tmp.df.3 <-  discodata %>% select(timelon.mean.gns,koen.gns.kvinder.andel,ledighed.mean.gns,within.mob) %>% apply(.,2,scale)
+tmp.df.3 <- cbind(tmp.df.3,as.character(discodata$membership))
+colnames(tmp.df.3)[5] <- c("membership")
+tmp.df.3 <-  tbl_df(tmp.df.3)
+tmp.df.3 <-  tmp.df.3 %>% group_by(membership) %>% summarise_each(funs(var), timelon.beta=timelon.mean.gns, koen.beta=koen.gns.kvinder.andel, ledighed.beta=ledighed.mean.gns, within.mob.beta=within.mob ) %>% 	arrange(desc(membership))
+beta.var <- rowSums(tmp.df.3[,-1])
+tmp.df.3 <- cbind(as.character(seg.df$membership),beta.var)
+tmp.df.3 <- tbl_df(tmp.df.3)
+tmp.df.3$beta.var <- as.numeric(tmp.df.3$beta.var)
+colnames(tmp.df.3)[1] <- c("membership")
+
+seg.df <-  left_join(seg.df,tmp.df.3)
+discodata <-  inner_join(discodata,tmp.df.3)
+
 
 
 
@@ -177,10 +214,16 @@ relativrisiko.vector  <-  as.vector(t(wm1))
 
 
 
+
+
+
+
 ########## DST fagbetegnelser register ###########
 
 DST_fagbet   <- read.csv2("./statistik/R/moneca/vores/voresdata/DST_fagbetegnelser_DISCO88.csv", sep = ";")
-discogmem  <- select(discodata,disco,disco_4cifret, membership,skillvl) 
+discogmem  <- select(discodata,disco,disco_4cifret, membership,`2: Segment`,skillvl)
+
+
 discogmem$disco_4cifret <-  as.numeric(as.character(discogmem$disco_4cifret))
 DST_fagbet$disco_4cifret <-  as.numeric(DST_fagbet$disco_4cifret)
 DST_fagbet  <-  	full_join(DST_fagbet, discogmem )
@@ -272,6 +315,18 @@ discodata <- left_join(discodata,seg.df.mix.ledig)
 #view(discodata)
 # view(seg.df.mix.ledig)
 # view(seg.df)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ############# mob.mat manipulation ##########################

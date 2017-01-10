@@ -1,14 +1,73 @@
 
 
+
 standard.percentiler = c(10,25,50,75,90,100)/100
 
 
+view(df)
+view(as.numeric(as.character(seg.df$disco_s))
+view(as.numeric(as.character(df$disco_s)))
+
+aabn_xls("./statistik/R/moneca/vores/00_emilspeciale_output/dataframes/df.xlsx")
+aabn_xls("./statistik/R/moneca/vores/00_emilspeciale_output/dataframes/seg.df.xlsx")
+
+
+
+
+# se et segments vigtigste variable 
+view(df %>% filter(membership==3.33) %>%    arrange(`2: Segment`,disco) %>%   select(`2: Segment`, share.total.size, Nodes, disco, timelon.mean.gns, timelon.sd.gns, ledighed.mean.gns, ledighed.sd.gns, koen.gns.kvinder.andel, koen.gns.kvinder.andel.sd, alder.mean.gns, alder.sd.gns, membership ))
+
+view(seg.df %>% filter(membership==3.33) %>%  select(membership,Nodes,within.mob.seg,share.total.size, within.mob.sd.beregn, ledighed.mean.gns.beregn, ledighed.sd.gns.beregn, timelon.mean.gns.beregn, timelon.sd.gns.beregn, koen.gns.kvinder.mean.beregn ,koen.gns.kvinder.sd.beregn))
+
+
+
+#gennemsnitsværdier for alle centrale v
+mean.df <- select(df,within.mob,Nodes,max.path,
+  contains("mean.gns"),contains("sd.gns")) %>%   select(-contains("beregn"),-contains("cutoff"))
+round(apply(mean.df,2 ,mean),4)
+round(apply(mean.df,2 ,median),4)
+
+
+
+
+
+valg.seg <-  c("3.33")
+view(DST_fagbet %>% filter(membership==valg.seg) %>% select(`2: Segment`,fagbet_tekst, disco, membership, skillvl) %>% arrange(`2: Segment`,disco))
+
+df %>% filter(membership==valg.seg) %>% arrange(beskaeft.andel.gns) %>% select(disco)   %>%   print(n=40)
+view(DST_fagbet)
+
+
+
+
+
+apply(gn)
+
+
+
+view(mean.df)
+
+view(df)
+
+
+timelon.mean.gns
+ledighed.mean.gns
+kvinder.andel.koen.mean.gns
+alder.mean.gns
+within.mob.mean.gns
 
 
 
 
 
 
+beskaeft.andel.gns
+ within.mob,within.mob.seg,Density,max.path
+
+
+  )
+
+  )
 
 
 
@@ -152,10 +211,7 @@ Hmisc::describe(seg.df$seg.within.mob.fordeling)
 
 
 
-valg.seg <-  c("3.4")
-view(DST_fagbet %>% filter(membership==valg.seg) %>%    arrange(disco_4cifret))
-df %>% filter(membership==valg.seg) %>% arrange(beskaeft.andel.gns) %>% select(disco)   %>%   print(n=40)
-view(DST_fagbet)
+
 
 
 
@@ -163,6 +219,7 @@ view(DST_fagbet %>% filter(grepl("*arbejde*", disco)))
 view(DST_fagbet %>% filter(grepl("*revisions*", disco))
 
  view(df %>% filter(membership==valg.seg) %>%    group_by(`2: Segment`) %>% summarise(lavklynge_gns = mean(ledighed.mean.gns*100)) %>%   left_join(.,df) )
+
 
 
 
@@ -185,12 +242,17 @@ median(seg.df$ledighed.sd.gns.beregn,na.rm=TRUE) *100
 
 
 view(df)
-ledighed.analyse.df <- df  %>%     arrange(desc(ledighed.mean.gns.beregn ),desc(membership)) %>% select(membership,disco,contains("ledig"), max.path,Density,beskaeft.andel.gns,beskaeft.gns, within.mob,within.mob.seg, share.of.mob, share.total.size,  `1: share.of.mobility`,skillvl) %>%   select(-ledighed.total.gns,-ledighed.mean.gns.cutoff,-ledighed.min.gns) %>% select(membership,disco,ledighed.mean.gns.beregn ,ledighed.sd.gns.beregn,ledighed.mean.gns,ledighed.sd.gns ,everything())
+ledighed.analyse.df <- df  %>%     arrange(desc(ledighed.mean.gns.beregn ),desc(membership)) %>% select(membership,Nodes,disco,contains("ledig"), max.path,Density,beskaeft.andel.gns,beskaeft.gns, within.mob,within.mob.seg, share.of.mob, share.total.size,  `1: share.of.mobility`,skillvl) %>%   select(-ledighed.total.gns,-ledighed.mean.gns.cutoff,-ledighed.min.gns) %>% select(membership,Nodes,disco,ledighed.mean.gns.beregn ,ledighed.sd.gns.beregn,ledighed.mean.gns,ledighed.sd.gns ,everything())
 view(ledighed.analyse.df)
-ledighed.analyse.seg.df <- seg.df  %>%     arrange(desc(ledighed.mean.gns.beregn ),desc(membership)) %>% select(membership,contains("ledig"), max.path,Density, within.mob.seg, share.of.mob, share.total.size) %>%  select(membership,ledighed.mean.gns.beregn ,ledighed.sd.gns.beregn,everything())
+                              
+
+view(seg.df)
+ledighed.analyse.seg.df <- seg.df  %>%     arrange(desc(ledighed.mean.gns.beregn ),desc(membership)) %>% select(membership,Nodes,contains("ledig"), max.path,Density, within.mob.seg, share.of.mob, share.total.size) %>%  select(membership,Nodes,ledighed.mean.gns.beregn ,ledighed.sd.gns.beregn, ledighed.tid.sd.seg, everything())
 view(ledighed.analyse.seg.df)
 aabn_xls("./statistik/R/moneca/vores/00_emilspeciale_output/dataframes/df_ledighed.xlsx")
 aabn_xls("./statistik/R/moneca/vores/00_emilspeciale_output/dataframes/seg.df_ledighed.xlsx")
+
+
 
 ############# boxplot ledighed whatever##########
 

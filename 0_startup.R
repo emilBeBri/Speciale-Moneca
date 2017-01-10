@@ -38,7 +38,6 @@ label.short <- label.kode$Disco_kode
 nrowputexcel <- 273
 nrowtab2xl <- 274
 source("./statistik/R/moneca/vores/vorescripts/1_data_se_ny.R")
-# tmp data 
 source("./statistik/R/moneca/vores/vorescripts/2_analyse_se.R")
 save.image("./foerdplyr.Rdata")
 rm(list=ls())
@@ -58,7 +57,6 @@ nrow(seg.df) == 47 #fra 54 til 47
 
 discodata <- tbl_df(discodata)
 discodata_bak  <-  discodata 
-
 
 
 #0 

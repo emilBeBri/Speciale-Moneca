@@ -39,7 +39,7 @@ library(reshape2)
 #nlibrary(soc.ca) #(måske ikke så vigtigt)
 library(plyr)
 library(dplyr)
-library(forcats)
+#library(forcats)
 #library(readstata13)
 library(readxl)
 # library(rmarkdown)
@@ -95,6 +95,30 @@ xmen = c("#026CCBFF", "#F51E02FF" ,"#05B102FF" ,"#FB9F53FF" ,"#9B9B9BFF", "#FB82
 # Emils funktioner 
 
 
+#pheatmap funktion, simpel 
+
+e.pheat.dataprep <- function(klynge=3,undergr=4)  {
+    cut.off.default <- 1
+    wm1            <- weight.matrix(mob.mat, cut.off = cut.off.default, symmetric = FALSE, small.cell.reduction = small.cell.default, diagonal=TRUE) 
+    wm1[is.na(wm1)] <- 0
+
+    mat.e <-  mob.mat
+    mat.e <- wm1
+
+mat.e.result <- mat.e[work.list,work.list]
+
+relativrisiko.vector.mat.e.result  <-  as.vector(t(mat.e.result))
+relativrisiko.vector.mat.e.result[relativrisiko.vector.mat.e.result<=0] <- NA
+quantile(relativrisiko.vector.mat.e.result, seq(0,1,0.05),na.rm=TRUE)
+
+diag(mat.e.result)[] <- 0
+diag(mat.e.result)[] <- round_any(max(mat.e.result), 5, ceiling)
+
+return(mat.e.result)
+}
+
+
+
 # forsøg på emulering af statas tab1 command. Hvordan henter man en variabel inde i en df på en generisk måde? #todoiR
 # tab1 <-  function(df,var) {  cbind(Freq=table(df$var), Cumul=cumsum(table(df$var)), relative=prop.table(table(df$var))*100,cumrela=cumsum(table(df$var)/nrow(df))*100) }
 
@@ -105,7 +129,7 @@ xmen = c("#026CCBFF", "#F51E02FF" ,"#05B102FF" ,"#FB9F53FF" ,"#9B9B9BFF", "#FB82
 #fra:  http://stackoverflow.com/questions/1358003/tricks-to-manage-the-available-memory-in-an-r-session
 
 
-.ls.objects <- function (pos = 1, pattern, order.by,
+ls.objects <- function (pos = 1, pattern, order.by,
                         decreasing=FALSE, head=FALSE, n=5) {
     napply <- function(names, fn) sapply(names, function(x)
                                          fn(get(x, pos = pos)))

@@ -102,22 +102,22 @@ skala_egp11 <-  c("dodgerblue4" ,"dodgerblue1","darkseagreen4","darkseagreen1","
 
 
 
-"1" = "1 Store forretningsdrivende" ,     "dodgerblue4"
-"2" = "2 Selvstaendige profesionelle" ,    
-"3" = "3 Smaa forretningsdrivende m. ansatte" , "dodgerblue2"
-"4" = "4 Smaa forretningsdrivende u. ansatte" , "dodgerblue1"
-"5" = "5 Teknikere (eksperter)" ,  "mediumpurple4"
-"6" = "6 Teknikere" , "mediumpurple1"
-"7" = "7 Manuelle arbejdere, hoejt niveau" , "indianred4"
-"8" = "8 Manuelle arbejdere, lavt niveau" ,  "indianred2"
-"9" = "9 Managere, hoejt niveau" , "steelblue4"
-"10" = "10 Managere, lavt niveau" , "steelblue1"
-"11" = "11 Clerks, hoejt niveau" , "yellow4"
-"12" = "12 Clerks, lavt niveau" , "yellow1"
-"13" = "13 Socio-kulturelle profesionelle" , "darkseagreen4"
-"14" = "14 Socio-kulutrelle semiprofesineolle" , "darkseagreen1"
-"15" = "15 Servicearbejdere, hoejt niveau" , "chocolate4" 
-"16" = "16 Servicearbejdere, lavt niveau") "chocolate1"
+#"1" = "1 Store forretningsdrivende" ,     "dodgerblue4"
+#"2" = "2 Selvstaendige profesionelle" ,    
+#"3" = "3 Smaa forretningsdrivende m. ansatte" , "dodgerblue2"
+#"4" = "4 Smaa forretningsdrivende u. ansatte" , "dodgerblue1"
+#"5" = "5 Teknikere (eksperter)" ,  "mediumpurple4"
+#"6" = "6 Teknikere" , "mediumpurple1"
+#"7" = "7 Manuelle arbejdere, hoejt niveau" , "indianred4"
+#"8" = "8 Manuelle arbejdere, lavt niveau" ,  "indianred2"
+#"9" = "9 Managere, hoejt niveau" , "steelblue4"
+#"10" = "10 Managere, lavt niveau" , "steelblue1"
+#"11" = "11 Clerks, hoejt niveau" , "yellow4"
+#"12" = "12 Clerks, lavt niveau" , "yellow1"
+#"13" = "13 Socio-kulturelle profesionelle" , "darkseagreen4"
+#"14" = "14 Socio-kulutrelle semiprofesineolle" , "darkseagreen1"
+#"15" = "15 Servicearbejdere, hoejt niveau" , "chocolate4" 
+#"16" = "16 Servicearbejdere, lavt niveau") "chocolate1"
 
 
 

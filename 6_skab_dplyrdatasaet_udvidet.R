@@ -21,6 +21,52 @@ emilsvector.bin <- seq(5,56,4)
 # emilsvector.bin <- sort(emilsvector.bin)
 
 
+##### fagforening - gul ###
+gule.helepop <- read_excel_allsheets("./statistik/DST/DST_output/00_emil_speciale/MONECAs/allebeskaeftigede/baggrundsvar/fagforening_gulesataner.xlsx")
+gule.helepop <- data.frame(matrix(unlist(gule.helepop), nrow=274),stringsAsFactors=FALSE)
+nyvector <- c(1,2,6,9,12,16,20,24,28,31,34,38,41,45,48)
+gule.helepop <- gule.helepop[-274,c(nyvector)]
+colnames(gule.helepop)[1] <- c("disco_s")
+allbeskaeft_tmp <- tbl_df(allbeskaeft)
+colnames(allbeskaeft_tmp)[1] <- c("disco_s")
+gule.helepop <- left_join(gule.helepop,allbeskaeft_tmp)
+gule.helepop <- gule.helepop %>%  select(disco,
+X2, `1996`,
+X6, `1997`,
+X9, `1998`,
+X12, `1999`,
+X16, `2000`,
+X20, `2001`,
+X24, `2002`,
+X28, `2003`,
+X31, `2004`,
+X34, `2005`,
+X38, `2006`,
+X41, `2007`,
+X45, `2008`,
+X48, `2009`)
+gule.helepop <- gule.helepop %>% mutate(
+gule.andel.1996 = X2 / `1996`,
+gule.andel.1997 = X6 / `1997`,
+gule.andel.1998 = X9 / `1998`,
+gule.andel.1999 = X12 / `1999`,
+gule.andel.2000 = X16 / `2000`,
+gule.andel.2001 = X20 / `2001`,
+gule.andel.2002 = X24 / `2002`,
+gule.andel.2003 = X28 / `2003`,
+gule.andel.2004 = X31 / `2004`,
+gule.andel.2005 = X34 / `2005`,
+gule.andel.2006 = X38 / `2006`,
+gule.andel.2007 = X41 / `2007`,
+gule.andel.2008 = X45 / `2008`,
+gule.andel.2009 = X48 / `2009`) 
+gule.helepop$gule.mean.gns <- gule.helepop %>%  select(contains("andel")) %>% rowMeans()
+
+gule.helepop.udv <- gule.helepop %>%  select(disco_s,contains("gns")) 
+
+gule.helepop.udv$disco_s <- as.character(gule.helepop.udv$disco_s)
+
+
 
 
 #########alder ###
@@ -210,8 +256,24 @@ ledighed.helepop$ledighed.max.gns <- ledighed.helepop %>% 	select(contains("max"
 ledighed.helepop$ledighed.total.gns <- ledighed.helepop %>% 	select(contains("total")) %>% rowMeans()
 # view(ledighed.helepop)
 
+
 #udvælger variabel til discodata
 ledighed.helepop.udv <- ledighed.helepop %>% 	select(disco_s,contains("gns")) %>%   select(-contains("var"))
+
+
+#tidsserier 
+
+led.tid.df <-  ledighed.helepop %>% select(disco_s,contains("mean.199"),contains("mean.200"))
+noeglevar.df <-  discodata %>% select(disco_s, membership, `2: Segment`,disco) 
+led.tid.df <-  left_join(led.tid.df,noeglevar.df) %>%    select(-disco_s) %>%   select(disco,membership, `2: Segment`,everything()) 
+# led.sd.tid <-  ledighed.helepop %>% select(contains("mean.199"),contains("mean.200")) %>%   apply(.,1,sd)
+# led.tid.df <- cbind(led.tid.df,led.sd.tid)
+
+
+led.tid.df <- led.tid.df %>%  arrange(membership,`2: Segment`)
+
+
+
 
 
 # view(ledighed.helepop.udv)
@@ -277,6 +339,7 @@ koen.helepop <- koen.helepop %>% 	 rowwise()  %>% 	 mutate_each(., funs( koen.gn
 koen.helepop.udv <- koen.helepop %>% 	select(disco_s,contains("gns")) %>%   select(-contains("var")) 
 
 
+view(koen.helepop)
 
 ###################### join på disco #########################
 
@@ -289,6 +352,8 @@ discodata     <- left_join(discodata, timelon.helepop.udv)
 discodata     <- left_join(discodata, alder.helepop.udv)
 discodata     <- left_join(discodata, koen.helepop.udv)
 discodata     <- left_join(discodata, ledighed.helepop.udv)
+discodata     <- left_join(discodata, gule.helepop.udv)
+
 
 
 

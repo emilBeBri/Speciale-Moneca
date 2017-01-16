@@ -10,6 +10,11 @@
 	{ "keys": ["ctrl+'"], "command": "toggle_comment", "args": { "block": false } },
 	{ "keys": ["ctrl+shift+'"], "command": "toggle_comment", "args": { "block": true } },
 	{ "keys": ["ctrl+shift+y"], "command": "fold" },
-	{ "keys": ["ctrl+shift+u"], "command": "unfold" }	
+	{ "keys": ["ctrl+shift+u"], "command": "unfold" },	
+	{ "keys": ["ctrl+shift+space"], "command": "code_intel_auto_complete" },
+	{ "keys": ["ctrl+y"], "command": "redo" },
+
+
+
 ]
 

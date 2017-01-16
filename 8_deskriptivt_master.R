@@ -1,7 +1,7 @@
 
 
 
-standard.percentiler = c(10,25,50,75,90,100)/100
+
 
 
 view(df)
@@ -40,11 +40,6 @@ view(DST_fagbet)
 
 
 
-
-apply(gn)
-
-
-
 view(mean.df)
 
 view(df)
@@ -61,25 +56,33 @@ within.mob.mean.gns
 
 
 
-beskaeft.andel.gns
- within.mob,within.mob.seg,Density,max.path
-
-
-  )
-
-  )
-
-
-
-
-
 
 #relation mellem variable 
 
 library(corrgram)
 
 corrgram(train, order=NULL, panel=panel.shade, text.panel=panel.txt,
+
+
+plot.df <- discodata %>% select(gule.mean.gns,koen.gns.kvinder.andel,ledighed.mean.gns,roede.mean.gns, timelon.mean.gns,  within.mob, 
+  Nodes,Density,max.path,beskaeft.andel.gns )
+corrgram(plot.df, order=TRUE,
+         lower.panel=panel.pts, upper.panel=panel.pie,
+         diag.panel=panel.minmax, text.panel=)
+
+
+
+view(df)
+
+cor(plot.df,use="pairwise.complete.obs")
+
+corrgram(plot.df, order=NULL, panel=panel.shade)
+
+
+, text.panel=panel.txt,
            main="Correlogram") 
+
+
 
 
 
@@ -113,7 +116,7 @@ segment.edges
 vertex.mobility
 
 
-
+view(seg.df)
 
 
 
@@ -197,6 +200,95 @@ lavdens.df <- filter(df, Density <= .52)
 view(lavdens.df)
 
 
+
+
+
+############## delanalyse 2: Bringin' it All back Home ###########
+
+beta.analyse.df <- df  %>%     arrange(desc(beta.var.alle),desc(membership)) %>% select(membership,Nodes,disco,contains("beta"), max.path,Density,beskaeft.andel.gns,beskaeft.gns,beskaeft.andel.gns.beregn, within.mob,within.mob.seg, share.of.mob, share.total.size,  `1: share.of.mobility`,skillvl) %>%    select(membership,Nodes,disco,contains("beta"),everything())
+
+
+beta.analyse.seg.df <- seg.df  %>%     arrange(desc(beta.var.alle.seg),desc(membership)) %>% select(membership,Nodes,contains("beta"), max.path,Density, within.mob.seg, share.of.mob, share.total.size,beskaeft.andel.gns.beregn)
+view(beta.analyse.seg.df)
+ 
+
+
+
+###################### delanalyse 2: fagforeninger ###############
+
+
+valg.seg <-  c("2.40")
+view(DST_fagbet %>% filter(membership==valg.seg) %>% select(`2: Segment`,fagbet_tekst, disco, membership, skillvl) %>% arrange(`2: Segment`,disco))
+
+df %>% filter(membership==valg.seg) %>% arrange(beskaeft.andel.gns) %>% select(disco)   %>%   print(n=40)
+view(DST_fagbet)
+
+
+
+
+
+#gennemsnitsstatistik - noder 
+Hmisc::describe(round(df$roede.mean.gns*100),2)
+round2(quantile(df$roede.mean.gns,standard.percentiler,na.rm=TRUE)*100,1)
+#gennemsnitsstatistik - segmenter 
+Hmisc::describe(seg.df$roede.mean.gns.beregn*100)
+round2(quantile(seg.df$roede.mean.gns.beregn,standard.percentiler,na.rm=TRUE)*100,1)
+round2(mean(seg.df$roede.sd.gns.beregn,na.rm=TRUE)*100,1)
+
+#mere
+round2(quantile(df$roede.sd.gns.beregn,standard.percentiler,na.rm=TRUE)*100,1)
+
+round2(mean(seg.df$roede.mean.gns.beregn) *100,1)
+round2(median(seg.df$roede.mean.gns.beregn) *100,1)
+round2(mean(seg.df$roede.sd.gns.beregn,na.rm=TRUE) *100,1)
+round2(median(seg.df$roede.sd.gns.beregn,na.rm=TRUE) *100,1)
+
+
+
+# udvalgte delmarkeder
+
+udvalgt.seg.df <- df  %>% filter(membership=="5.1") %>%       arrange(desc(roede.mean.gns.beregn )) %>%   select(membership,disco,`2: Segment`,`3: Segment`,`4: Segment`,contains("roed"), beskaeft.andel.gns, max.path,Density,beskaeft.gns, within.mob,skillvl) 
+
+
+
+xlsxdat_file  <-  view(udvalgt.seg.df)
+wb <- loadWorkbook(xlsxdat_file)
+nytdata <- readWorksheet(wb, sheet=1)
+
+
+
+
+
+
+
+
+
+view(df)
+roede.analyse.df <- df  %>%     arrange(desc(roede.mean.gns.beregn ),desc(membership)) %>% select(membership,Nodes,disco,contains("roed"), max.path,Density,beskaeft.andel.gns,beskaeft.gns,beskaeft.andel.gns.beregn, within.mob,within.mob.seg, share.of.mob, share.total.size,  `1: share.of.mobility`,skillvl) %>%    select(membership,Nodes,disco,roede.mean.gns.beregn ,roede.sd.gns.beregn,roede.mean.gns, beskaeft.andel.gns.beregn, beskaeft.andel.gns,everything())
+view(roede.analyse.df)
+
+
+view(seg.df)
+roede.analyse.seg.df <- seg.df  %>%     arrange(desc(roede.mean.gns.beregn ),desc(membership)) %>% select(membership,Nodes,contains("roed"), max.path,Density, within.mob.seg, share.of.mob, share.total.size,beskaeft.andel.gns.beregn) %>%  select(membership,Nodes,roede.mean.gns.beregn ,roede.sd.gns.beregn,beskaeft.andel.gns.beregn,everything())
+view(roede.analyse.seg.df)
+aabn_xls("./statistik/R/moneca/vores/00_emilspeciale_output/dataframes/df_roede.xlsx")
+aabn_xls("./statistik/R/moneca/vores/00_emilspeciale_output/dataframes/seg.df_roede.xlsx")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ###################### delanalyse 2: ledighed ################
 
 
@@ -251,61 +343,6 @@ ledighed.analyse.seg.df <- seg.df  %>%     arrange(desc(ledighed.mean.gns.beregn
 view(ledighed.analyse.seg.df)
 aabn_xls("./statistik/R/moneca/vores/00_emilspeciale_output/dataframes/df_ledighed.xlsx")
 aabn_xls("./statistik/R/moneca/vores/00_emilspeciale_output/dataframes/seg.df_ledighed.xlsx")
-
-
-
-############# boxplot ledighed whatever##########
-
-
-# alle 
-plot.df <- filter(discodata, !grepl("^1.*", membership), !grepl("^2.*", membership))
-
-# dem under 2 % ledighed 
-plot.df <- filter(discodata, ledighed.mean.gns.beregn<.0195) %>% filter(!grepl("^1.*", membership))
-
-# dem under 2 % ledighed 
-plot.df <- filter(discodata, ledighed.mean.gns.beregn>.045) %>% filter(!grepl("^1.*", membership))
-
-plot.df <- plot.df %>%  group_by(membership) %>%  mutate(is.outlier = is_outlier(ledighed.mean.gns,0.25,5))
-plot.df <-  plot.df %>%   mutate(outlier = ifelse(is.outlier==TRUE, as.character(disco),NA)) 
-getPalette= colorRampPalette(xmen)
-p <- ggplot(plot.df, aes(x=fct_reorder(membership,ledighed.mean.gns), y=ledighed.mean.gns,fill=membership,label=plot.df$disco))
-p1 <-  p + scale_fill_manual(values=getPalette(length(unique(plot.df$membership))))
-p2 <-  p1 +  stat_summary(fun.data=bp.vals, geom="boxplot",alpha=0.7,color="black") + geom_point(position= position_jitter(width=0.2),aes(size=beskaeft.andel.gns),alpha=.75)
-p3 <-  p2 + stat_summary(fun.y=whisk.emil, geom="point",shape=95,size=8,color="black") + theme_bw() + theme(legend.position="none") + scale_y_continuous(labels=percent)
-
-p3 +  geom_label_repel(aes(fill=membership,label=outlier),    box.padding = unit(0.35, "lines"), point.padding = unit(0.5, "lines"),size=3.5) # kan evt manuelt ændre de segmenter hvor der ikke er noget label, bare så man kan se hvad det indeholder. Nok meget god ide. 
-
-
-p_out <-  p3 + geom_text(aes(label = outlier), na.rm = TRUE, vjust = -0.6,size=2.75) 
-
-p_out
-
-
-
-
-
-p2 + geom_label(hjust=-0.1,aes(size=beskaeft.andel.gns)) + scale_size_continuous(range=c(1,3))
-p2 + geom_text_repel(size=2,force=0.3,nudge_x=1)
-p2 + geom_text(nudge_x=1,hjust=-0.05,aes(size=beskaeft.andel.gns),check_overlap=TRUE) + scale_size_continuous(range=c(1,3))
-
-
- geom_label_repel(
-    aes(wt, mpg, fill = factor(cyl), label = rownames(mtcars)),
-    fontface = 'bold', color = 'white',
-    box.padding = unit(0.35, "lines"),
-    point.padding = unit(0.5, "lines"),
-    segment.color = 'grey50'
-  ) +
-
-
-
-
-
-cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/boxplots/ledighed_seg3-5.pdf", onefile = TRUE, height = 20, width = 20)
-p_out 
-dev.off()
-
 
 
 
@@ -508,9 +545,7 @@ p2 + geom_text(nudge_x=1,hjust=-0.05,aes(size=beskaeft.andel.gns),check_overlap=
 ggplot(discodata,aes(x=beskaeft.andel.gns,y=timelon.mean.gns)) + geom_point(size=2.5, shape=19,colour=discodata$disco_1cifret, position="jitter")
 
 
-#############################################
-
-
+###########################################
 
 
 

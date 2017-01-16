@@ -173,6 +173,7 @@ dev.off()
 
 
 # koen
+# 
 #quants=seq(0,1,0.05)
 #round(quantile(discodata$koen.gns.kvinder.andel,quants)*100,0)
 #Hmisc::describe(round(100*discodata$koen.gns.kvinder.andel),0)
@@ -196,6 +197,95 @@ kort.koen <-  gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arro
 cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_koen.pdf", onefile = TRUE, height = 30, width = 30)
 kort.koen
 dev.off()
+
+
+# fagforeninger - gule
+
+
+discodata <- mutate(discodata,gule.mean.gns.cutoff=replace(gule.mean.gns, gule.mean.gns>=0.1, 0.1))
+
+
+quants=seq(0,1,0.01)
+round(quantile(discodata$gule.mean.gns,quants)*100,2)
+Hmisc::describe(round(100*discodata$gule.mean.gns),3)
+ggplot(discodata,aes(x=gule.mean.gns)) + geom_histogram(binwidth=0.003) + theme_bw()
+#koen 
+
+
+
+
+skala.gule =  c("grey30","white",  "yellow")
+gule.num = seq(0,10,1)
+gule.num=gule.num/100
+gule.lab <- paste(100*gule.num)  #, "%")
+#gule.lab = insert.at(gule.lab,4,c("3.6 (median)"))
+#gule.num <- insert.at(gule.num,4,median(discodata$gule.mean.gns.cutoff))
+gule.lab[5] = c("4 (median: 3,6)")
+gule.lab[11] <- c("10+")
+gule.rescale = c(0,.25,  3.25,   8)
+gule.rescale= gule.rescale/100
+kort.gule <-  gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arrow = arrow.default, 
+                       edge.size=edge.size, vertex.fill = discodata$gule.mean.gns.cutoff,
+                       vertex.size = vertex_stoerrelse) +  
+  ggtitle("gule") + scale_fill_gradientn(values=rescale(gule.rescale),colours = skala.gule, name = "andel gule fagf i %", breaks=gule.num, labels=gule.lab) +  
+  default  +
+  guides(fill = guide_colorbar(barwidth = 1, barheight = 15,draw.ulim = FALSE, draw.llim = FALSE)) +
+  theme(legend.position = c(0.9, 0.9))
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_gule.pdf", onefile = TRUE, height = 30, width = 30)
+kort.gule
+dev.off()
+
+
+# fagforeninger - roede
+
+
+RColorBrewer.RdYlBu <-   c("#A50026", "#D73027", "#F46D43" ,"#FDAE61" ,"#FEE090" ,"#FFFFBF" ,"#E0F3F8" ,"#ABD9E9" ,"#74ADD1" ,"#4575B4" ,"#313695")
+
+skala.roed =  c("gray20" ,"gray40" ,"gray60" ,"gray80" ,"indianred1","indianred2","indianred3", "indianred4")
+
+
+
+
+roed.num = seq(5,85,10)
+roed.num[6] = 54
+roed.num=roed.num/100
+roed.lab <- paste(100*roed.num)  #, "%")
+roed.lab[6] <- c("54 (median)")
+roed.num[9] = 0.80
+roed.num[1] = 0.1
+
+
+roed.rescale = c(5,15,   16,25,  26,35,  36,45,   50,55, 56,65,   66,74, 75,85)
+
+quants=seq(0,1,0.1)
+round(quantile(discodata$roede.mean.gns,quants)*100,0)
+Hmisc::describe(round(100*discodata$roede.mean.gns),0)
+#ggplot(discodata,aes(x=roed.mean.gns)) + geom_histogram(binwidth=0.005) + theme_bw()
+#koen 
+
+
+skala.roed =  c("grey30","white", "indianred2", "indianred4")
+roed.num = c(5,25,50,75,85)
+roed.num=roed.num/100
+roed.lab <- paste(100*roed.num)  #, "%")
+roed.lab = insert.at(roed.lab,3,c("54 (median)"))
+roed.num <- insert.at(roed.num,3,median(discodata$roede.mean.gns))
+#roed.lab[5] = c("4 (median: 3,6)")
+#roed.lab[11] <- c("10+")
+roed.rescale = c(0,25,  51,   70)
+roed.rescale= roed.rescale/100
+kort.roed <-  gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arrow = arrow.default, 
+                       edge.size=edge.size, vertex.fill = discodata$roede.mean.gns,
+                       vertex.size = vertex_stoerrelse) +  
+  ggtitle("roed") + scale_fill_gradientn(values=rescale(roed.rescale),colours = skala.roed, name = "andel roede fagf i %", breaks=roed.num, labels=roed.lab) +  
+  default  +
+  guides(fill = guide_colorbar(barwidth = 1, barheight = 15,draw.ulim = FALSE, draw.llim = FALSE)) +
+  theme(legend.position = c(0.9, 0.9))
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_roed.pdf", onefile = TRUE, height = 30, width = 30)
+kort.roed
+dev.off()
+
+
 
 
 ################# ledighed ######################

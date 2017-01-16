@@ -21,16 +21,28 @@ emilsvector.bin <- seq(5,56,4)
 # emilsvector.bin <- sort(emilsvector.bin)
 
 
+allbeskaeft_tmp <- allbeskaeft
+colnames(allbeskaeft_tmp)[1] <- c("disco_s")
+allbeskaeft_tmp <- tbl_df(allbeskaeft_tmp)
+
+
+noeglevar.df <-  discodata %>% select(disco_s, membership, disco) 
+noeglevar.df$disco_s <-  as.numeric(as.character(noeglevar.df$disco_s))
+
+
+
 ##### fagforening - gul ###
 gule.helepop <- read_excel_allsheets("./statistik/DST/DST_output/00_emil_speciale/MONECAs/allebeskaeftigede/baggrundsvar/fagforening_gulesataner.xlsx")
 gule.helepop <- data.frame(matrix(unlist(gule.helepop), nrow=274),stringsAsFactors=FALSE)
 nyvector <- c(1,2,6,9,12,16,20,24,28,31,34,38,41,45,48)
 gule.helepop <- gule.helepop[-274,c(nyvector)]
 colnames(gule.helepop)[1] <- c("disco_s")
-allbeskaeft_tmp <- tbl_df(allbeskaeft)
-colnames(allbeskaeft_tmp)[1] <- c("disco_s")
+gule.helepop <- apply(gule.helepop,2,as.character)
+gule.helepop <- apply(gule.helepop,2,  str_replace_all, fixed("."), "")
+gule.helepop <- apply(gule.helepop,2,as.numeric)
+gule.helepop <- tbl_df(gule.helepop)
 gule.helepop <- left_join(gule.helepop,allbeskaeft_tmp)
-gule.helepop <- gule.helepop %>%  select(disco,
+gule.helepop <- gule.helepop %>%  select(disco_s,
 X2, `1996`,
 X6, `1997`,
 X9, `1998`,
@@ -66,6 +78,81 @@ gule.helepop.udv <- gule.helepop %>%  select(disco_s,contains("gns"))
 
 gule.helepop.udv$disco_s <- as.character(gule.helepop.udv$disco_s)
 
+
+##### fagforening - roede ###
+roede.helepop <- read_excel_allsheets("./statistik/DST/DST_output/00_emil_speciale/MONECAs/allebeskaeftigede/baggrundsvar/fagforening_roedehelte_3.xlsx")
+roede.helepop <- data.frame(matrix(unlist(roede.helepop), nrow=274),stringsAsFactors=FALSE)
+nyvector <- c(1,2,5,8,11,14,17,20,23,26,29, 32,35,38,41)
+roede.helepop <- roede.helepop[-274,c(nyvector)]
+colnames(roede.helepop)[1] <- c("disco_s")
+roede.helepop <- apply(roede.helepop,2,as.character)
+roede.helepop <- apply(roede.helepop,2,  str_replace_all, fixed("."), "")
+roede.helepop <- apply(roede.helepop,2,as.numeric)
+roede.helepop <- tbl_df(roede.helepop)
+roede.helepop <- left_join(roede.helepop,allbeskaeft_tmp)
+roede.helepop <- roede.helepop %>%  select(disco_s,
+X2, `1996`,
+X5, `1997`,
+X8, `1998`,
+X11, `1999`,
+X14, `2000`,
+X17, `2001`,
+X20, `2002`,
+X23, `2003`,
+X26, `2004`,
+X29, `2005`,
+X32, `2006`,
+X35, `2007`,
+X38, `2008`,
+X41, `2009`)
+roede.helepop <- roede.helepop %>% mutate(
+roede.andel.1996 = X2 / `1996`,
+roede.andel.1997 = X5 / `1997`,
+roede.andel.1998 = X8 / `1998`,
+roede.andel.1999 = X11 / `1999`,
+roede.andel.2000 = X14 / `2000`,
+roede.andel.2001 = X17 / `2001`,
+roede.andel.2002 = X20 / `2002`,
+roede.andel.2003 = X23 / `2003`,
+roede.andel.2004 = X26 / `2004`,
+roede.andel.2005 = X29 / `2005`,
+roede.andel.2006 = X32 / `2006`,
+roede.andel.2007 = X35 / `2007`,
+roede.andel.2008 = X38 / `2008`,
+roede.andel.2009 = X41 / `2009`) 
+roede.helepop$roede.mean.gns <- roede.helepop %>%  select(contains("andel")) %>% rowMeans()
+
+#slet politiarbejde der har fejl i orgainseringsgraden, jvf Jonas #emilhowto
+delete <- which(roede.helepop$disco_s == 3450 | roede.helepop$disco_s == 5162 )
+roede.helepop[delete,2:ncol(roede.helepop)] <- NA
+
+
+roede.helepop.udv <- roede.helepop %>%  select(disco_s,contains("gns")) 
+
+# roede.helepop.udv$disco_s <- as.character(roede.helepop.udv$disco_s)
+
+
+#tidsserier 
+
+roede.tid.df <-   roede.helepop %>% select(disco_s,contains("andel.199"),contains("andel.200"))
+roede.tid.df <-  left_join(roede.tid.df,noeglevar.df) %>%    select(-disco_s) %>%   select(disco,membership, everything()) %>% arrange(desc(membership))   %>%   
+rename(
+`1996`=roede.andel.1996,
+`1997`=roede.andel.1997,
+`1998`=roede.andel.1998,
+`1999`=roede.andel.1999,
+`2000`=roede.andel.2000,
+`2001`=roede.andel.2001,
+`2002`=roede.andel.2002,
+`2003`=roede.andel.2003,
+`2004`=roede.andel.2004,
+`2005`=roede.andel.2005,
+`2006`=roede.andel.2006,
+`2007`=roede.andel.2007,
+`2008`=roede.andel.2008,
+`2009`=roede.andel.2009)  
+roede.tid.df$disco <- as.character(roede.tid.df$disco)
+roede.tid.df$membership <- as.character(roede.tid.df$membership)
 
 
 
@@ -261,22 +348,38 @@ ledighed.helepop$ledighed.total.gns <- ledighed.helepop %>% 	select(contains("to
 ledighed.helepop.udv <- ledighed.helepop %>% 	select(disco_s,contains("gns")) %>%   select(-contains("var"))
 
 
+
+
 #tidsserier 
 
 led.tid.df <-  ledighed.helepop %>% select(disco_s,contains("mean.199"),contains("mean.200"))
-noeglevar.df <-  discodata %>% select(disco_s, membership, `2: Segment`,disco) 
-led.tid.df <-  left_join(led.tid.df,noeglevar.df) %>%    select(-disco_s) %>%   select(disco,membership, `2: Segment`,everything()) 
+noeglevar.df <-  discodata %>% select(disco_s, membership, disco) 
+led.tid.df <-  left_join(led.tid.df,noeglevar.df) %>%    select(-disco_s) %>%   select(disco,membership, everything()) %>% arrange(desc(membership))   %>%   
+rename(
+`1996`=ledighed.mean.1996,
+`1997`=ledighed.mean.1997,
+`1998`=ledighed.mean.1998,
+`1999`=ledighed.mean.1999,
+`2000`=ledighed.mean.2000,
+`2001`=ledighed.mean.2001,
+`2002`=ledighed.mean.2002,
+`2003`=ledighed.mean.2003,
+`2004`=ledighed.mean.2004,
+`2005`=ledighed.mean.2005,
+`2006`=ledighed.mean.2006,
+`2007`=ledighed.mean.2007,
+`2008`=ledighed.mean.2008,
+`2009`=ledighed.mean.2009)  
+led.tid.df$disco <- as.character(led.tid.df$disco)
+led.tid.df$membership <- as.character(led.tid.df$membership)
+
+
+
+
+
+# view(led.tid.df)
 # led.sd.tid <-  ledighed.helepop %>% select(contains("mean.199"),contains("mean.200")) %>%   apply(.,1,sd)
 # led.tid.df <- cbind(led.tid.df,led.sd.tid)
-
-
-led.tid.df <- led.tid.df %>%  arrange(membership,`2: Segment`)
-
-
-
-
-
-# view(ledighed.helepop.udv)
 
 
 #########koen ###
@@ -339,7 +442,6 @@ koen.helepop <- koen.helepop %>% 	 rowwise()  %>% 	 mutate_each(., funs( koen.gn
 koen.helepop.udv <- koen.helepop %>% 	select(disco_s,contains("gns")) %>%   select(-contains("var")) 
 
 
-view(koen.helepop)
 
 ###################### join på disco #########################
 
@@ -353,6 +455,9 @@ discodata     <- left_join(discodata, alder.helepop.udv)
 discodata     <- left_join(discodata, koen.helepop.udv)
 discodata     <- left_join(discodata, ledighed.helepop.udv)
 discodata     <- left_join(discodata, gule.helepop.udv)
+roede.helepop.udv$disco_s <-  as.character(roede.helepop.udv$disco_s)
+discodata     <- left_join(discodata, roede.helepop.udv)
+
 
 
 

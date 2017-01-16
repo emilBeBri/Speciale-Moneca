@@ -148,7 +148,8 @@
 			"file_exclude_patterns":
 			[
 				"*.bib",
-				"moneca_data"
+				"moneca_data",
+				"*.do"
 			],
 			"folder_exclude_patterns":
 			[

@@ -43,7 +43,7 @@ col.desk.au <- c(col1,col3,col6,col2,col5,col4)
 # desk.ledsoc_tael <-   filter(desk.ledsoc_tael,  grp== 1 |  grp== 5 |  grp== 6)
 # desk.ledsoc_tael <-   filter(desk.ledsoc_tael,  grp== 1 |  grp== 5 |  grp== 6 |  grp== 4)
 
-  
+
 
 
 view(desk.ledsoc_tael)  

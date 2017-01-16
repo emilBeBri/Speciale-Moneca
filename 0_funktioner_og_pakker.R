@@ -28,6 +28,10 @@
 ######## Library #############
 
 library(devtools)
+library(ggrepel)
+library(ggthemes)
+library(grid)  
+library(pheatmap)
 library(reshape)
 #library(digest) #slet igen
 library(MASS) #slet igen
@@ -37,9 +41,10 @@ library(RColorBrewer)
 library(scales)
 library(reshape2)
 #nlibrary(soc.ca) #(måske ikke så vigtigt)
+library(tidyr)
 library(plyr)
 library(dplyr)
-#library(forcats)
+library(forcats)
 #library(readstata13)
 library(readxl)
 # library(rmarkdown)
@@ -63,6 +68,12 @@ iwanthue <-  c("#6db643","#bdad45","#7263d0","#e28337","#7183ca","#d2413f","#d14
 
 #RColorBrewer
 RColorBrewer.Set1 <-  c("#E41A1C", "#377EB8", "#4DAF4A", "#984EA3", "#FF7F00", "#FFFF33", "#A65628", "#F781BF", "#999999")
+
+
+RColorBrewer.RdYlBu <-   c("#A50026", "#D73027", "#F46D43" ,"#FDAE61" ,"#FEE090" ,"#FFFFBF" ,"#E0F3F8" ,"#ABD9E9" ,"#74ADD1" ,"#4575B4" ,"#313695")
+
+
+
 
 # xmen 
 xmen = c("#026CCBFF", "#F51E02FF" ,"#05B102FF" ,"#FB9F53FF" ,"#9B9B9BFF", "#FB82BEFF" ,"#BA6222FF"  ,    "#EEC229FF" )
@@ -105,11 +116,17 @@ e.pheat.dataprep <- function(klynge=3,undergr=4)  {
     mat.e <-  mob.mat
     mat.e <- wm1
 
+
+work.list <-  seg$segment.list[[klynge]][[undergr]]
+work.list <- sort(work.list)
+work.list <- c(210)
+
+
 mat.e.result <- mat.e[work.list,work.list]
 
-relativrisiko.vector.mat.e.result  <-  as.vector(t(mat.e.result))
-relativrisiko.vector.mat.e.result[relativrisiko.vector.mat.e.result<=0] <- NA
-quantile(relativrisiko.vector.mat.e.result, seq(0,1,0.05),na.rm=TRUE)
+# relativrisiko.vector.mat.e.result  <-  as.vector(t(mat.e.result))
+# relativrisiko.vector.mat.e.result[relativrisiko.vector.mat.e.result<=0] <- NA
+# quantile(relativrisiko.vector.mat.e.result, seq(0,1,0.05),na.rm=TRUE)
 
 diag(mat.e.result)[] <- 0
 diag(mat.e.result)[] <- round_any(max(mat.e.result), 5, ceiling)
@@ -155,6 +172,49 @@ lsos <- function(..., n=10) {
     .ls.objects(..., order.by="Size", decreasing=TRUE, head=TRUE, n=n)
 }
 #lsos() #bruges sådan her, lissom getwd()
+
+view <- function(data, autofilter=TRUE) {
+    # data: data frame
+    # autofilter: whether to apply a filter to make sorting and filtering easier  
+    data <- as.data.frame(data) #to handle dplyr datasets
+    open_command <- switch(Sys.info()[['sysname']],
+                           Windows= 'open',
+                           Linux  = 'xdg-open',
+                           Darwin = 'open')
+    require(XLConnect)
+    temp_file <- paste0(tempfile(), '.xlsx')
+    wb <- XLConnect::loadWorkbook(temp_file, create = TRUE)
+    XLConnect::createSheet(wb, name = "temp")
+    XLConnect::writeWorksheet(wb, data, sheet = "temp", startRow = 1, startCol = 1)
+    areal <- length(data)+25
+    areal <- append(areal,length(data)+25)
+    if (autofilter) setAutoFilter(wb, 'temp', aref('A1', areal))
+    XLConnect::saveWorkbook(wb, )
+    system(paste(open_command, temp_file))
+    # system(paste("libreoffice5.2 --norestore", temp_file))
+
+# Return the name of the temporaray Excel file when executing the function
+return(temp_file)
+}
+# # Open file in Excel and save filename of temporary Excel file 
+# filename <- view(data)
+# # Go to Excel and browse the file and/or do some changes
+# # Import changes to R after closing Excel
+# wb <- loadWorkbook(xlsxdata_filename)
+ # changed_data <- readWorksheet(wb, sheet=1)
+
+
+## For pheatmap_1.0.8 and later (45 graders dimser under)
+draw_colnames_45 <- function (coln, gaps, ...) {
+    coord = pheatmap:::find_coordinates(length(coln), gaps)
+    x = coord$coord - 0.5 * coord$size
+    res = textGrob(coln, x = x, y = unit(1, "npc") - unit(3,"bigpts"), vjust = 0.5, hjust = -0.025, rot = 360-45, gp = gpar(...))
+    return(res)}
+## 'Overwrite' default draw_colnames with your own version 
+assignInNamespace(x="draw_colnames", value="draw_colnames_45",
+ns=asNamespace("pheatmap"))
+
+
 
 
 
@@ -530,12 +590,16 @@ view <- function(data, autofilter=TRUE) {
     wb <- XLConnect::loadWorkbook(temp_file, create = TRUE)
     XLConnect::createSheet(wb, name = "temp")
     XLConnect::writeWorksheet(wb, data, sheet = "temp", startRow = 1, startCol = 1)
-    if (autofilter) setAutoFilter(wb, 'temp', aref('A1', dim(data)))
+    # if (autofilter) setAutoFilter(wb, 'temp', aref('A1', dim(data)))
+    autofilemil = dim(data)+5
+    if (autofilter) setAutoFilter(wb, 'temp', aref('A1', autofilemil))
     XLConnect::saveWorkbook(wb, )
     system(paste(open_command, temp_file))
 # Return the name of the temporaray Excel file when executing the function
 return(temp_file)
 }
+
+
 
 
 #original version før fiks der specificerer at den skal bruge XLConnect-pakken

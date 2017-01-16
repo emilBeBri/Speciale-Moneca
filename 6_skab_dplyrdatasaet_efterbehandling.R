@@ -3,31 +3,115 @@
 # df  <- discodata %>% 	select(-contains("200"),-contains("199"),-timelon.helepop.gns.inf.dst) %>% 	select(disco,membership,disco_s,within.mob,within.mob.seg,within.mob.dif,Density,Nodes,max.path,share.of.mob,contains("gns"),ends_with("cifret"),everything()) %>% 	tbl_df()
 
 
+### standardiser variable 
+
+# til.df.3 <-  discodata %>% select(timelon.mean.gns, koen.gns.kvinder.andel,ledighed.mean.gns, within.mob)
+# til.df.3 <- apply(til.df.3,2,scale)
+# beta_sum <- rowSums(til.df.3)
+# til.df.3 <- cbind(til.df.3,beta_sum)
+# til.df.3 <- rename(til.df.3,  timelon.beta.gns =timelon.mean.gns,koen.gns.kvinder.beta =koen.gns.kvinder.andel,ledighed.beta.gns =ledighed.mean.gns,within.mob.beta =within.mob)
+
+
+#ensartethed i segmenterne 
+
+
+tmp.df.3 <-  discodata %>% select(timelon.mean.gns,koen.gns.kvinder.andel,ledighed.mean.gns,within.mob,alder.mean.gns,roede.mean.gns,gule.mean.gns) %>% apply(.,2,scale)
+tmp.df.3 <- tmp.df.3^2
+beta.var.alle <- rowSums(tmp.df.3[,-1])
+beta.var.u.alder <- rowSums(tmp.df.3[,c(-1,-6)])
+beta.var.u.alder.mob <- rowSums(tmp.df.3[,c(-1,-6,-5)])
+beta.var.u.alder.mob.gule <- rowSums(tmp.df.3[,c(-1,-6,-5,-8)])
+beta.var.df <- cbind.data.frame(beta.var.alle,beta.var.u.alder)
+beta.var.df <- cbind.data.frame(beta.var.df,beta.var.u.alder.mob)
+beta.var.df <- cbind.data.frame(beta.var.df,beta.var.u.alder.mob.gule)
+beta.var.df <- tbl_df(beta.var.df)
+beta.var.df <- cbind.data.frame(discodata$membership,beta.var.df)
+colnames(beta.var.df)[1] <- c("membership")
+
+
+
+# delete <- which(roede.helepop$disco_s == 3450 | roede.helepop$disco_s == 5162 )
+# roede.helepop[delete,2:ncol(roede.helepop)] <- NA
+
+
+beta.var.df <-  beta.var.df %>% group_by(membership) %>% summarise_each(funs(var), 
+beta.var.alle.seg=beta.var.alle,
+beta.var.u.alder.seg=beta.var.u.alder,
+beta.var.u.alder.mob.seg=beta.var.u.alder.mob,
+beta.var.u.alder.mob.gule.seg=beta.var.u.alder.mob.gule
+	) 
+
+
+# mean(df$alder.sd.gns)
+# sd(df$alder.sd.gns)
+
+##
+
+standard.percentiler = c(10,25,50,75,90,100)/100
+
 discodata$membership <- as.factor(discodata$membership)
 
-til.df.1 <-  discodata %>% group_by(membership) %>% summarise_each(funs(sd), timelon.sd.gns.beregn=timelon.mean.gns, koen.gns.kvinder.sd.beregn=koen.gns.kvinder.andel,ledighed.sd.gns.beregn=ledighed.mean.gns, within.mob.sd.beregn=within.mob)
-til.df.2 <-  discodata %>% group_by(membership) %>% summarise_each(funs(mean), timelon.mean.gns.beregn=timelon.mean.gns, koen.gns.kvinder.mean.beregn=koen.gns.kvinder.andel,ledighed.mean.gns.beregn=ledighed.mean.gns)
+til.df.1 <-  discodata %>% group_by(membership) %>% summarise_each(funs(sd), timelon.sd.gns.beregn=timelon.mean.gns, koen.gns.kvinder.sd.beregn=koen.gns.kvinder.andel,ledighed.sd.gns.beregn=ledighed.mean.gns, within.mob.sd.beregn=within.mob, alder.sd.gns.beregn=alder.mean.gns,roede.sd.gns.beregn=roede.mean.gns,gule.sd.gns.beregn=gule.mean.gns)
+
+
+til.df.2 <-  discodata %>% group_by(membership) %>% summarise_each(funs(mean), timelon.mean.gns.beregn=timelon.mean.gns, koen.gns.kvinder.mean.beregn=koen.gns.kvinder.andel,ledighed.mean.gns.beregn=ledighed.mean.gns, alder.mean.gns.beregn=alder.mean.gns,roede.mean.gns.beregn=roede.mean.gns,gule.mean.gns.beregn=gule.mean.gns)
+
+til.df.3 <-  discodata %>% group_by(membership) %>% summarise_each(funs(sum), beskaeft.andel.gns.beregn=beskaeft.andel.gns, beskaeft.gns.beregn=beskaeft.gns)
 
 
 seg.df <-  left_join(seg.df,til.df.1)
 seg.df <-  left_join(seg.df,til.df.2)
+seg.df <-  left_join(seg.df,til.df.3)
+
 discodata <-  inner_join(discodata,til.df.1)
 discodata <-  inner_join(discodata,til.df.2)
+discodata <-  inner_join(discodata,til.df.3)
 
 
-
-##
+################ afvigelse i varians #################
 seg.df$raekkefoelge.seg <- seq(1:nrow(seg.df))
-
-tmp.df.1 <-  led.tid.df %>% group_by(membership) %>% summarise_each(funs(mean), contains("mean")) %>% 	arrange(desc(membership))
-# View(tmp.df.1)
 seg.df <- arrange(seg.df,desc(membership))
-ledighed.tid.sd.seg <- apply(tmp.df.1[-1],1,sd)
-seg.df <- cbind(seg.df,ledighed.tid.sd.seg)
+
+
+
+# variable 
+ledighed.tid.sd.seg <-  led.tid.df %>% group_by(membership) %>% summarise_each(funs(mean), contains("mean")) %>% 	arrange(desc(membership))
+ledighed.tid.sd.seg <- apply(ledighed.tid.sd.seg[-1],1,sd)
+
+
+
+
+
+# roede.tid.sd.seg <-  roede.tid.df %>% group_by(membership) %>% summarise_each(funs(mean), contains("mean")) %>% 	arrange(desc(membership))
+# seg.df <- cbind(seg.df,roede.tid.sd.seg)
+
+
+
+# sætte dem tilbage i orden 
 seg.df <- arrange(seg.df,raekkefoelge.seg)
+
+
+
+
+
+
+
+
+
+
+
 
 seg.df$membership <- as.factor(seg.df$membership)
 discodata$membership <- as.factor(discodata$membership)
+
+
+
+## join betavariable med 
+
+
+seg.df <-  left_join(seg.df,beta.var.df)
+discodata <-  inner_join(discodata,beta.var.df)
+
 
 
 df  <- discodata %>% 	select(-contains("200"),-contains("199")) %>% 	select(disco,membership,disco_s,within.mob,within.mob.seg,within.mob.dif,Density,Nodes,max.path,share.of.mob,contains("gns"),ends_with("cifret"),everything()) %>% 	tbl_df()
@@ -41,38 +125,6 @@ df <- tbl_df(df)
 # # tmp$label2 <- as.numeric(as.character(tmp$membership))*1000
 
 
-### standardiser variable 
-
-# til.df.3 <-  discodata %>% select(timelon.mean.gns, koen.gns.kvinder.andel,ledighed.mean.gns, within.mob)
-# til.df.3 <- apply(til.df.3,2,scale)
-# beta_sum <- rowSums(til.df.3)
-# til.df.3 <- cbind(til.df.3,beta_sum)
-# til.df.3 <- rename(til.df.3,  timelon.beta.gns =timelon.mean.gns,koen.gns.kvinder.beta =koen.gns.kvinder.andel,ledighed.beta.gns =ledighed.mean.gns,within.mob.beta =within.mob)
-
-
-#ensartethed i segmenterne 
-
-
-tmp.df.3 <-  discodata %>% select(timelon.mean.gns,koen.gns.kvinder.andel,ledighed.mean.gns,within.mob) %>% apply(.,2,scale)
-tmp.df.3 <- cbind(tmp.df.3,as.character(discodata$membership))
-colnames(tmp.df.3)[5] <- c("membership")
-tmp.df.3 <-  tbl_df(tmp.df.3)
-tmp.df.3 <-  tmp.df.3 %>% group_by(membership) %>% summarise_each(funs(var), timelon.beta=timelon.mean.gns, koen.beta=koen.gns.kvinder.andel, ledighed.beta=ledighed.mean.gns, within.mob.beta=within.mob ) %>% 	arrange(desc(membership))
-beta.var <- rowSums(tmp.df.3[,-1])
-tmp.df.3 <- cbind(as.character(seg.df$membership),beta.var)
-tmp.df.3 <- tbl_df(tmp.df.3)
-tmp.df.3$beta.var <- as.numeric(tmp.df.3$beta.var)
-colnames(tmp.df.3)[1] <- c("membership")
-
-seg.df <-  left_join(seg.df,tmp.df.3)
-discodata <-  inner_join(discodata,tmp.df.3)
-
-
-
-
-
-# mean(df$alder.sd.gns)
-# sd(df$alder.sd.gns)
 
 ## forsøg med "naturlige breaks"
 
@@ -87,6 +139,8 @@ natur.interval.ledighed.quantile.cut = classInt::classIntervals(discodata$ledigh
 
 #Hmisc::describe(discodata$ledighed.mean.gns.cutoff)
 natur.interval.ledighed.kmeans = classInt::classIntervals(discodata$ledighed.mean.gns.cutoff, n = 8, style = 'kmeans')$brks
+
+
 
 
 

@@ -65,8 +65,7 @@ assignInNamespace(x="draw_colnames", value="draw_colnames_45",
 ns=asNamespace("pheatmap"))
 
 ## Try it out
-pheatmap(d)
-
+pheatmap(d 
 
 
 display_numbers = round(mat.e.result,0)

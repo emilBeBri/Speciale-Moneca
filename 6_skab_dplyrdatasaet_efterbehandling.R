@@ -154,6 +154,7 @@ seg.qual <-  tbl_df(seg.qual)
 # view(seg.qual.final)
 
 
+
 #1. level 
 level1 <-  list()
 level.names <- c("antal noder","gennemsnitlig intern mobilitet") 
@@ -249,11 +250,29 @@ level5[2] <- (level5.1 + level5.2 +level5.3 + level5.4 + level5.5) / 5
 seg.opsummering <- list(level1,level2,level3,level4,level5)
 # kan eventuelt laves til funktion. Bør også inkludere tre elementer til per niveau: forøgelse i intern mobilitet fra det foregående niveau, samt faldet i antallet af noder i procent. samt ændring i procentpoint. Dette kan naturligvis kun være for niveau 2+.
 
-# forøgelse i intern mobilitet i %
+# forøgelse i intern mobilitet i procent.
+(seg.opsummering[[c(2,2)]] / seg.opsummering[[c(1,2)]])*100
+(seg.opsummering[[c(3,2)]] / seg.opsummering[[c(2,2)]])*100
+(seg.opsummering[[c(4,2)]] / seg.opsummering[[c(3,2)]])*100
+(seg.opsummering[[c(5,2)]] / seg.opsummering[[c(4,2)]])*100
+
+# forøgelse i intern mobilitet i procentpoint.
 (seg.opsummering[[c(2,2)]] - seg.opsummering[[c(1,2)]])*100
 (seg.opsummering[[c(3,2)]] - seg.opsummering[[c(2,2)]])*100
 (seg.opsummering[[c(4,2)]] - seg.opsummering[[c(3,2)]])*100
 (seg.opsummering[[c(5,2)]] - seg.opsummering[[c(4,2)]])*100
+
+
+
+
+#  reduktion i antal segmenter 
+((seg.opsummering[[c(1,1)]] / seg.opsummering[[c(2,1)]])*100)-100
+((seg.opsummering[[c(2,1)]] / seg.opsummering[[c(3,1)]])*100)-100
+((seg.opsummering[[c(3,1)]] / seg.opsummering[[c(4,1)]])*100)-100
+((seg.opsummering[[c(4,1)]] / seg.opsummering[[c(5,1)]])*100)-100
+
+
+
 
 
 ############### relativ risiko vektor 

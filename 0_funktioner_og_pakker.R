@@ -28,13 +28,13 @@
 ######## Library #############
 
 library(devtools)
-library(ggrepel)
-library(ggthemes)
-library(grid)  
-library(pheatmap)
+#library(ggrepel)
+#library(ggthemes)
+#library(grid)  
+#library(pheatmap)
 library(reshape)
 #library(digest) #slet igen
-library(MASS) #slet igen
+#library(MASS) #slet igen
 library(ggplot2)
 library(stringr)
 library(RColorBrewer)
@@ -44,7 +44,7 @@ library(reshape2)
 library(tidyr)
 library(plyr)
 library(dplyr)
-library(forcats)
+#library(forcats)
 #library(readstata13)
 library(readxl)
 # library(rmarkdown)

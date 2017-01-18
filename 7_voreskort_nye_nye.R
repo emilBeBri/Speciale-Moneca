@@ -147,7 +147,7 @@ kort.timelon
 dev.off()
 
 
-# kun edges-kort
+# kun edges-kort - kan godt forbedres #todoiR
 
 edges.eksp                <- segment.edges(seg.b, mode="directed",cut.off=1,small.cell.reduction = small.cell.default, segment.reduction = 0.1) #før var den 3 her og 5 nedenunder
 edges.eksp[edges.eksp > 7.5] <- 7.5
@@ -277,7 +277,7 @@ roed.rescale= roed.rescale/100
 kort.roed <-  gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arrow = arrow.default, 
                        edge.size=edge.size, vertex.fill = discodata$roede.mean.gns,
                        vertex.size = vertex_stoerrelse) +  
-  ggtitle("roed") + scale_fill_gradientn(values=rescale(roed.rescale),colours = skala.roed, name = "andel roede fagf i %", breaks=roed.num, labels=roed.lab) +  
+  ggtitle("roed") + scale_fill_gradientn(na.value = "mediumpurple1",   values=rescale(roed.rescale),colours = skala.roed, name = "andel roede fagf i %", breaks=roed.num, labels=roed.lab) +  
   default  +
   guides(fill = guide_colorbar(barwidth = 1, barheight = 15,draw.ulim = FALSE, draw.llim = FALSE)) +
   theme(legend.position = c(0.9, 0.9))
@@ -288,7 +288,7 @@ dev.off()
 
 
 
-################# ledighed ######################
+  ################# ledighed ######################
 
 
   
@@ -428,7 +428,7 @@ s5                      <- segment.membership(seg, niveau = 1:5)[,2]
 cs1t2                   <- as.character(s1) == as.character(s2)
 cs2t3                   <- as.character(s2) == as.character(s3)
 cs3t4                   <- as.character(s3) == as.character(s4)
-cs4t5                   <- as.character(s4) == as.character(s5)
+cs4t5                   <- as.character(s1) == as.character(s5)
 
 cs                      <- cs1t2 + cs2t3 + cs3t4 +cs4t5
 cs                      <- as.factor(cs)
@@ -467,8 +467,15 @@ for (i in 1:5) {
 }  
  
 
+#præsentation af modellen uden 
+cs5t5                   <- as.character(s5) == as.character(s5)
+cairo_pdf("./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_seg_proces_niveau5_praesentation.pdf",,onefile=TRUE,height=15,width=15)
+gg.jonas(seg, layout=lay, niveau=1:5, edges = edges.default, vertex.fill=cs4t5, edge.color = "grey30", midpoints = FALSE, vertex.size = vertex_stoerrelse,
+         edge.size = 0.3, border.padding = 1.5, show.text = FALSE, border.text.size = 3, border.text = FALSE) + list.scales + ggtitle("") + annotate("segment",x=Inf,xend=-Inf,y=Inf,yend=Inf,color="black",lwd=1) + theme(plot.title = element_text(size=35, face="bold")) 
+dev.off()
  
-
+  
+  
 cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_seg_proces.pdf", onefile = TRUE, height = 30, width = 30)
 
 

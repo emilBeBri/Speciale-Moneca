@@ -12,6 +12,24 @@ aabn_xls("./statistik/R/moneca/vores/00_emilspeciale_output/dataframes/df.xlsx")
 aabn_xls("./statistik/R/moneca/vores/00_emilspeciale_output/dataframes/seg.df.xlsx")
 
 
+recode(df,    =`2: Nodes`
+
+
+
+df %>%  mutate(`2: Nodes` = ifelse(is.na(`2: Nodes`), c(1), na.rm = T), `2: Nodes`))
+
+
+tmp  <-  df %>% mutate(tmp = ifelse(is.na(`2: Nodes`), c(1), `2: Nodes`)) 
+
+
+
+view(df %>%  mutate(`2: Nodes` = ifelse(is.na(`2: Nodes`), c(1), `2: Nodes`)) %>% group_by(`2: Nodes`) %>%     mutate(test =sum(`2: Nodes`)))
+
+
+mean(tmp$tmp)
+
+
+
 
 
 # se et segments vigtigste variable 
@@ -91,13 +109,12 @@ library(help = MONECA)
 
 
 occupations
-
 moneca_stat1 <-  overordnede.niveau(seg)
 moneca_stat2 <-  first.level.summary(seg)
 moneca_stat3 <- vertex.mobility(seg)
 view(moneca_stat3)
 
-moneca_stat4 <-  neighborhood.share.of(seg,5)
+# moneca_stat4 <-  neighborhood.share.of(seg,1)
 
 
 # moneca_stat3 <- ego.plot(seg) # ved ikke hvad den her kan 
@@ -118,7 +135,7 @@ vertex.mobility
 
 view(seg.df)
 
-
+view(seg.qual)
 
 
 # nøgletal for intern mobilitet (delanalyse1)
@@ -127,7 +144,10 @@ view(seg.qual.final)
 view(seg.qual)
 view(seg.df)
 view(disco.df)
+view(df)
 
+view(df %>%   arrange(`5: Segment`,`4: Segment`,`3: Segment`,`2: Segment`,`2: Segment`))
+view(df %>%   arrange(`4: Segment`,`3: Segment`,`2: Segment`,`2: Segment`))
 
 
 disco.inseg <- filter(discodata, !grepl("^1.*", membership))
@@ -141,7 +161,11 @@ sd(seg.df$within.mob.seg)*100
 quants <- seq(0.1,0.2,0.01)
 format(round(quantile(seg.df$within.mob.seg, quants, na.rm=TRUE), digits=3), big.mark=".",decimal.mark=",",nsmall=0)
 
-view(seg.df)
+
+
+
+
+
 
 ### 
 

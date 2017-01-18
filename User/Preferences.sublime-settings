@@ -5,7 +5,13 @@
 		"homogeniseringsperioden",
 		"segmenteringsteori",
 		"erne",
-		"akkumulationsproces"
+		"akkumulationsproces",
+		"inklusion",
+		"aggregeringer",
+		"Moneca",
+		"aggregeringen",
+		"antalsmæssigt",
+		"bottom"
 	],
 	"always_prompt_for_file_reload": false,
 	"bold_folder_labels": true,
@@ -92,13 +98,13 @@
 	"font_size": 13,
 	"ignored_packages":
 	[
+		"Git",
+		"GitGutter",
 		"Pywin32",
 		"StataEditor",
 		"Vintage"
 	],
 	"line_numbers": true,
-	"mdpopups.sublime_user_lang_map": null,
-	"mdpopups.use_sublime_highlighter": null,
 	"remember_full_screen": true,
 	"show_tab_close_buttons": false,
 	"spell_check": false,

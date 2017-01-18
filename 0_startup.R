@@ -73,6 +73,7 @@ load("./statistik/R/moneca/vores/voresdata/WORKINGPROGRESS_allebeskaeft250.Rdata
  
 source("./statistik/R/moneca/vores/vorescripts/7_komma_nul_defaultsoglayout.R")
 
+help(arrow)
 
   ############3 til gamle igraph, 
 

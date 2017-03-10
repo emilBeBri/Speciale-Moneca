@@ -26,8 +26,8 @@ oesch16_lab_dk  <- c(
 "10 Managere, lavt niveau",
 "11 Clerks, højt niveau",
 "12 Clerks, lavt niveau",
-"13 Socio-kulturelle profesionelle",
-"14 Socio-kulutrelle semiprofesineolle",
+"13 Sociokulturelle profesionelle",
+"14 Sociokulturelle semiprofessionelle",
 "15 Servicearbejdere, højt niveau",
 "16 Servicearbejdere, lavt niveau")
 oesch16_lab  <- c(
@@ -43,51 +43,48 @@ oesch16_lab  <- c(
 "10 Managere, lavt niveau",
 "11 Clerks, hoejt niveau",
 "12 Clerks, lavt niveau",
-"13 Socio-kulturelle profesionelle",
-"14 Socio-kulutrelle semiprofesineolle",
+"13 Sociokulturelle profesionelle",
+"14 Sociokulturelle semiprofessionelle",
 "15 Servicearbejdere, hoejt niveau",
 "16 Servicearbejdere, lavt niveau")
 
 
-oesch16_lab <- c(
-"1 Store forretningsdrivende" ="1" ,
-"2 Selvstaendige profesionelle" ="2" ,
-"3 Smaa forretningsdrivende m. ansatte" ="3" ,
-"4 Smaa forretningsdrivende u. ansatte" ="4" ,
-"5 Teknikere (eksperter)" ="5" ,
-"6 Teknikere" ="6" ,
-"7 Manuelle arbejdere, hoejt niveau" ="7" ,
-"8 Manuelle arbejdere, lavt niveau" ="8" ,
-"9 Managere, hoejt niveau" ="9" ,
-"10 Managere, lavt niveau" ="10" ,
-"11 Clerks, hoejt niveau" ="11" ,
-"12 Clerks, lavt niveau" ="12" ,
-"13 Socio-kulturelle profesionelle" ="13" ,
-"14 Socio-kulutrelle semiprofesineolle" ="14" ,
-"15 Servicearbejdere, hoejt niveau" ="15" ,
-"16 Servicearbejdere, lavt niveau" ="16" )
+# oesch16_lab <- c(
+# "1 Store forretningsdrivende" ="1" ,
+# "2 Selvstaendige profesionelle" ="2" ,
+# "3 Smaa forretningsdrivende m. ansatte" ="3" ,
+# "4 Smaa forretningsdrivende u. ansatte" ="4" ,
+# "5 Teknikere (eksperter)" ="5" ,
+# "6 Teknikere" ="6" ,
+# "7 Manuelle arbejdere, hoejt niveau" ="7" ,
+# "8 Manuelle arbejdere, lavt niveau" ="8" ,
+# "9 Managere, hoejt niveau" ="9" ,
+# "10 Managere, lavt niveau" ="10" ,
+# "11 Clerks, hoejt niveau" ="11" ,
+# "12 Clerks, lavt niveau" ="12" ,
+# "13 Sociokulturelle profesionelle" ="13" ,
+# "14 Sociokulturelle semiprofessionelle" ="14" ,
+# "15 Servicearbejdere, hoejt niveau" ="15" ,
+# "16 Servicearbejdere, lavt niveau" ="16" )
+
 
 oesch16_lab <- c(
-"1" = "1 Store forretningsdrivende" ,
-"2" = "2 Selvstaendige profesionelle" ,
-"3" = "3 Smaa forretningsdrivende m. ansatte" ,
-"4" = "4 Smaa forretningsdrivende u. ansatte" ,
-"5" = "5 Teknikere (eksperter)" ,
-"6" = "6 Teknikere" ,
-"7" = "7 Manuelle arbejdere, hoejt niveau" ,
-"8" = "8 Manuelle arbejdere, lavt niveau" ,
-"9" = "9 Managere, hoejt niveau" ,
-"10" = "10 Managere, lavt niveau" ,
-"11" = "11 Clerks, hoejt niveau" ,
-"12" = "12 Clerks, lavt niveau" ,
-"13" = "13 Socio-kulturelle profesionelle" ,
-"14" = "14 Socio-kulutrelle semiprofesineolle" ,
-"15" = "15 Servicearbejdere, hoejt niveau" ,
+"1" = "1 Store forretningsdrivende",
+"2" = "2 Selvstaendige profesionelle",
+"3" = "3 Smaa forretningsdrivende m. ansatte",
+"4" = "4 Smaa forretningsdrivende u. ansatte",
+"5" = "5 Teknikere (eksperter)",
+"6" = "6 Teknikere",
+"7" = "7 Manuelle arbejdere, hoejt niveau",
+"8" = "8 Manuelle arbejdere, lavt niveau",
+"9" = "9 Managere, hoejt niveau",
+"10" = "10 Managere, lavt niveau",
+"11" = "11 Clerks, hoejt niveau",
+"12" = "12 Clerks, lavt niveau",
+"13" = "13 Sociokulturelle profesionelle",
+"14" = "14 Sociokulturelle semiprofessionelle",
+"15" = "15 Servicearbejdere, hoejt niveau",
 "16" = "16 Servicearbejdere, lavt niveau")
-
-
-
-
 
 
 
@@ -163,8 +160,8 @@ discodata$klasse_oesch16 <-  recode_factor(discodata$disco_4cifret,
 '2444'="14",
 '2445'="13",
 '2446'="14",
-'2451'="1",
-'2452'="14",
+'2451'="14",
+# '2452'="14",
 '2453'="14",
 '2455'="14",
 '2460'="13",
@@ -195,7 +192,7 @@ discodata$klasse_oesch16 <-  recode_factor(discodata$disco_4cifret,
 '3225'="15",
 '3226'="14",
 '3228'="15",
-'3229'="14",
+# '3229'="14",
 '3230'="14",
 '3310'="14",
 '3320'="14",
@@ -244,11 +241,11 @@ discodata$klasse_oesch16 <-  recode_factor(discodata$disco_4cifret,
 '4223'="11",
 '5111'="15",
 '5112'="15",
-'5113'="15",
+'5113'="16", #rejseleder. Det er IKKE højt servicearbejde, men lavt servicearbejde...you can quote me on that!
 '5121'="16",
 '5122'="15",
 '5123'="16",
-'5131'="15",
+'5131'="16", #samme gælder for "børnepasning i private hjem". Plz.
 '5132'="15",
 '5133'="16",
 '5141'="15",
@@ -381,6 +378,38 @@ discodata <-  discodata %>%
 
 
 
+discodata$klasse_oesch8 <- revalue(discodata$klasse_oesch16,
+c(
+"1 Store forretningsdrivende" ="1 Borgerskab" ,
+"2 Selvstaendige profesionelle" ="1 Borgerskab" ,
+"3 Smaa forretningsdrivende m. ansatte" ="2 Småborgerskab" ,
+"4 Smaa forretningsdrivende u. ansatte" ="2 Småborgerskab" ,
+"5 Teknikere (eksperter)" ="3 Teknikere" ,
+"6 Teknikere" ="3 Teknikere" ,
+"7 Manuelle arbejdere, hoejt niveau" ="4 Manuelle arbejdere" ,
+"8 Manuelle arbejdere, lavt niveau" ="4 Manuelle arbejdere" ,
+"9 Managere, hoejt niveau" ="5 Managere" ,
+"10 Managere, lavt niveau" ="5 Managere" ,
+"11 Clerks, hoejt niveau" ="6 Clerks" ,
+"12 Clerks, lavt niveau" ="6 Clerks" ,
+"13 Sociokulturelle profesionelle" ="7 Sociokulturelle specialister" ,
+"14 Sociokulturelle semiprofessionelle" ="7 Sociokulturelle specialister" ,
+"15 Servicearbejdere, hoejt niveau" ="8 Servicearbejdere" ,
+"16 Servicearbejdere, lavt niveau" ="8 Servicearbejdere" )
+	)
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### EGP-11
 
 # aabn_xls("./statistik/DST/DST_output/00_emil_speciale/klasseskemaer/klasser_egp11_kat250_v1.xlsx")
@@ -389,7 +418,7 @@ discodata <-  discodata %>%
 
 
 #EGP-11
-egp11_lab  =  c("I"="1: Oevre Serviceklasse","II"="2: Nedre Serviceklasse","IIIa"="3a: Rutinepraeget, ikke-manuelt arbejde hoejeste niveau","IIIb"="3b: Rutinepraeget, ikke-manuelt arbejde laveste niveau","Iva"="4a: smaa selvstaendige med ansatte","Ivb"="4b: små selvstaendige uden ansatte","Ivc"="4c: Landmaend og andre selvstaendige i primaer produktion ","V"="5: Teknikere af laveste grad, supervisorer af manuelt arbejde","VI"="6: Faglaerte, manulle arbejdere","VIIa"="7a: Ikke-faglaerte, manuelle arbejdere","VIIb"="7b: landbrugsarbejdere")
+egp11_lab  =  c("I"="1: Oevre Serviceklasse","II"="2: Nedre Serviceklasse","IIIa"="3a: Rutinepraeget, ikke-manuelt arbejde hoejeste niveau","IIIb"="3b: Rutinepraeget, ikke-manuelt arbejde laveste niveau","IVa"="4a: smaa selvstaendige med ansatte","IVb"="4b: små selvstaendige uden ansatte","IVc"="4c: Landmaend og andre selvstaendige i primaer produktion ","V"="5: Teknikere af laveste grad, supervisorer af manuelt arbejde","VI"="6: Faglaerte, manulle arbejdere","VIIa"="7a: Ikke-faglaerte, manuelle arbejdere","VIIb"="7b: landbrugsarbejdere")
 
 egp11_lab_dk  =  c("I"="1: Øvre Serviceklasse","II"="2: Nedre Serviceklasse","IIIa"="3a: Rutinepræget, ikke-manuelt arbejde højeste niveau","IIIb"="3b: Rutinepræget, ikke-manuelt arbejde laveste niveau","Iva"="4a: små selvstændige med ansatte","Ivb"="4b: små selvstændige uden ansatte","Ivc"="4c: Landmænd og andre selvstændige i primær produktion ","V"="5: Teknikere af laveste grad, supervisorer af manuelt arbejde","VI"="6: Faglærte, manulle arbejdere","VIIa"="7a: Ikke-faglærte, manuelle arbejdere","VIIb"="7b: landbrugsarbejdere")
 
@@ -397,34 +426,33 @@ egp11_lab_dk  =  c("I"="1: Øvre Serviceklasse","II"="2: Nedre Serviceklasse","I
 
 
 discodata$klasse_egp11 <-  recode_factor(discodata$disco_4cifret,
-# '110'="		",
-'1110'="I",
+# '1110'="NA",
 '1140'="II",
-'1210'="I",
-'1222'="I",
-'1223'="I",
-'1224'="I",
-'1225'="I",
-'1226'="I",
-'1227'="I",
-'1229'="I",
-'1231'="I",
-'1232'="I",
-'1233'="I",
-'1234'="I",
-'1235'="I",
-'1236'="I",
-'1237'="I",
-'1239'="I",
-'1311'="I",
-'1312'="VI",
-'1313'="V",
-'1314'="VI",
-'1315'="V",
-'1316'="V",
-'1317'="VI",
-'1318'="V",
-'1319'="Iva",
+'1210'="II",
+'1222'="II",
+'1223'="II",
+'1224'="II",
+'1225'="II",
+'1226'="II",
+'1227'="II",
+'1229'="II",
+'1231'="II",
+'1232'="II",
+'1233'="II",
+'1234'="II",
+'1235'="II",
+'1236'="II",
+'1237'="II",
+'1239'="II",
+'1311'="IVc",
+'1312'="IVb",
+'1313'="IVa",
+'1314'="IVb",
+# '1315'="NA",
+'1316'="Iva",
+'1317'="IVb",
+# '1318'="NA",
+'1319'="II",
 '2110'="I",
 '2120'="I",
 '2131'="I",
@@ -445,18 +473,18 @@ discodata$klasse_egp11 <-  recode_factor(discodata$disco_4cifret,
 '2222'="I",
 '2223'="I",
 '2224'="I",
-# '2225'="		",
+'2225'="IVa",
 '2230'="II",
 '2310'="I",
 '2320'="II",
 '2330'="II",
-# '2341'="		",
+# '2341'="IVa",
 '2351'="I",
 '2352'="I",
 '2359'="II",
 '2411'="I",
 '2412'="II",
-'2419'="II",
+# '2419'="NA",
 '2421'="I",
 '2422'="I",
 '2429'="I",
@@ -549,7 +577,7 @@ discodata$klasse_egp11 <-  recode_factor(discodata$disco_4cifret,
 '5111'="IIIa",
 '5112'="IIIa",
 '5113'="IIIa",
-'5121'="II",
+'5121'="IIIb",
 '5122'="VI",
 '5123'="VIIa",
 '5131'="IIIa",
@@ -560,15 +588,15 @@ discodata$klasse_egp11 <-  recode_factor(discodata$disco_4cifret,
 '5162'="VI",
 '5163'="VIIa",
 '5169'="VIIa",
-'5181'="Iva",
+'5181'="IVa",
 '5220'="IIIa",
-'6111'="Ivc",
+'6111'="IVc",
 '6112'="VIIb",
-'6121'="Ivc",
-'6129'="Ivc",
-'6130'="Ivc",
-'6150'="VIIb",
-'6181'="Iva",
+'6121'="IVc",
+'6129'="IVc",
+'6130'="IVc",
+# '6150'="NA",
+'6181'="IVa",
 '7121'="VIIa",
 '7122'="VIIa",
 '7124'="VI",
@@ -591,14 +619,14 @@ discodata$klasse_egp11 <-  recode_factor(discodata$disco_4cifret,
 '7222'="VI",
 '7223'="VI",
 '7224'="VI",
-'7231'="VI",
-'7232'="VI",
-'7233'="VI",
+# '7231'="NA",
+# '7232'="NA",
+# '7233'="NA",
 '7241'="VI",
-'7242'="VI",
-'7243'="VI",
+# '7242'="NA",
+# '7243'="NA",
 '7244'="V",
-'7245'="VI",
+# '7245'="NA",
 '7310'="VI",
 '7320'="VIIa",
 '7341'="VI",
@@ -663,9 +691,9 @@ discodata$klasse_egp11 <-  recode_factor(discodata$disco_4cifret,
 '9152'="VIIa",
 '9161'="VIIa",
 '9162'="VIIa",
-'9211'="VIIb",
-'9212'="VIIb",
-'9213'="VIIb",
+# '9211'="NA",
+'9212'="VIIa",
+'9213'="VIIa",
 '9312'="VIIa",
 '9313'="VIIa",
 '9320'="VIIa",
@@ -679,8 +707,6 @@ discodata <-  discodata %>%
   )) 
 # klasser_egp11 <-  discodata %>%
   # select(disco_s,klasse_egp11)
-
-
 
 # write.csv2(klasser_egp11,file="./statistik/R/moneca/vores/voresdata/klasser_egp11_fraubuntu.csv",row.names=FALSE)
 

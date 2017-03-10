@@ -1,41 +1,30 @@
 
-
-# kan bruges til at sorte hele matrixen 
-heat.krit.df <-  df %>% filter(membership=="3.4") %>%  rename(segkrit=`2: Segment`) %>% select(disco,segkrit)   
- heat.krit.df$disco  <-  as.character(heat.krit.df$disco)
- heat.krit.df$segkrit  <-  as.character(heat.krit.df$segkrit)
-
-
-all.equal(colnames(mat.e.result),heat.krit.df$disco) #test for at se om rækkefølgen er som den skal være 
-
-mat.e.result <-  mat.e.result[order(heat.krit.df$segkrit), order(heat.krit.df$segkrit)]
-
-
-
-
-
-#####################
-
-
-
 cut.off.default <-  median(relativrisiko.vector,na.rm=TRUE) 
 cut.off.default <- 1
 wm1            <- weight.matrix(mob.mat, cut.off = cut.off.default, symmetric = FALSE, small.cell.reduction = small.cell.default, diagonal=TRUE) 
 wm1[is.na(wm1)] <- 0
 
-mat.e <-  mob.mat
+
+
+
+mat.e <-  mob.mat[-274,-274]
 mob.mat[mob.mat<=5] <- 0
 mat.e <- wm1
 # colnames(mat.e) <- paste(as.character(discodata$`2: Segment`),as.character(discodata$disco),sep=":")
-klynge <- 3
-undergr <- 35
-work.list <-  seg$segment.list[[klynge]][[undergr]]
-work.list <- append(work.list,work.list2)
+klynge <- 5
+undergr <- 2
 
-work.list <- sort(work.list) #Hvis det skal være i raekkefolge til 
+klynger <- c("3.24","3.30")
 
-work.list <- c(62)
+work.list <-  sort(as.vector(unlist(seg.selector.df %>% filter(membership %in% klynger) %>%     select(indeks))))
 
+
+# work.list <-  seg$segment.list[[klynge]][[undergr]]
+# work.list.2 <- seg$segment.list[[klynge]][[undergr]]
+# work.list <- append(work.list,work.list.2)
+# work.list <- c(62)
+
+# work.list <- sort(work.list) #Hvis det skal være i raekkefolge til 
 
 ########## simpel: kun segmentet
 mat.e.result <- mat.e[work.list,work.list]
@@ -52,25 +41,9 @@ mat.e.result[irr.job.indices,irr.job.indices] <- 0
 diag(mat.e.result)[irr.job.indices] <- dvals
 #view(mat.e.result)
 
-######## selve grafen 
-# library(circlize)
-# library(yarrr)
-# xmen <-  piratepal("xmen")
-
-# segmentcircle <- sub.mat  
-# segmentcircle <- mob.mat[-274,]
-# segmentcircle <- segmentcircle[,-274]
-
-# view(segmentcircle)
-
-
-
 #forhindrer diagonalen i at fucke det hele op 
-
 diag(mat.e.result)[] <- 0
 diag(mat.e.result)[] <- round_any(max(mat.e.result), 5, ceiling)
-
-
 
 relativrisiko.vector.mat.e.result  <-  as.vector(t(mat.e.result))
 relativrisiko.vector.mat.e.result[relativrisiko.vector.mat.e.result<=0] <- NA
@@ -81,19 +54,28 @@ quantile(relativrisiko.vector, quants,na.rm=TRUE)
 
 
 
+
+
 segmentcircle <- mat.e.result
+view(segmentcircle)
+
+
 em.circlize(segmentcircle)
 segmentcircle[segmentcircle<=18] <- 0
 segmentcircle[segmentcircle>=50] <- 50
 
 
-view(df.c)
+
+# # kan bruges til at sorte hele matrixen 
+# heat.krit.df <-  df %>% filter(membership=="3.4") %>%  rename(segkrit=`2: Segment`) %>% select(disco,segkrit)   
+#  heat.krit.df$disco  <-  as.character(heat.krit.df$disco)
+#  heat.krit.df$segkrit  <-  as.character(heat.krit.df$segkrit)
 
 
-sample(seq(1,10,1))
+# all.equal(colnames(mat.e.result),heat.krit.df$disco) #test for at se om rækkefølgen er som den skal være 
 
+# mat.e.result <-  mat.e.result[order(heat.krit.df$segkrit), order(heat.krit.df$segkrit)]
 
-view(mat.e.result)
 
 
 cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/chorddiagrams/seg_3_4_RR_7_5.pdf", onefile = TRUE, height = 20, width = 20)
@@ -113,6 +95,41 @@ dev.off()
 em.heatmap(mat.e.result)
 
 
+######### forside - e.mobmat.seg.niveau.5! (måske bedre med RR i stedet)
+
+cut.off.default <-  0.00000001
+wm1            <- weight.matrix(mob.mat, cut.off = cut.off.default, symmetric = FALSE, small.cell.reduction = small.cell.default, diagonal=TRUE) 
+
+
+segmentcircle <- e.mobmat.seg.niveau.5.m.total
+match(colnames(e.mobmat.seg.niveau.5),seg.df$membership)
+
+colnames(segmentcircle) <- seg.df$membership_lab
+rownames(segmentcircle) <- seg.df$membership_lab
+
+
+diag(segmentcircle)[] <- 0
+relativrisiko.vector.segmentcircle  <-  as.vector(t(segmentcircle))
+relativrisiko.vector.segmentcircle[relativrisiko.vector.segmentcircle<=0] <- NA
+quants= seq(0,1,0.05)
+quantile(relativrisiko.vector.segmentcircle, quants,na.rm=TRUE)
+Desc(relativrisiko.vector.segmentcircle)
+relativrisiko.vector.segmentcircle[relativrisiko.vector.segmentcircle>130] <- 130
+
+
+segmentcircle[segmentcircle<=500] <- 0
+em.circlize(segmentcircle)
+
+view(segmentcircle)
+
+
+segmentcircle[segmentcircle>=50] <- 50
+
+
+
+
+
+# noget er galt, forkerte labels eller sådan noget. tjek senere.
 
 
 

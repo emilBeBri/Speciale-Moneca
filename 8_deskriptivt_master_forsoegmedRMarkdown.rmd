@@ -1,0 +1,374 @@
+https://www.facebook.com/events/1819446464939194/?notif_t=plan_user_invited&notif_id=148891195900851---
+title: "Delanalyse3: Oesch socialklasser"
+mobilitetanalysemotor(manuelle.klynger.alle,CW=30,CH=50)author: "Emil Begtrup-Bright"
+date: "Februar 2017"
+output: pdf_document
+
+
+---
+Gad vide om..
+dThis is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+på dansk mon ? When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+hvorfor ikke 
+
+
+```{r}
+summary(cars)
+```
+
+
+
+
+You can also embed plots, jfor example:
+
+```{r, echo=FALSE}
+plot(cars)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+
+# Starten på mit afsnit, load data 
+
+
+
+```{r, echo=TRUE}
+setwd("/home/emil/Dropbox/Speciale/Emil_Soeren")
+source("./statistik/R/moneca/vores/vorescripts/0_funktioner_og_pakker.R")
+source("./statistik/R/moneca/vores/vorescripts/0_funktion_mobilitetsanalysemotor.multi.R")
+source("./statistik/R/moneca/vores/vorescripts/0_funktion_mobilitetsanalysemotor.uni.R")
+
+
+load("./statistik/R/moneca/vores/voresdata/Rnotebook_allebeskaeft250.Rdata")
+save.image("./statistik/R/moneca/vores/voresdata/Rnotebook_allebeskaeft250.Rdata")
+library(forcats)
+library(
+	Tools)
+library(ggthemes)
+library(knitr)
+
+```
+##  Social klasse  
+
+overordnet om klasserne 
+
+```{r,echo=FALSE}
+
+generic.df  <-  select(discodata,klasse_oesch8)
+levels(generic.df$klasse_oesch8) <- c(levels(generic.df$klasse_oesch8),"Uklassicificeret")
+generic.df$klasse_oesch8[is.na(generic.df$klasse_oesch8)] <- "Uklassicificeret"
+  cbind(
+  	Freq=table(generic.df[,1]), Kum=cumsum(table(generic.df[,1])), rela=prop.table(table(generic.df[,1]))*100,KuRela=cumsum(table(generic.df[,1])/nrow(generic.df))*100
+  	) 
+generic.df  <-  select(discodata,klasse_oesch16)
+levels(generic.df$klasse_oesch16) <- c(levels(generic.df$klasse_oesch16),"Uklassicificeret")
+generic.df$klasse_oesch16[is.na(generic.df$klasse_oesch16)] <- "Uklassicificeret"
+  cbind(
+  	Freq=table(generic.df[,1]), Kum=cumsum(table(generic.df[,1])), rela=prop.table(table(generic.df[,1]))*100,KuRela=cumsum(table(generic.df[,1])/nrow(generic.df))*100
+  	) 
+
+```
+
+Sådan er andelen af af klasserne fordelt. Hvordan ser det ud over tid? 
+
+Pas på her: Du bruger sammensmeltningen af Oesch og dine Segmenter. har du ikke antal beskæftigede i Oesch Klasser i sig selv? → Nej. Pis. Så, det skal du lige huske at tage forbehold for. Der er en vis unøjagtighed i de præcise andele. Husk på det, undersøg hvad det betyder. \#todo
+
+
+```{r, echo=FALSE}
+
+
+beskaeft.tid.klasse.df <-  beskaeft.andel.tid.df %>% group_by(klasse_oesch8) %>% summarise_each(funs(sum), `1996`=`1996`, `1997`=`1997`, `1998`=`1998`, `1999`=`1999`, `2000`=`2000`, `2001`=`2001`, `2002`=`2002`, `2003`=`2003`, `2004`=`2004`, `2005`=`2005`, `2006`=`2006`, `2007`=`2007`, `2008`=`2008`, `2009`=`2009`)  
+
+plot.df <- beskaeft.tid.klasse.df %>%   gather(key, value, -klasse_oesch8) %>%   rename(segmenter=klasse_oesch8)   
+ggplot(plot.df, aes(x=key, y=value, colour=as.matrix(plot.df[,1]), group=as.matrix(plot.df[,1]))) + geom_line(size=1.3) + xlab("") + ylab("") + theme_tufte() + theme(panel.grid.major= element_line(colour="grey70", size=0.05)) + scale_colour_manual(values=skala_oesch8) + geom_rangeframe(color="black") + scale_y_continuous(label=percent,breaks = extended_range_breaks()(plot.df$value))
+
+
+```
+SÅ godt for de store klasser. Det ses, der er noget om snakken ifht hvor arbejdet lægger henne. 
+
+
+```{r, echo=FALSE}
+
+beskaeft.tid.klasse.df <-  beskaeft.andel.tid.df %>% group_by(klasse_oesch16) %>% summarise_each(funs(sum), `1996`=`1996`, `1997`=`1997`, `1998`=`1998`, `1999`=`1999`, `2000`=`2000`, `2001`=`2001`, `2002`=`2002`, `2003`=`2003`, `2004`=`2004`, `2005`=`2005`, `2006`=`2006`, `2007`=`2007`, `2008`=`2008`, `2009`=`2009`)  
+plot.df <- beskaeft.tid.klasse.df %>%   gather(key, value, -klasse_oesch16) %>%   rename(segmenter=klasse_oesch16)   
+ggplot(plot.df, aes(x=key, y=value, colour=plot.df$segmenter, group=plot.df$segmenter)) + geom_line(size=1.3) + xlab("") + ylab("") + theme_tufte() + theme(panel.grid.major= element_line(colour="grey70", size=0.05)) + scale_colour_manual(values=skala_oesch16) + geom_rangeframe(color="black") + scale_y_continuous(label=percent,breaks = extended_range_breaks()(plot.df$value))
+
+```
+Man kan se at det, der har ændret sig ikke er de lavere arbejder- og serviceklasser: Det er de høje manuelle og service, der har ændret relativ andel. De to lave har en ret konstant andel over de 14 år. Interessant. Kan man måske se det i bevægelsesmønstre? Hvor går de hen, de manuelle arbejdere, og hvor kommer servicearbejderne fra? Pas på med monecas Relative Risiko mål her: Den tager netop højde for ændringer i strukturen, og det er en dårlig ide i det her tilfælde: Jeg vil gerne se på andelen af skift, hvor kommer de fra og går til. Brug edges-magic trick til at se på det. haha. 
+
+
+to-do:
+
+* efteruddannelse etc. de nye overenskomstforhandlinger, 200 millioner til efteruddannelse. IT-bølgen kommer. Find citat fra fagforeningsboss om det. 
+* gå over til køn derefter. 
+
+
+<!-- 
+# #### find de grupper der har mix af de to koen 
+
+# discodata <- discodata %>%  mutate(seg.flest.kvinder = koen.gns.kvinder.andel > .5)
+# discodata <- discodata %>%  mutate(seg.flest.maend = koen.gns.kvinder.andel < .5)
+
+
+
+# seg.df.mix.koen <-  discodata %>% group_by(membership) %>% summarise(seg.antal.kvindgrp=sum(seg.flest.kvinder)) %>%   filter(!grepl("^1.*", membership))
+# tmp1 <- seg.df %>%   select(Nodes,membership) %>%   filter(!grepl("^1.*", membership))
+# seg.df.mix.koen <- left_join(seg.df.mix.koen,tmp1)
+# seg.df.mix.koen <- mutate(seg.df.mix.koen, seg.koen.fordeling = mosaic::derivedFactor("Kun kvinder" = (Nodes == seg.antal.kvindgrp), "Kun Maend" = (seg.antal.kvindgrp == 0), .method = "first", .default = "Mikset"))
+# seg.df <- left_join(seg.df,seg.df.mix.koen)
+# discodata <- left_join(discodata,seg.df.mix.koen)
+# #view(discodata) -->
+
+
+
+
+# De manuelle arbejder klynger 
+
+Oesch rammer rigtigt med sit 8-klasse skema på arbejderklassen. Og semi-rigtigt på 16-niveau. Permabilitet er vigtigt for en klase, og vi kan se at indenfor klassefraktioner er overlap, som der vel sådan set også burde være. Alligevel er der også tydelig forskel 
+	<!-- → du skal til at undersøge om hvordan mikset i segmenterne er -->
+
+NB! Her er der kode der ikke kan køres, fordi jeg importerer data i hånden. Men det findes i specialet.
+
+
+```{r, echo=FALSE}
+
+
+klynger <- manuelle.klynger.alle
+
+# tmp.df.1 <-  seg.df %>%    filter(membership %in% klynger & beskaeft.andel.gns.beregn>=.00001/100)  %>%   select(membership,membership_lab,beskaeft.andel.gns.beregn)
+# # view(tmp.df.1)
+
+
+# # klynger.sorteret <-  levels(factor(tmp.df.1$membership))
+
+# plot.df <-  beskaeft.tid.seg.df %>%  filter(membership %in% klynger) 
+# # filename  <-  view(plot.df)
+# # wb <- loadWorkbook(filename)
+# #  changed_data <- readWorksheet(wb, sheet=1)
+# # colnames(changed_data)[c(3:16)] <-  lapply(colnames(changed_data)[c(3:16)], function(x) substring(x, 2,) )
+# # changed_data[10,c(1:2)] <- c("Resten: S:4.4, S:3.15, S:3.25 & S:2.40")
+# # changed_data[1,2] <- c("5.1: Manuelt arbejde, lavt: Industriproduktion")
+
+
+# # save(changed_data, file = "./statistik/R/moneca/vores/voresdata/changed_data.Rdata")
+
+# load(file = "./statistik/R/moneca/vores/voresdata/changed_data.Rdata")
+# view(changed_data)
+
+
+
+# plot.df <- changed_data %>%  filter(`1996`>=0.9/100) %>% select(-membership) %>%  gather(key, value, -membership_lab) %>%   rename(segmenter=membership_lab)
+
+# # cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/tidsserier/tid_seg_manuelt.pdf", onefile = TRUE, height = 15, width = 20)
+ggplot(plot.df, aes(x=key, y=value, colour=as.matrix(plot.df[,1]), group=as.matrix(plot.df[,1]))) + geom_line(size=2) + xlab("") + ylab("") + theme_tufte() + theme(panel.grid.major= element_line(colour="grey70", size=.75),legend.text=element_text(size=25), legend.key.height = unit(5, "line")) + geom_rangeframe(color="black") + scale_y_continuous(label=percent, breaks = extended_range_breaks()(plot.df$value)) + 
+#  scale_colour_manual(values=sample(xmen)) 
+scale_colour_manual(values=colorRampPalette(xmen)(length(unique(as.matrix(plot.df[,1]))))) 
+# # dev.off()
+
+
+# tmp.df.2 <-  changed_data %>%  select(-membership)  %>%   rename(membership=membership_lab) %>% mutate(forskel= (`2009`- `1996`)) %>% arrange(forskel) %>%  filter(`1996`>=0.9/100) %>%  select(membership, `1996`,`2009`,forskel) %>% mutate_each( funs(tilprocent) , `1996`=`1996`, `2009`=`2009`, forskel=forskel ) %>% 
+# mutate(`forskel i andel`=round2(((`2009`/`1996`)*100)-100,1))
+
+
+
+
+# kable(tmp.df.2,format="markdown")
+
+
+
+```
+
+Ok, har skrevet om det i specialet. 
+
+### Hvor går den manuelle klasse hen? 
+
+
+Her er kode til de vigtigste segmenter. 
+
+Vigtigt: I Oesch optik er "børnepasning i private hjem" et "højere" servicefag. Nej. Det er det ikke.  Det er rejseleder heller ikke. Dem omkoder jeg. 
+
+```{r, echo=FALSE}
+
+klynger <-  manuelle.klynger.alle
+klynger <-  manuelle.klynger.lav
+klynger <-  manuelle.klynger.hoj
+klynger <-  manuelle.klynger.blandet
+
+# # cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/tidsserier/tid_seg_manuelt.pdf", onefile = TRUE, height = 15, width = 20)
+
+
+manuelle.klynger.hoj.desc <-  ma.motor.uni.desc(manuelle.klynger.hoj,min_disco=750,procent=TRUE)
+manuelle.klynger.hoj.desc.t <-  ma.motor.uni.desc(manuelle.klynger.hoj,min_disco=750,procent=FALSE)
+Desc(manuelle.klynger.hoj.desc.t)
+quants= seq(0,1,0.05)
+quantile(manuelle.klynger.hoj.desc.t, quants)
+
+
+
+manuelle.klynger.hoj.df <-   ma.motor.uni.df(manuelle.klynger.hoj)
+View(manuelle.klynger.hoj.df)
+
+manuelle.klynger.hoj.df.u <- manuelle.klynger.hoj.df %>% filter(membership!="fokussegmenter") %>% select(membership_lab, klasse_begtrupbright1, contains("without")) %>% arrange(desc(without.mob.andel)) %>% mutate(without.mob.andel=round2(without.mob.andel*100,1),without.mob.andel.seg.tot=round2(without.mob.andel.seg.tot*100,1))
+
+View(manuelle.klynger.hoj.df.u)
+
+
+#segmenter
+manuelle.klynger.lav.df.seg <-   ma.motor.uni.df(manuelle.klynger.lav,discogrp=FALSE)
+view(manuelle.klynger.lav.df.seg)
+manuelle.klynger.lav.df.seg.u <- manuelle.klynger.lav.df.seg %>% filter(membership!="fokussegmenter") %>% select(membership_lab, contains("klasse"), contains("without"),contains("beskaeft")) %>% arrange(desc(without.mob.andel)) %>% mutate(without.mob.andel=round2(without.mob.andel*100,1),without.mob.andel.seg.tot=round2(without.mob.andel.seg.tot*100,1),beskaeft.andel.gns.beregn=round2(beskaeft.andel.gns.beregn*100,1))
+view(manuelle.klynger.lav.df.seg.u)
+v(manuelle.klynger.lav.df.seg.u %>% select(membership_lab, contains("without"), contains("klasse"),contains("beskaeft")) %>% arrange(desc(without.mob.andel)))
+#disco
+manuelle.klynger.lav.df.disco <-   ma.motor.uni.df(manuelle.klynger.lav,discogrp=TRUE)
+view(manuelle.klynger.lav.df.disco)
+manuelle.klynger.lav.df.disco.u <- manuelle.klynger.lav.df.disco %>% filter(membership!="fokussegmenter") %>% select(disco,membership_lab, contains("klasse_oesch"), contains("without"),skillvl,contains("beskaeft")) %>% arrange(desc(without.mob.andel)) %>% mutate(without.mob.andel=round2(without.mob.andel*100,1),without.mob.andel.seg.tot=round2(without.mob.andel.seg.tot*100,1),beskaeft.andel.gns.beregn=round2(beskaeft.andel.gns.beregn*100,1),beskaeft.andel.gns=round2(beskaeft.andel.gns*100,1))
+view(manuelle.klynger.lav.df.disco.u)
+v(manuelle.klynger.lav.df.disco.u %>% select(membership_lab, disco, without.mob.andel, contains("klasse")) %>% arrange(desc(without.mob.andel)))
+
+#56181 i alt i den lavere manuelle klasse
+
+
+v(seg.df %>% select(membership, beskaeft.andel.gns.beregn))
+
+
+#DST fag
+
+4.1
+3119 Teknikerarbejde i oevrigt inden for fysik, kemi, mekanik m.v.
+3115 Teknikerarbejde vedr. maskiner og roeranlaeg (skibsvedligeholdelse undtaget)
+
+
+
+
+3.36
+3152 Arbejde vedr. kontrol af miljoe, sikkerhed og kvalitet
+3211 Teknikerarbejde inden for biologi, medicin m.v.
+3111 Teknikerarbejde inden for fysik, kemi, astronomi, meteorologi, geologi m.v.
+
+
+#se på færdighedsniveauer 
+
+
+view(discodata)
+
+##
+tmp <-  manuelle.klynger.lav.df.disco.u %>% filter(skillvl =="3: mellemste færdighedsniveau (≃MVU)" | skillvl=="4: højeste færdighedsniveau (≃LVU)" | skillvl=="Heterogent færdighedsniveau") %>% summarise(without.mob.andel=sum(without.mob.andel))
+
+
+
+
+
+manuelle.klynger.lav.df.disco.u %>% filter(skillvl =="1: Uden udddannelsesfærdigheder") %>% summarise(without.mob.andel=sum(without.mob))
+manuelle.klynger.lav.df.disco.u %>% filter(skillvl =="2: laveste færdighedsniveau (≃KVU)") %>% summarise(without.mob=sum(without.mob))
+manuelle.klynger.lav.df.disco.u %>% filter(skillvl =="3: mellemste færdighedsniveau (≃MVU)") %>% summarise(without.mob=sum(without.mob))
+manuelle.klynger.lav.df.disco.u %>% filter(skillvl=="4: højeste færdighedsniveau (≃LVU)") %>% summarise(without.mob=sum(without.mob))
+manuelle.klynger.lav.df.disco.u %>% filter(skillvl=="Heterogent færdighedsniveau") %>% summarise(without.mob=sum(without.mob))
+
+12851
+34665
+4148
+1378
+851
+
+
+0,229
+0,616
+0,075
+0,024
+0,016
+
+
+
+view(tmp)
+
+valg.disco <-  as.numeric(strtrim(tmp$disco,4))
+
+
+valg.disco <- c(5220,9132,9330)
+
+valg.disco <- c(3152,3211,3111,3119,3115)
+valg.disco <- c("4.1")
+view(DST_fagbet %>% filter(disco_4cifret %in% valg.disco)  %>% arrange(`2: Segment`,disco))
+view(DST_fagbet %>% filter(membership %in% valg.disco)  %>% arrange(`2: Segment`,disco))
+# %>% select(`2: Segment`,fagbet_tekst, disco, membership, skillvl,contains("klasse"))
+
+
+view(DST_fagbet)
+
+
+
+
+
+#beregninger 
+#oesch8
+v(manuelle.klynger.lav.df.disco.u %>% group_by(klasse_oesch8) %>% summarise(without.mob.andel=sum(without.mob.andel)) %>% arrange(desc(without.mob.andel)))
+#oesch16
+v(manuelle.klynger.lav.df.disco.u %>% group_by(klasse_oesch16) %>% summarise(without.mob.andel=sum(without.mob.andel)) %>% arrange(desc(without.mob.andel)))
+# begtrup
+v(manuelle.klynger.lav.df.disco.u %>% group_by(klasse_begtrupbright1) %>% summarise(without.mob.andel=sum(without.mob.andel)) %>% arrange(desc(without.mob.andel)))
+
+
+
+
+
+v(manuelle.klynger.lav.df.disco.u %>% filter(klasse_oesch8=="8 Servicearbejdere") )
+
+
+
+aabn_xls("./statistik/R/moneca/vores/voresdata/Segment_labels_250kat.xlsx")
+
+
+
+v(manuelle.klynger.lav.df.disco.u)
+
+
+# filter.tmp <-   discodata %>% filter(membership_lab %in% manuelle.klynger.lav.df$membership_lab) %>% filter(klasse_oesch8=="8 Servicearbejdere") %>% select(disco,klasse_oesch16)
+
+
+
+
+v(df)
+
+v(manuelle.klynger.lav.df.u)
+
+
+
+
+v(seg.df %>% filter(membership==3.33) %>%  select(membership,Nodes,within.mob.seg,share.total.size, within.mob.sd.beregn, ledighed.mean.gns.beregn, ledighed.sd.gns.beregn, timelon.mean.gns.beregn, timelon.sd.gns.beregn, koen.gns.kvinder.mean.beregn ,koen.gns.kvinder.sd.beregn))
+
+v(discodata %>% filter(membership=="3.30") %>% select(klasse_oesch16,disco,membership_lab,beskaeft.andel.gns) %>% mutate(beskaeft.andel.gns=beskaeft.andel.gns*100))
+
+
+
+
+# går serviceklasserne til de manuelle klasser? 
+
+
+
+##########################################
+
+png(filename="./statistik/R/moneca/vores/00_emilspeciale_output/ma_motor/manuel_seg_hoj.png", type="cairo", units="in", width=16, height=5, pointsize=12, res=300)
+ma.motor.uni(manuelle.klynger.hoj,min_disco=750, CH=50,ceiling_vaerdi=5,procent=TRUE)
+dev.off()
+
+
+
+png(filename="./statistik/R/moneca/vores/00_emilspeciale_output/ma_motor/manuel_seg_lav_total.png", type="cairo", units="in", width=16, height=5, pointsize=12, res=300)
+ma.motor.uni(manuelle.klynger.lav,min_disco=750, CH=50,ceiling_vaerdi=3000,procent=FALSE)
+dev.off()
+
+
+source("./statistik/R/moneca/vores/vorescripts/0_funktion_mobilitetsanalysemotor.uni.R")
+source("./statistik/R/moneca/vores/vorescripts/0_funktion_mobilitetsanalysemotor.uni.df.R")
+
+###############################################################
+
+
+
+
+```
+

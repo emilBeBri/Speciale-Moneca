@@ -10,6 +10,17 @@
 # rm(list=ls())
 
 
+#etest matrice 
+etest <- function(x) {
+  y  <-  x
+  diag(y) <- 0
+  min(colSums(y))
+}
+
+#forkortelse til length 
+l <-  length
+
+
 
 ###installeres til sidst
 #install.packages("readODS") #kan ikke installeres - maaske problem, tjek senere
@@ -29,22 +40,22 @@
 
 library(devtools)
 #library(ggrepel)
-#library(ggthemes)
+library(ggthemes)
 #library(grid)  
 #library(pheatmap)
-library(reshape)
-#library(digest) #slet igen
-#library(MASS) #slet igen
+#library(reshape)
+library(digest) #slet igen
+library(MASS) #slet igen
 library(ggplot2)
 library(stringr)
 library(RColorBrewer)
 library(scales)
 library(reshape2)
-#nlibrary(soc.ca) #(måske ikke så vigtigt)
+#library(soc.ca) #(måske ikke så vigtigt)
 library(tidyr)
 library(plyr)
 library(dplyr)
-#library(forcats)
+# library(forcats)
 #library(readstata13)
 library(readxl)
 # library(rmarkdown)
@@ -54,12 +65,11 @@ library(readxl)
 library(toOrdinal)
 library(MONECA)
 #library(XLConnect)
-# library(circlize)
+#library(circlize)
 # library(RDocumentation)
 #library(yarrr)
-
-
-
+library(DescTools)
+library(knitr)
 
 
 ############ farveskalaer/farvepaletter #####################
@@ -77,6 +87,7 @@ RColorBrewer.RdYlBu <-   c("#A50026", "#D73027", "#F46D43" ,"#FDAE61" ,"#FEE090"
 
 # xmen 
 xmen = c("#026CCBFF", "#F51E02FF" ,"#05B102FF" ,"#FB9F53FF" ,"#9B9B9BFF", "#FB82BEFF" ,"#BA6222FF"  ,    "#EEC229FF" )
+
 
 
 
@@ -100,27 +111,100 @@ xmen = c("#026CCBFF", "#F51E02FF" ,"#05B102FF" ,"#FB9F53FF" ,"#9B9B9BFF", "#FB82
 # res %>% filter(rank<=2) %>% arrange(Species,rank)
 
 
+# simpel procent funktion, til dplyr 
+  tilprocent <- function(x){
+    x <-  round2(x*100,2)
+    x
+  }
+
+
+#funktioner til at se hvor mobilitet går hen i Moneca
+e.mobility  <- function(klynger,fra=TRUE)  {
+mat.e <-  mob.mat[-274,-274]
+work.list <-  sort(as.vector(unlist(df %>% filter(membership %in% klynger) %>%     select(indeks))))
+irr.job.indices <- which(!(seq_len(nrow(mat.e)) %in% work.list))
+#fjerner diagonal og  ties mellem irrelevante  
+mat.e[irr.job.indices,irr.job.indices] <- 0
+#fjerner interne ties i segmenter af interesse (hvis vi bare vil se hvor de går hen)
+diag(mat.e) <- 0
+mat.e[work.list,work.list] <- 0
+
+ifelse(
+  fra==TRUE,
+mat.e[irr.job.indices,work.list] <- 0,
+mat.e[work.list,irr.job.indices] <- 0)
+
+
+ifelse(
+  fra==TRUE,
+aug.work.list <- sort(unique(unlist(lapply(work.list, function(x) which(mat.e[x,] != 0))))),
+aug.work.list <- sort(unique(unlist(lapply(work.list, function(x) which(mat.e[,x] != 0)))))
+  )
+
+
+mob.mat.u.diag <- mob.mat[-274,-274] 
+diag(mob.mat.u.diag) <- 0
+#udregniner
+mob.til.l <-  setNames(as.list(lapply(aug.work.list,function(x) sum(mat.e[,x]))), discodata$disco[aug.work.list])
+mob.til.l.andel <- setNames(as.list(round2(unlist(mob.til.l)/
+  sum(mat.e),6)
+  ), discodata$disco[aug.work.list])
+mob.til.l.andel.tot.m.diag <- setNames(as.list(unlist(mob.til.l)/
+  sum(mob.mat.u.diag)
+  ), discodata$disco[aug.work.list])
+without.mobility.df <- tbl_df(data.frame(
+  discodata$disco[aug.work.list],
+  discodata$membership[aug.work.list],
+  discodata$membership_lab[aug.work.list],
+  unlist(mob.til.l.andel),
+  unlist(mob.til.l),
+  unlist(mob.til.l.andel.tot.m.diag),
+  discodata$klasse_oesch8[aug.work.list],
+  discodata$klasse_oesch16[aug.work.list],
+  discodata$manuel.klassemix.seg[aug.work.list]
+  ))
+colnames(without.mobility.df) <- c("disco","membership","membership_lab","without.mob.andel","without.mob","without.mob.andel.tot","klasse_oesch8","klasse_oesch16","manuel.klassemix.seg")
+
+#saetter indeks paa 
+without.mobility.df <-  inner_join(without.mobility.df,select(discodata,indeks.seg,disco))
+return(without.mobility.df)
+}
+
+
+e.mobility.seg <- function(tmp.df) {
+tmp.df %>% group_by(membership) %>% summarise_each(funs(sum), 
+  without.mob.andel.seg=without.mob.andel,
+  without.mob.seg=without.mob,
+  without.mob.andel.tot.seg=without.mob.andel.tot
+  ) %>% arrange(desc(without.mob.andel.seg))
+}
 
 
 
-# Emils funktioner 
+
+
+
+
+
+
+
 
 
 #pheatmap funktion, simpel 
 
-e.pheat.dataprep <- function(klynge=3,undergr=4)  {
+e.pheat.dataprep <- function(klynger)  {
     cut.off.default <- 1
     wm1            <- weight.matrix(mob.mat, cut.off = cut.off.default, symmetric = FALSE, small.cell.reduction = small.cell.default, diagonal=TRUE) 
     wm1[is.na(wm1)] <- 0
 
-    mat.e <-  mob.mat
+    # mat.e <-  mob.mat
     mat.e <- wm1
 
 
-work.list <-  seg$segment.list[[klynge]][[undergr]]
-work.list <- sort(work.list)
-work.list <- c(210)
+# work.list <-  seg$segment.list[[klynge]][[undergr]]
+# work.list <- sort(work.list)
 
+work.list <-  sort(as.vector(unlist(seg.selector.df %>% filter(membership %in% klynger) %>%     select(indeks))))
 
 mat.e.result <- mat.e[work.list,work.list]
 
@@ -137,7 +221,16 @@ return(mat.e.result)
 
 
 # forsøg på emulering af statas tab1 command. Hvordan henter man en variabel inde i en df på en generisk måde? #todoiR
-# tab1 <-  function(df,var) {  cbind(Freq=table(df$var), Cumul=cumsum(table(df$var)), relative=prop.table(table(df$var))*100,cumrela=cumsum(table(df$var)/nrow(df))*100) }
+# tab1 <-  function(df,var) {  
+
+# df <- df
+# var <- var 
+# generic.df = select(generic.df,var)
+
+# # generic.df  <-  select(df,var)
+#   cbind(Freq=table(generic.df[,1]), Cumul=cumsum(table(generic.df[,1])), relative=prop.table(table(generic.df[,1]))*100,cumrela=cumsum(table(generic.df[,1])/nrow(generic.df))*100) 
+
+# }
 
 
 
@@ -196,6 +289,32 @@ view <- function(data, autofilter=TRUE) {
 # Return the name of the temporaray Excel file when executing the function
 return(temp_file)
 }
+
+v <- function(data, autofilter=TRUE) {
+    # data: data frame
+    # autofilter: whether to apply a filter to make sorting and filtering easier  
+    data <- as.data.frame(data) #to handle dplyr datasets
+    open_command <- switch(Sys.info()[['sysname']],
+                           Windows= 'open',
+                           Linux  = 'xdg-open',
+                           Darwin = 'open')
+    require(XLConnect)
+    temp_file <- paste0(tempfile(), '.xlsx')
+    wb <- XLConnect::loadWorkbook(temp_file, create = TRUE)
+    XLConnect::createSheet(wb, name = "temp")
+    XLConnect::writeWorksheet(wb, data, sheet = "temp", startRow = 1, startCol = 1)
+    areal <- length(data)+25
+    areal <- append(areal,length(data)+25)
+    if (autofilter) setAutoFilter(wb, 'temp', aref('A1', areal))
+    XLConnect::saveWorkbook(wb, )
+    system(paste(open_command, temp_file))
+    # system(paste("libreoffice5.2 --norestore", temp_file))
+
+# Return the name of the temporaray Excel file when executing the function
+return(temp_file)
+}
+
+
 # # Open file in Excel and save filename of temporary Excel file 
 # filename <- view(data)
 # # Go to Excel and browse the file and/or do some changes
@@ -205,14 +324,14 @@ return(temp_file)
 
 
 ## For pheatmap_1.0.8 and later (45 graders dimser under)
-draw_colnames_45 <- function (coln, gaps, ...) {
-    coord = pheatmap:::find_coordinates(length(coln), gaps)
-    x = coord$coord - 0.5 * coord$size
-    res = textGrob(coln, x = x, y = unit(1, "npc") - unit(3,"bigpts"), vjust = 0.5, hjust = -0.025, rot = 360-45, gp = gpar(...))
-    return(res)}
-## 'Overwrite' default draw_colnames with your own version 
-assignInNamespace(x="draw_colnames", value="draw_colnames_45",
-ns=asNamespace("pheatmap"))
+# draw_colnames_45 <- function (coln, gaps, ...) {
+#     coord = pheatmap:::find_coordinates(length(coln), gaps)
+#     x = coord$coord - 0.5 * coord$size
+#     res = textGrob(coln, x = x, y = unit(1, "npc") - unit(3,"bigpts"), vjust = 0.5, hjust = -0.025, rot = 360-45, gp = gpar(...))
+#     return(res)}
+# ## 'Overwrite' default draw_colnames with your own version 
+# assignInNamespace(x="draw_colnames", value="draw_colnames_45",
+# ns=asNamespace("pheatmap"))
 
 
 
@@ -534,7 +653,20 @@ removeDepends <- function(pkg, recursive = FALSE){
 
 
 ##funktion der rounder alle numeriske variable i en discodataframe
-round_df <- function(x, digits) {
+# percent_df <- function(x) { lav den her funktion senere, til at afrunde procent
+#     # round all numeric variables
+#     # x: data frame 
+#     # digits: number of digits to round
+#     numeric_columns <- sapply(df, class) == 'numeric'
+
+
+
+#     x[100*numeric_columns] <-  x[numeric_columns]
+#     x
+# }
+
+##funktion der afrunder alle numeriske variable i en discodataframe
+round_df <- function(x,digits) {
     # round all numeric variables
     # x: data frame 
     # digits: number of digits to round
@@ -542,6 +674,7 @@ round_df <- function(x, digits) {
     x[numeric_columns] <-  round(x[numeric_columns], digits)
     x
 }
+
 
 
 #funktion til at indsætte en row eller col et bestemt sted i en df 
@@ -576,7 +709,6 @@ read_excel_allsheets <- function(filename) {
 #funktion til at åbne data on the go
 #indsæt det her som option: test <-  cbind(colnames(sub.mat),sub.mat) dvs til mobility table 
 
-
 view <- function(data, autofilter=TRUE) {
     # data: data frame
     # autofilter: whether to apply a filter to make sorting and filtering easier  
@@ -598,6 +730,31 @@ view <- function(data, autofilter=TRUE) {
 # Return the name of the temporaray Excel file when executing the function
 return(temp_file)
 }
+
+
+# view <- function(data, autofilter=TRUE) {
+#     # data: data frame
+#     # autofilter: whether to apply a filter to make sorting and filtering easier  
+#     data <- as.data.frame(data) #to handle dplyr datasets
+#     open_command <- switch(Sys.info()[['sysname']],
+#                            Windows= 'open',
+#                            Linux  = 'xdg-open',
+#                            Darwin = 'open')
+#     require(XLConnect)
+#     temp_file <- paste0("/tmp/",deparse(substitute(data)), '.xlsx')
+#     # temp_file <- paste0(tempfile(), '.xlsx')
+#     wb <- XLConnect::loadWorkbook(temp_file, create = TRUE)
+#     XLConnect::createSheet(wb, name = "temp")
+#     XLConnect::writeWorksheet(wb, data, sheet = "temp", startRow = 1, startCol = 1)
+#     # if (autofilter) setAutoFilter(wb, 'temp', aref('A1', dim(data)))
+#     autofilemil = dim(data)+5
+#     if (autofilter) setAutoFilter(wb, 'temp', aref('A1', autofilemil))
+#     XLConnect::saveWorkbook(wb, )
+#     system(paste(open_command, temp_file))
+# # Return the name of the temporaray Excel file when executing the function
+# return(temp_file)
+# }
+
 
 
 
@@ -809,6 +966,86 @@ zoom.to.segment <- function(p.p, lay, zoom.mem, distance = 1000){
   p.z
 }
 
+
+
+
+
+
+
+## rettelse af Antons funktion 
+
+# segment.quality <- 
+# function (segmenter, final.solution = FALSE) 
+# {
+#     mat <- segmenter$mat.list[[1]]
+#     l <- nrow(mat)
+#     mat <- mat[-l, -l]
+#     number.of.levels <- length(segmenter$mat.list)
+#     segment.qual.onelevel <- function(segmenter, niveau) {
+#         names <- rownames(segmenter$mat.list[[1]])
+#         names <- names[-length(names)]
+#         seg.list.niveau <- segmenter$segment.list[[niveau]]
+#         mat.niveau <- segmenter$mat.list[[niveau]]
+#         totals.niveau <- (mat.niveau[nrow(mat.niveau), ] + mat.niveau[, 
+#             nrow(mat.niveau)])/2
+#         totals.niveau <- totals.niveau[-length(totals.niveau)]
+#         mat.niveau <- mat.niveau[-nrow(mat.niveau), -nrow(mat.niveau)]
+#         edge.matrix <- segment.edges(segmenter, cut.off = 1, 
+#             niveau = 0, small.cell.reduction = 5, segment.reduction = 0)
+#         net.edge <- graph.adjacency(edge.matrix, weighted = TRUE)
+#         seg <- rep(NA, length(names))
+#         for (i in 1:length(seg.list.niveau)) seg[seg.list.niveau[[i]]] <- i
+#         niveau.qual <- round(diag(mat.niveau)/(rowSums(mat.niveau)), 10)
+#         quality <- rep(NA, length(names))
+#         for (i in 1:length(seg.list.niveau)) quality[seg.list.niveau[[i]]] <- niveau.qual[i]
+#         niveau.size <- round(((rowSums(mat.niveau) + colSums(mat.niveau))/2)/sum(colSums(mat.niveau)), 
+#             4)
+#         size <- rep(NA, length(names))
+#         for (i in 1:length(seg.list.niveau)) size[seg.list.niveau[[i]]] <- niveau.size[i]
+#         niveau.density <- rep(NA, length(names))
+#         for (i in 1:length(seg.list.niveau)) niveau.density[seg.list.niveau[[i]]] <- graph.density(net.edge - 
+#             which(((1:vcount(net.edge) %in% seg.list.niveau[[i]]) == 
+#                 FALSE)))
+#         nodes <- rep(NA, length(names))
+#         for (i in 1:length(seg.list.niveau)) nodes[seg.list.niveau[[i]]] <- length(seg.list.niveau[[i]])
+#         max.path <- rep(NA, length(names))
+#         for (i in 1:length(seg.list.niveau)) max.path[seg.list.niveau[[i]]] <- diameter(net.edge - 
+#             which(((1:vcount(net.edge) %in% seg.list.niveau[[i]]) == 
+#                 FALSE)), weights = NA)
+#         share.of.total <- rep(NA, length(names))
+#         for (i in 1:length(seg.list.niveau)) share.of.total[seg.list.niveau[[i]]] <- (totals.niveau/sum(totals.niveau))[i]
+#         out.frame <- data.frame(Segment = seg, within.mobility = quality, 
+#             share.of.mobility = size, Density = niveau.density, 
+#             Nodes = nodes, Max.path = max.path, share.of.total = round(share.of.total, 
+#                 4))
+#         colnames(out.frame) <- paste(niveau, ": ", colnames(out.frame), 
+#             sep = "")
+#         out.frame
+#     }
+#     qual.list <- lapply(1:number.of.levels, segment.qual.onelevel, 
+#         segmenter = segmenter)
+#     out.mat <- do.call(cbind, qual.list)
+#     out.mat <- cbind(Membership = segment.membership(segmenter)[, 
+#         2], out.mat)
+#     rownames(out.mat) <- rownames(mat)
+#     order.mat <- out.mat[, grep("share.of.total", colnames(out.mat))]
+#     order.mat <- order.mat[, ncol(order.mat):1]
+#     out.mat <- out.mat[do.call(order, -order.mat), ]
+#     if (final.solution == TRUE) {
+#         small.mat <- out.mat[duplicated(out.mat$Membership) == 
+#             FALSE, ]
+#         small.mat[sapply(small.mat, is.nan)] <- Inf
+#         tsm <- as.matrix(small.mat)[, -1]
+#         collapse.mat <- function(row, n) tail(na.omit(row), n)
+#         tsm <- as.data.frame(t(apply(tsm, 1, collapse.mat, n = 7)))
+#         colnames(tsm) <- c("Membership", "Within mobility", "Share of mobility", 
+#             "Density", "Nodes", "Max.path", "Share of total size")
+#         tsm$Membership <- small.mat$Membership
+#         out.mat <- tsm
+#     }
+#     out.mat
+# }
+# <environment: namespace:MONECA>
 
 
 ##################################################################

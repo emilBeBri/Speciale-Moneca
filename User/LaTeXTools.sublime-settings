@@ -54,7 +54,7 @@
 	"command_completion": "prefixed",
 
 	// valid texfile extensions
-	"tex_file_exts": [".tex"], 
+	"tex_file_exts": [".tex",".rnw"], 
 
 	// controls whether or not syntax is automatically set to LaTeX for
 	// files that match one of the configured `tex_file_exts`
@@ -70,7 +70,7 @@
 	// and compatible with the ST integrated spellcheck
 	// e.g.
 	// { "en-en": "Packages/Language - English/en_GB.dic" }
-	"tex_spellcheck_paths": {},
+	"tex_spellcheck_paths": {"da-dk":"Packages/stavekontrol_dansk/da_DK.dic"},
 
 	// sublevel to show counts for
 	// passed to texcount via the -sub= paramater

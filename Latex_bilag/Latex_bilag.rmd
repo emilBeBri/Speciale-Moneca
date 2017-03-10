@@ -1,0 +1,40 @@
+---
+title: "Bilag med trivielle men vigtige tabeller"
+author: "Emil Begtrup-Bright"
+date: "Marts 2017"
+output: pdf_document
+
+
+---
+
+
+
+```{r, echo=FALSE}
+setwd("/home/emil/Dropbox/Speciale/Emil_Soeren")
+source("./statistik/R/moneca/vores/vorescripts/0_funktioner_og_pakker.R")
+load("./statistik/R/moneca/vores/voresdata/Rnotebook_allebeskaeft250.Rdata")
+save.image("./statistik/R/moneca/vores/voresdata/Rnotebook_allebeskaeft250.Rdata")
+library(forcats)
+library(DescTools)
+library(ggthemes)
+library(knitr)
+
+```
+
+
+## Bilag 1: den manuelle arbejderklasses højere segment til andre segmenter #RMARKDOWNtabel 1
+
+
+
+```{r,echo=FALSE}
+kable(e.mobility(klynger) %>%
+ # filter((manuel.klassemix.seg=="7/8 Manuelt blandet" | manuel.klassemix.seg=="8 Manuelle arbejdere, lavere")) %>% 
+select(disco,klasse_oesch16,membership,membership_lab,without.mob.andel,without.mob,without.mob.andel.tot,manuel.klassemix.seg) %>% arrange(desc(without.mob.andel)) %>%
+ # group_by(manuel.klassemix.seg) %>% 
+ group_by(klasse_oesch16) %>% 
+  summarise(without.mob.andel.grp=sum(without.mob.andel)*100) %>% arrange(desc(without.mob.andel.grp)),format="markdown" )
+
+```
+
+
+

@@ -34,7 +34,10 @@ beskaeft.samlet <- left_join(beskaeftigede, beskaeftigede.andel)
 
 
 
+
+
 #seg.mem proces datasaet
+# view(seg.mem)
 seg.mem.df <- tbl_df(seg.mem) 
 seg.mem.df <- rename(seg.mem.df, disco = name)
 # seg.mem.df$membership  <-  as.factor(as.numeric(seg.mem.df$membership)) #ødelægger levels måske pga punktummet?!?
@@ -95,6 +98,35 @@ is.na(seg.qual.final) <- do.call(cbind,lapply(seg.qual.final, is.infinite))
 
 #omdoeber så vi har en final segmentdata 
 seg.df <-  seg.qual.final 
+segment_labels <-  read_excel("./statistik/R/moneca/vores/voresdata/Segment_labels_250kat.xlsx")
+
+
+# aabn_xls("./statistik/R/moneca/vores/voresdata/Segment_labels_250kat.xlsx")
+segment_labels <- segment_labels %>% select(membership,membership_lab_unr, klasse_begtrupbright1,klasse_begtrupbright2) %>% arrange(desc(membership))
+
+seg.df.tmp <- arrange(seg.df,desc(membership))
+
+
+
+#får fejl her, af en eller anden grund 
+# segment_labels$membership_lab <- ifelse(is.na(segment_labels$membership_lab), segment_labels$membership, paste(seg.df$membership,":", " ",segment_labels$membership_lab,sep=""))
+
+
+segment_labels$membership_lab <- paste(seg.df.tmp$membership,":", " ",segment_labels$membership_lab_unr,sep="")
+
+
+
+seg.df.tmp <- NULL 
+
+
+
+
+# #egne klasser, dansk arbejdsmarked
+# segment_labels$klasse_begtrupbright1 <- ifelse(is.na(segment_labels$klasse_begtrupbright1), segment_labels$membership, segment_labels$klasse_begtrupbright1)
+seg.df <-  left_join(seg.df,segment_labels)
+
+
+
 #### MASTERJOIN sammensmeltning ###
 
 
@@ -112,15 +144,63 @@ seg.df <-  seg.qual.final
 
 
 
+
+
 membership <-  seg.mem.df$membership
 discodata <- cbind(beskaeft.samlet, membership)
 
 
+## ## tidsserier til beskæftigede 
+beskaeft.tid.df <-  beskaeftigede %>% 	rename(
+`1996`=beskaeftigede1996,
+`1997`=beskaeftigede1997,
+`1998`=beskaeftigede1998,
+`1999`=beskaeftigede1999,
+`2000`=beskaeftigede2000,
+`2001`=beskaeftigede2001,
+`2002`=beskaeftigede2002,
+`2003`=beskaeftigede2003,
+`2004`=beskaeftigede2004,
+`2005`=beskaeftigede2005,
+`2006`=beskaeftigede2006,
+`2007`=beskaeftigede2007,
+`2008`=beskaeftigede2008,
+`2009`=beskaeftigede2009)  %>% select(disco,everything())
 
 
+# beskaeft.tid.df[, aar %in% smooth.periode.1996.2001]    <- smoothie(beskaeft.tid.df[, aar %in% smooth.periode.1996.2001])
+# beskaeft.tid.df[, aar %in% smooth.periode.2001.2009]    <- smoothie(beskaeft.tid.df[, aar %in% smooth.periode.2001.2009])
 
-# hot fix til 250-kat version, gud ved hvorfor men den fjerner membership til 1. række, dvs. 110: militær 
-# discodata$membership[1] <- 4.9
+
+beskaeft.tid.df <- inner_join(beskaeft.tid.df,select(discodata,disco,membership)) %>% 	select(disco,membership,everything())
+
+
+beskaeft.andel.tid.df <-  beskaeftigede.andel %>% 	rename(
+`1996`=beskaeftigede.andel1996,
+`1997`=beskaeftigede.andel1997,
+`1998`=beskaeftigede.andel1998,
+`1999`=beskaeftigede.andel1999,
+`2000`=beskaeftigede.andel2000,
+`2001`=beskaeftigede.andel2001,
+`2002`=beskaeftigede.andel2002,
+`2003`=beskaeftigede.andel2003,
+`2004`=beskaeftigede.andel2004,
+`2005`=beskaeftigede.andel2005,
+`2006`=beskaeftigede.andel2006,
+`2007`=beskaeftigede.andel2007,
+`2008`=beskaeftigede.andel2008,
+`2009`=beskaeftigede.andel2009)  %>% select(disco,everything())
+
+beskaeft.andel.tid.df <- inner_join(beskaeft.andel.tid.df,select(discodata,disco,membership)) %>% 	select(disco,membership,everything())
+
+
+beskaeft.tid.seg.df <-  beskaeft.andel.tid.df %>% group_by(membership) %>% summarise_each(funs(sum), `1996`=`1996`, `1997`=`1997`, `1998`=`1998`, `1999`=`1999`, `2000`=`2000`, `2001`=`2001`, `2002`=`2002`, `2003`=`2003`, `2004`=`2004`, `2005`=`2005`, `2006`=`2006`, `2007`=`2007`, `2008`=`2008`, `2009`=`2009`)  %>%    filter(!grepl("^1.*", membership))
+
+beskaeft.tid.seg.df <-  beskaeft.andel.tid.df %>% group_by(membership) %>% summarise_each(funs(sum), `1996`=`1996`, `1997`=`1997`, `1998`=`1998`, `1999`=`1999`, `2000`=`2000`, `2001`=`2001`, `2002`=`2002`, `2003`=`2003`, `2004`=`2004`, `2005`=`2005`, `2006`=`2006`, `2007`=`2007`, `2008`=`2008`, `2009`=`2009`)  %>%    filter(!grepl("^1.*", membership)) %>% left_join(., segment_labels) %>% select(membership,membership_lab,everything())
+
+
+# # hot fix til 250-kat version, gud ved hvorfor men den fjerner membership til 1. række, dvs. 110: militær 
+# # discodata$membership[1] <- 4.9
 
 
 
@@ -165,7 +245,7 @@ seg.qual.detailed_tmp <- NULL
 
 
 
-
+discodata$indeks <- seq_len(273)
 
 
 
@@ -222,6 +302,11 @@ discodata$disco_1cifret[1] <- NA
 
 
 
+
+
+
+
+
 #EGP-11
 egp11_lab  =  c("I"="I: Oevre Serviceklasse","II"="II: Nedre Serviceklasse","IIIa"="IIIa: Rutinepraeget, ikke-manuelt arbejde hoejeste niveau","IIIb"="IIIb: Rutinepraeget, ikke-manuelt arbejde laveste niveau","Iva"="IVa: små selvstaendige med ansatte","Ivb"="IVb: små selvstaendige uden ansatte","Ivc"="IVc: Landmaend og andre selvstaendige i primaer produktion ","V"="V: Teknikere af laveste grad, supervisorer af manuelt arbejde","VI"="VI: Faglaerte, manulle arbejdere","VIIa"="VIIa: Ikke-faglaerte, manuelle arbejdere","VIIb"="VIIb: landbrugsarbejdere")
 
@@ -274,6 +359,27 @@ discodata$disco_2cifret[1] <- NA
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # view(discodata$beskaeft.andel.gns)
 
 # antal ledige på segment niveau
@@ -314,6 +420,7 @@ discodata$disco_2cifret[1] <- NA
 # ##Erstatter alle levels der starter med 1. med 1 rent ud 
 # levels(discodata$seg.mem.sociosocstil) <- sub("^1.*$", "1", levels(discodata$seg.mem.sociosocstil))
 # nlevels(discodata$seg.mem.sociosocstil)
+
 
 
 

@@ -11,6 +11,8 @@ edges.default.all                <- segment.edges(seg.b, mode="directed",cut.off
 edges.default.all[edges.default.all > 30] <- 30 
 
 
+gg.jonas
+
 kort.disco <- gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arrow = arrow.default,
                    edge.size=edge.size, vertex.fill = discodata$disco_1cifret,
                    vertex.size = vertex_stoerrelse) +  
@@ -18,9 +20,29 @@ kort.disco <- gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arro
           default.disco
 
 #kort.disco
-cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort.disco.pdf", onefile = TRUE, height = 30, width = 30)
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/1_netvaerkskort_temaer/kort.disco.pdf", onefile = TRUE, height = 30, width = 30)
 kort.disco
 dev.off()
+
+
+
+#egp 
+# dodgerblue1 dodgerblue2                 serviceklasse
+# darkseagreen1 darkseagreen4             middelklassen
+# indianred1 indianred3 indianred4        arbejderklassen
+# yellow1 yellow3 yellowgreen             småborgerskabet
+skala_egp11 <-  c("dodgerblue4" ,"dodgerblue1","darkseagreen4","darkseagreen1","yellow3", "yellow1","grey","indianred4","indianred3","indianred1","pink")
+
+
+
+#egp 
+skala_egp11 <-  c(
+"dodgerblue4", "dodgerblue1",                 #serviceklasse
+"palegreen4", "palegreen1",             #Ikke-manuelt arbejde
+"yellow", "darkorange1",             #selvstaendige
+"mediumpurple4", "grey40",             #landmaend, teknikere
+"indianred4", "indianred1", "mediumpurple1"        #manuelt, landbrugsarbejdere
+)
 
 
 #egp11 kort, klasse 
@@ -32,44 +54,129 @@ kort.egp11 <- gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arro
 #+ theme(legend.key.width ="2 cm", legend.key.height="2 cm",legend.text=50,legend.key.size=100 )
 
 
-cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_egp11.pdf", onefile = TRUE, height = 30, width = 30)
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/1_netvaerkskort_temaer/kort_egp11.pdf", onefile = TRUE, height = 30, width = 30)
 kort.egp11
 dev.off()
 
 #oesch16 kort, klasse
 
-# oesch
-
-skala_oesch16 <-  c("dodgerblue4", "dodgerblue2", "dodgerblue1","mediumpurple4","mediumpurple1","firebrick4","firebrick2","grey","grey71","yellow3","yellow1","olivedrab4","olivedrab1","darkorange3" ,"darkorange1")
 
 
-skala_oesch16 <- c("yellow4", "yellow3","yellow1", # selvstændige
-"mediumpurple4", "mediumpurple1", # teknikere -  mediumpink? slateblue?
-"firebrick4","firebrick1", #arbejdere
-"dodgerblue4", "dodgerblue1", #managers
-"grey40", "grey88", #clerks
-"palegreen4", "palegreen1", #sociokulturelle
-"rosybrown4", "rosybrown1") #servicearbejdere
+
+
+
+
+
+
+edges.fokus                <- segment.edges(seg.b, mode="directed",cut.off=1,small.cell.reduction = small.cell.default, segment.reduction = 1) 
+klynger = c("5.2","5.1","4.10","4.4","4.8","3.9","3.25","3.24","3.15")
+work.list <-  sort(as.vector(unlist(df %>% filter(membership %in% klynger) %>%     select(indeks))))
+################ avanceret2: segment + ties (uden edges ml ties) 
+irr.job.indices <- which(!(seq_len(273) %in% work.list))
+## first, keep diagonal values for irr.job.indices
+dvals <- diag(edges.fokus)
+## set sub-matrix to zero (this will also set diagnal elements to zero)
+edges.fokus[irr.job.indices,irr.job.indices] <- 0
+#fjerner interne ties i segmenter af interesse (hvis vi bare vil se hvor de går hen)
+edges.fokus[work.list,work.list] <- 0
+#kun fra segmenter af interesse *til* andre segmenter 
+edges.fokus[irr.job.indices,work.list] <- 0
+#kun til segmenter af interesse *fra* andre segmenter (modstridende ihft ovenstående)
+# edges.fokus[work.list,irr.job.indices] <- 0
+diag(edges.fokus) <- dvals
+
+
+
+edges.fokus[edges.fokus > 7] <- 7
+edges.fokus[edges.fokus < 1.5]  <- 0
+
+rr.breaks.edge <- seq(1.5,7,1.25)
+rr.breaks.edge = c(1.5,2.5,3.5,4.5,5.5,6.5,7)
+rr.lab.edge <- paste(rr.breaks.edge)
+rr.lab.edge[length(rr.lab.edge)] <- paste(rr.breaks.edge[length(rr.lab.edge)],"+",sep="")
+rr.breaks.edge[1] <- c(1.51)
+midpoint.edges <- 3
+default.fokus <- list()
+
+
+
+diag(rrwm1)[] <- NA
+
+edges.fokus.vektor  <-  as.vector(t(mat.e)) 
+
+edges.fokus.vektor[edges.fokus.vektor==0] = NA
+
+Hmisc::describe(edges.fokus.vektor)
+
+
+
+edges.fokus = mat.e
+
+
+edges.fokus[edges.fokus > 500] <- 500
+edges.fokus[edges.fokus < 150]  <- 0
+
+rr.breaks.edge <- seq(150,500,1)
+rr.lab.edge <- paste(rr.breaks.edge)
+rr.lab.edge[length(rr.lab.edge)] <- paste(rr.breaks.edge[length(rr.lab.edge)],"+",sep="")
+rr.breaks.edge[1] <- c(10.1)
+midpoint.edges <- 250+125
+default.fokus <- list()
+default.fokus$scale_size_continuous <-   scale_size_continuous(range = c(5, 30), name="antal beskaftigede", breaks=beskaeft.num, labels=beskaeft.lab,guide="legend")
+default.fokus$scale_alpha_continuous <-   scale_alpha_continuous(range = c(0.15, 0.9), guide="none")
+default.fokus$scale_colour_gradient2 = scale_colour_gradient2(low = "seagreen1", mid = "dodgerblue2", high = "firebrick1", 
+                                                        midpoint = midpoint.edges, space = "Lab", na.value = "pink", guide =guide_colorbar(barwidth = 1, barheight = 7,draw.ulim = FALSE, draw.llim = FALSE),name="Styrke af forbindelse", breaks=rr.breaks.edge,labels=rr.lab.edge)
+
+
+
+#fokus manuelle arbejdere
+kort.fokus <- gg.jonas(seg, layout = lay, edges=edges.fokus, midpoint.arrow = arrow.default,
+                        edge.size=1.25, vertex.fill = discodata$manuel.klassemix.seg,
+                        vertex.size = vertex_stoerrelse) +  
+  default.fokus + scale_fill_manual(values = c("indianred4","indianred2","indianred1","grey80","coral"), labels=oesch16_lab, name="Oesch 16") + theme(legend.position = c(0.9, 0.9)) 
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/2_netvaerkskort_fokus/fokus_manuel_nonmanuel_mobmat.pdf", onefile = TRUE, height = 30, width = 30)
+kort.fokus
+dev.off()
+
+
+
+# Oesch16
 kort.oesch16 <- gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arrow = arrow.default,
-                       edge.size=edge.size, vertex.fill = discodata$klasse_oesch16,
-                       vertex.size = vertex_stoerrelse) +  
+                         edge.size=edge.size, vertex.fill = discodata$klasse_oesch16,
+                         vertex.size = vertex_stoerrelse) +  
   #default + scale_fill_manual(values = brewer.pal(11, "Paired"), labels=egp11_lab, name="EGP-11")
   default + scale_fill_manual(values = skala_oesch16, labels=oesch16_lab, name="Oesch 16") + theme(legend.position = c(0.9, 0.9)) 
 #+ theme(legend.key.width ="2 cm", legend.key.height="2 cm",legend.text=50,legend.key.size=100 )
-cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_oesch16.pdf", onefile = TRUE, height = 25, width = 25)
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/1_netvaerkskort_temaer/kort_oesch16.pdf", onefile = TRUE, height = 30, width = 30)
 kort.oesch16
 dev.off()
+
+
+
+
+
+#manuelle arbejdere rød-gråsort
+kort.temp <- gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arrow = arrow.default,
+                         edge.size=edge.size, vertex.fill = discodata$manuel_nonmanuel,
+                         vertex.size = vertex_stoerrelse) +  
+  #default + scale_fill_manual(values = brewer.pal(11, "Paired"), labels=egp11_lab, name="EGP-11")
+  default + scale_fill_manual(values = c("indianred4","indianred1","grey80"), labels=c("7 Manuelle arbejdere, hoejt niveau", "8 Manuelle arbejdere, lavt niveau", "Andre klasser"), name="Oesch") + theme(legend.position = c(0.9, 0.9)) 
+#+ theme(legend.key.width ="2 cm", legend.key.height="2 cm",legend.text=50,legend.key.size=100 )
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/2_netvaerkskort_fokus/kort_fokus_manuel_nonmanuel_roedgraa.pdf", onefile = TRUE, height = 30, width = 30)
+kort.temp
+dev.off()
+
 
  ########### plottrappen ############
 
 source("./statistik/R/moneca/vores/vorescripts/7_voreskort_plottrappen.R")
 
-cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/plottrappen.disco.pdf", onefile = TRUE, height = 30, width = 30)
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/1_netvaerkskort_temaer/plottrappen.disco.pdf", onefile = TRUE, height = 30, width = 30)
 plottrappen.disco
 dev.off()
-cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/plottrappen.egp11.pdf", onefile = TRUE, height = 30, width = 30)
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/1_netvaerkskort_temaer/plottrappen.egp11.pdf", onefile = TRUE, height = 30, width = 30)
 plottrappen.egp11
-dev.off()
+dev.off ()
 
 
 #intern mobilitet
@@ -81,7 +188,7 @@ kort.intern.mob <- gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint
   # scale_fill_gradientn(colours = c("#575155",brewer.pal(8, "Purples")), guide = "legend", name = "intern mobilitet")
 scale_fill_gradientn(colours = getPalette(length(unique(discodata$within.mob))), guide = "legend", name = "% intern mobilitet\npå nodeniveau", breaks=intern.mob_num, labels=intern.mob_lab)
 
-cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_intern_mob.pdf", onefile = TRUE, height = 30, width = 30)
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/1_netvaerkskort_temaer/kort_intern_mob.pdf", onefile = TRUE, height = 30, width = 30)
 kort.intern.mob
 dev.off()
 
@@ -102,7 +209,7 @@ kort.intern.mob.dif <- gg.jonas(seg, layout = lay, edges=edges.default.all, midp
   default + ggtitle("intern mobilitet") +
   # scale_fill_gradientn(colours = c("#575155",brewer.pal(8, "Purples")), guide = "legend", name = "intern mobilitet")
   scale_fill_gradientn(colours = getPalette(length(discodata$within.mob.dif)), guide = "legend", name = "intern mobilitet")
-cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_intern_mob_dif.pdf", onefile = TRUE, height = 30, width = 30)
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/1_netvaerkskort_temaer/kort_intern_mob_dif.pdf", onefile = TRUE, height = 30, width = 30)
 kort.intern.mob.dif
 dev.off()
 
@@ -112,7 +219,7 @@ dev.off()
 #                       edge.size=edge.size, vertex.fill = discodata$skillvl,
 #                       vertex.size = vertex_stoerrelse) +  
 #  default + scale_fill_manual(values = skala_skillvl, labels=egp11_lab, name="faerdighedsniveau")
-#cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort.skillvl.pdf", onefile = TRUE, height = 30, width = 30)
+#cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/1_netvaerkskort_temaer/kort.skillvl.pdf", onefile = TRUE, height = 30, width = 30)
 #kort.skillvl
 #dev.off()
 
@@ -142,7 +249,7 @@ kort.timelon <-  gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.a
 #  guides(fill = guide_colorbar(barwidth = 1, barheight = 15,draw.ulim = FALSE, draw.llim = FALSE)) +
   theme(legend.position = c(0.95, 0.9))
 
-cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_timelon.pdf", onefile = TRUE, height = 30, width = 30)
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/1_netvaerkskort_temaer/kort_timelon.pdf", onefile = TRUE, height = 30, width = 30)
 kort.timelon 
 dev.off()
 
@@ -160,11 +267,13 @@ kort.edges.default$scale_size_continuous <-   scale_size_continuous(range = c(5,
 kort.edges.default$scale_alpha_continuous <-   scale_alpha_continuous(range = c(0.3, 0.6), guide="none")
 kort.edges.default$scale_colour_gradient2 = scale_colour_gradient2(low = "#575155", mid = "darkorange1", high = muted("darkred"), 
                                                         midpoint =3.5 , space = "Lab", na.value = "pink", guide =guide_colorbar(barwidth = 1, barheight = 7,draw.ulim = FALSE, draw.llim = FALSE),name="Styrke af forbindelse", breaks=rr.breaks.edge,labels=rr.lab.edge)
+
+
 kort.edges <-  gg.jonas(seg, layout = lay, edges=edges.eksp, midpoint.arrow = arrow.default, 
                           edge.size=edge.size,
                           vertex.size = vertex_stoerrelse) +  
   ggtitle("edges")  +  kort.edges.default  + theme(legend.position = c(0.95, 0.9)) + scale_fill_manual(values =   replicate(42, "grey22"),guide="none")
-cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_edges.pdf", onefile = TRUE, height = 25, width = 25)
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/1_netvaerkskort_temaer/kort_edges.pdf", onefile = TRUE, height = 25, width = 25)
 kort.edges
 dev.off()
 
@@ -194,7 +303,7 @@ kort.koen <-  gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arro
     guides(fill = guide_colorbar(barwidth = 1, barheight = 15,draw.ulim = FALSE, draw.llim = FALSE)) +
   theme(legend.position = c(0.9, 0.9))
 
-cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_koen.pdf", onefile = TRUE, height = 30, width = 30)
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/1_netvaerkskort_temaer/kort_koen.pdf", onefile = TRUE, height = 30, width = 30)
 kort.koen
 dev.off()
 
@@ -231,7 +340,7 @@ kort.gule <-  gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arro
   default  +
   guides(fill = guide_colorbar(barwidth = 1, barheight = 15,draw.ulim = FALSE, draw.llim = FALSE)) +
   theme(legend.position = c(0.9, 0.9))
-cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_gule.pdf", onefile = TRUE, height = 30, width = 30)
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/1_netvaerkskort_temaer/kort_gule.pdf", onefile = TRUE, height = 30, width = 30)
 kort.gule
 dev.off()
 
@@ -281,7 +390,7 @@ kort.roed <-  gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.arro
   default  +
   guides(fill = guide_colorbar(barwidth = 1, barheight = 15,draw.ulim = FALSE, draw.llim = FALSE)) +
   theme(legend.position = c(0.9, 0.9))
-cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_roed.pdf", onefile = TRUE, height = 30, width = 30)
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/1_netvaerkskort_temaer/kort_roed.pdf", onefile = TRUE, height = 30, width = 30)
 kort.roed
 dev.off()
 
@@ -351,7 +460,7 @@ kort.ledighed <-  gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.
 )), name = "ledighed af året i %", breaks=ledighed.num, labels=ledighed.lab) +  default  +
   guides(fill = guide_colorbar(barwidth = 1, barheight = 15,draw.ulim = TRUE, draw.llim = TRUE)) +
   theme(legend.position = c(0.9, 0.9))
-cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_ledighed.pdf", onefile = TRUE, height = 30, width = 30)
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/1_netvaerkskort_temaer/kort_ledighed.pdf", onefile = TRUE, height = 30, width = 30)
 kort.ledighed
 dev.off()
 
@@ -373,7 +482,7 @@ kort.manedslon <- gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.
           default + ggtitle("månedsløn ledige") +
 scale_fill_gradientn(colours = getPalette(length(unique(discodata$timelon.helepop.gns.inf.mndr))), guide = "legend", name = "månedsløn", breaks=timelon.helepop.gns.inf.mndr_num, labels=timelon.helepop.gns.inf.mndr_lab)
 
-cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_manedslon.pdf", onefile = TRUE, height = 30, width = 30)
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/1_netvaerkskort_temaer/kort_manedslon.pdf", onefile = TRUE, height = 30, width = 30)
 kort.manedslon
 dev.off()
 
@@ -388,7 +497,7 @@ scale_fill_gradientn(colours = getPalette(length(unique(discodata$alder.helepop.
   # , breaks=intern.mob.seg_num, labels=intern.mob.seg_lab)
 
 
-cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort.alder.pdf", onefile = TRUE, height = 30, width = 30)
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/1_netvaerkskort_temaer/kort.alder.pdf", onefile = TRUE, height = 30, width = 30)
 kort.alder
 dev.off()
 
@@ -402,7 +511,7 @@ kort.ledighed <- gg.jonas(seg, layout = lay, edges=edges.default.all, midpoint.a
 scale_fill_gradientn(colours = getPalette(length(unique(discodata$ledighed.helepop.gns))), guide = "legend", name = "ledighed", limits=c(0,60))
   # , breaks=intern.mob.seg_num, labels=intern.mob.seg_lab)
 
-cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort.ledighed.pdf", onefile = TRUE, height = 30, width = 30)
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/1_netvaerkskort_temaer/kort.ledighed.pdf", onefile = TRUE, height = 30, width = 30)
 kort.ledighed
 dev.off()
 
@@ -461,7 +570,7 @@ pt5  <- pt5 + list.scales + ggtitle("5. niveau") + annotate("segment",x=Inf,xend
 
 pt.list <- list(pt1, pt2, pt3, pt4,pt5)
 for (i in 1:5) {
-  cairo_pdf(paste0("./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_seg_proces",i,".pdf",sep=""),onefile=TRUE,height=15,width=15)
+  cairo_pdf(paste0("./statistik/R/moneca/vores/00_emilspeciale_output/1_netvaerkskort_temaer/kort_seg_proces",i,".pdf",sep=""),onefile=TRUE,height=15,width=15)
   print(pt.list[[i]])
   dev.off()
 }  
@@ -469,14 +578,14 @@ for (i in 1:5) {
 
 #præsentation af modellen uden 
 cs5t5                   <- as.character(s5) == as.character(s5)
-cairo_pdf("./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_seg_proces_niveau5_praesentation.pdf",,onefile=TRUE,height=15,width=15)
+cairo_pdf("./statistik/R/moneca/vores/00_emilspeciale_output/1_netvaerkskort_temaer/kort_seg_proces_niveau5_praesentation.pdf",,onefile=TRUE,height=15,width=15)
 gg.jonas(seg, layout=lay, niveau=1:5, edges = edges.default, vertex.fill=cs4t5, edge.color = "grey30", midpoints = FALSE, vertex.size = vertex_stoerrelse,
          edge.size = 0.3, border.padding = 1.5, show.text = FALSE, border.text.size = 3, border.text = FALSE) + list.scales + ggtitle("") + annotate("segment",x=Inf,xend=-Inf,y=Inf,yend=Inf,color="black",lwd=1) + theme(plot.title = element_text(size=35, face="bold")) 
 dev.off()
  
   
   
-cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_seg_proces.pdf", onefile = TRUE, height = 30, width = 30)
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/1_netvaerkskort_temaer/kort_seg_proces.pdf", onefile = TRUE, height = 30, width = 30)
 
 
 pt.list.udentitler = pt.list
@@ -492,12 +601,12 @@ levels(pt.list)
 
 
 
-cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_seg_proces.pdf", onefile = TRUE, height = 30, width = 30)
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/1_netvaerkskort_temaer/kort_seg_proces.pdf", onefile = TRUE, height = 30, width = 30)
 grid.arrange(pt1, pt2, pt3, pt4, nrow=2, ncol=2)
 #pt.list
 dev.off()
 
-cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/kort_pt_list.pdf", onefile = TRUE, height = 30, width = 30)
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/1_netvaerkskort_temaer/kort_pt_list.pdf", onefile = TRUE, height = 30, width = 30)
 pt.list
 dev.off()
 
@@ -578,7 +687,7 @@ dev.off()
 
 
 
-# pdf(file = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/segmentihverandre.pdf", height = 25, width = 25)
+# pdf(file = "./statistik/R/moneca/vores/00_emilspeciale_output/1_netvaerkskort_temaer/segmentihverandre.pdf", height = 25, width = 25)
 # kort.sociosocstil.med.alleeskaeft.seg
 # kort.alleeskaeft.med.sociosocstil.seg + ggtitle("alle beskaeftigede seg.mem i socstil/socio")
 # dev.off()
@@ -604,7 +713,7 @@ dev.off()
 # scale_fill_gradientn(colours = getPalette(length(unique(discodata$ledperiod.antal.gns))), guide = "legend", name = "gns. antal ledighedsperioder", breaks=ledperiod.antal.gns_num, labels=ledperiod.antal.gns_lab)
 
 
-# pdf(file = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/ledighedsperioder_sociosocstil.pdf", height = 25, width = 25)
+# pdf(file = "./statistik/R/moneca/vores/00_emilspeciale_output/1_netvaerkskort_temaer/ledighedsperioder_sociosocstil.pdf", height = 25, width = 25)
 # kort.ledperiod.lngde
 # kort.ledperiod.antal
 # dev.off()
@@ -638,7 +747,7 @@ dev.off()
 #                    vertex.size = vertex_stoerrelse) +  
 #           default + ggtitle("årsløn ledige") +
 # scale_fill_gradientn(colours = getPalette(length(unique(discodata$perindkialt.helepop.gns))), guide = "legend", name = "årsløn ledige", breaks=perindkialt.helepop.gns_num, labels=perindkialt.helepop.gns_lab, limits=c(100000, 550000))
-# pdf(file = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/test4.pdf", height = 20, width = 20)
+# pdf(file = "./statistik/R/moneca/vores/00_emilspeciale_output/1_netvaerkskort_temaer/test4.pdf", height = 20, width = 20)
 # kort.aarsloen
 # dev.off()
 
@@ -660,7 +769,7 @@ dev.off()
 # scale_fill_gradientn(colours = getPalette(length(unique(discodata$loenmv.helepop.gns))), guide = "legend", name = "årsløn population", breaks=loenmv.gns.helepop_num, labels=loenmv.gns.helepop_lab, limits=c(100000, 550000))
 
 
-# pdf(file = "./statistik/R/moneca/vores/00_emilspeciale_output/00_tryout_nogetrod/test4.pdf", height = 20, width = 20)
+# pdf(file = "./statistik/R/moneca/vores/00_emilspeciale_output/1_netvaerkskort_temaer/test4.pdf", height = 20, width = 20)
 # kort.aarsloen.led
 # kort.aarsloen.pop
 # kort.koen

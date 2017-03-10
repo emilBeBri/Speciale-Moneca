@@ -1,0 +1,128 @@
+# add the group names 
+pop <- diag(mob.mat[-274,-274])
+Tset <- diag(mat.e.result)
+# find ud af hvilket indeks der passer med diverse segmenter etc 
+ikke.seg.index <- sort(unique(unlist(lapply(names(Tset[which((Tset%in%pop))]), function(x) grep(paste0(x), colnames(mat.e.result))))))
+# length(ikke.seg.index)
+ikke.seg.disco.navne <- sort(unique(unlist(lapply(as.numeric(names(Tset[which((Tset%in%pop))])), function(x) as.character(discodata$disco)[x]))))
+
+seg.index <- sort(unique(unlist(lapply(names(Tset[which(!(Tset%in%pop))]), function(x) grep(paste0(x), colnames(mat.e.result))))))
+
+
+
+
+
+
+
+
+dimnames(mat.e.result) <- list(seq_len(nrow(mat.e.result)),seq_len(nrow(mat.e.result)))
+
+
+
+
+
+
+diag.discodata
+diag.submatrix
+diag.seg.df
+diag.seg.df.udisco
+diag.submatrix.seg
+
+
+
+
+
+colnames(mat.e.result)[seg.index] <- as.vector(sapply(seg.klynger,function(x) paste("segment",x,sep=" ")))
+rownames(mat.e.result)[seg.index] <- as.vector(sapply(seg.klynger,function(x) paste("segment",x,sep=" ")))
+
+ikke.seg.index <-  as.numeric(names(diag.submatrix[which((diag.discodata%in%diag.submatrix))]))
+
+
+
+
+
+
+ikke.seg.disco.navne <- discodata$disco[ikke.seg.index]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+colnames(mat.e.result) <-  names(diag.seg.df.udisco)[which(diag.seg.df.udisco %in% 	diag.submatrix.seg)]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+l(which(diag.discodata %in% diag.submatrix))
+which(diag.discodata %in% diag.submatrix)
+l(which(diag.submatrix.seg %in% diag.submatrix))
+which(diag.submatrix.seg %in% diag.submatrix)
+which(diag.submatrix %in% diag.submatrix.seg)
+
+ 
+duplicated(
+	append(which(diag.submatrix.seg %in% diag.submatrix),which(diag.discodata %in% diag.submatrix)),
+     seq_len(238)
+)	
+
+test <- 	append(which(diag.submatrix.seg %in% diag.submatrix),which(diag.discodata %in% diag.submatrix))
+
+
+
+
+
+
+ setdiff ( as.numeric(rownames(mat.e.result)),test    )
+
+
+
+rownames(mat.e.result)[c(1,)]
+
+
+
+
+
+
+
+
+ncol(mat.e.result)
+
+
+
+
+
+
+duplicated
+
+
+
+
+klynger 
+
+ seg.klynger <-  rev(sort(klynger))
+
+
+
+

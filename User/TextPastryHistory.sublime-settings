@@ -138,16 +138,72 @@
 			},
 			"key": "db64de251675d94aba518900e95f7009",
 			"label": "range 1996,2009"
+		},
+		{
+			"data":
+			{
+				"args":
+				{
+					"start": "2",
+					"stop": "15"
+				},
+				"command": "text_pastry_range",
+				"text": "range 2,15"
+			},
+			"key": "ba6256d5e9c1ab78fd26e74799bf06a3",
+			"label": "range 2,15"
+		},
+		{
+			"data":
+			{
+				"args":
+				{
+					"start": "1",
+					"stop": "5"
+				},
+				"command": "text_pastry_range",
+				"text": "range 1,5"
+			},
+			"key": "cc0f6d81541dc9a0d0607236eceadf52",
+			"label": "range 1,5"
+		},
+		{
+			"data":
+			{
+				"args":
+				{
+					"start": "1",
+					"stop": "11"
+				},
+				"command": "text_pastry_range",
+				"text": "range 1,11"
+			},
+			"key": "d44d8c2482d18ec5adef916f95c2c3dd",
+			"label": "range 1,11"
+		},
+		{
+			"data":
+			{
+				"args":
+				{
+					"start": "1",
+					"stop": "111"
+				},
+				"command": "text_pastry_range",
+				"text": "range 1,111"
+			},
+			"key": "53a44af049b7e656cf5947969655c845",
+			"label": "range 1,111"
 		}
 	],
 	"last_command":
 	{
 		"args":
 		{
-			"start": "1996",
-			"stop": "2009"
+			"start": "1",
+			"stop": "111"
 		},
 		"command": "text_pastry_range",
-		"text": "range 1996,2009"
+		"text": "range 1,111"
 	}
 }

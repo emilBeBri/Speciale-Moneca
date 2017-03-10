@@ -13,7 +13,7 @@ colnames(allbeskaeft) <- label_moneca_[]
 l1_r            <- nrow(allbeskaeft)
 allbeskaeft[l1_r,1]            <- c(9999)
 allbeskaeft <- sapply(allbeskaeft, as.numeric)
- view(allbeskaeft)
+ # view(allbeskaeft)
 
 
 
@@ -97,6 +97,14 @@ l            <- ncol(mob.mat) # displays no. of columns #gir os antal kolonner o
 
 dimnames(mob.mat) <- list(label, label) # s?tter labels b?de p? rows og columns p? mob.mat matricen
 
+
+### ændrer en enkelt observation i de diagonaler der er dupletter af andre, dvs så diagonalen i mob.mat kan bruges til at identificere hver enkelt element unikt. Meget vigtigt i det jeg laver lige nu. 
+
+diag(mob.mat)[which(duplicated(diag(mob.mat)))] <-  diag(mob.mat+1)[which(duplicated(diag(mob.mat)))]
+diag(mob.mat)[which(duplicated(diag(mob.mat)))] <-  diag(mob.mat+1)[which(duplicated(diag(mob.mat)))]
+
+
+
 #view(mob.mat)
 # View(label)
 
@@ -135,8 +143,7 @@ rownames(beskaeftigede) <- label[] #tager label-objektet og s?tter labels på fr
 
 beskaeftigede.andel     <- t(t(beskaeftigede) / c(beskaeftigede[l,])) #transposer matricen og bruger totalen per år til at vurdere det samlede antal. 
 #View(beskaeftigede.andel)
-# beskaeftigede.smooth                                        <- smoothie(beskaeftigede)
-
+beskaeftigede.smooth                                        <- smoothie(beskaeftigede)
 
 #breakdown af smoothie-funktionen med besk?ftigelsesdata
 #smoothie   <- function(x, negative = FALSE, max.value = FALSE){
@@ -162,25 +169,26 @@ beskaeftigede.andel     <- t(t(beskaeftigede) / c(beskaeftigede[l,])) #transpose
 #}
 
 # #erstatter de forudsagte v?rdier med regressioner for hver periode - antal
-# beskaeftigede.smooth[, aar %in% smooth.periode.1996.2001]    <- smoothie(beskaeftigede[, aar %in% smooth.periode.1996.2001])
-# beskaeftigede.smooth[, aar %in% smooth.periode.2001.2009]    <- smoothie(beskaeftigede[, aar %in% smooth.periode.2001.2009])
+beskaeftigede.smooth[, aar %in% smooth.periode.1996.2001]    <- smoothie(beskaeftigede[, aar %in% smooth.periode.1996.2001])
+beskaeftigede.smooth[, aar %in% smooth.periode.2001.2009]    <- smoothie(beskaeftigede[, aar %in% smooth.periode.2001.2009])
 # #write.table(beskaeftigede.smooth, file="./statistik/R/moneca/vores/output_emil/beskaeftigede.smooth1.csv", sep = ";", fileEncoding = "UTF-8", col.names=NA)
 
 
 # #erstatter de forudsagte v?rdier med regressioner for hver periode - andele - men hvorfor s?tter han kun max.value på den f?rste og ikke resten? #sp?rganton 
-# beskaeftigede.andel.smooth                                        <- smoothie(beskaeftigede.andel, max.value = 1)
-# beskaeftigede.andel.smooth[, aar %in% smooth.periode.1996.2001]    <- smoothie(beskaeftigede.andel[, aar %in% smooth.periode.1996.2001], max.value = 1) 
-# beskaeftigede.andel.smooth[, aar %in% smooth.periode.2001.2009]    <- smoothie(beskaeftigede.andel[, aar %in% smooth.periode.2001.2009], max.value = 1)
+beskaeftigede.andel.smooth                                        <- smoothie(beskaeftigede.andel, max.value = 1)
+beskaeftigede.andel.smooth[, aar %in% smooth.periode.1996.2001]    <- smoothie(beskaeftigede.andel[, aar %in% smooth.periode.1996.2001], max.value = 1) 
+beskaeftigede.andel.smooth[, aar %in% smooth.periode.2001.2009]    <- smoothie(beskaeftigede.andel[, aar %in% smooth.periode.2001.2009], max.value = 1)
 
 
-#uklart hvad der sker her #sp?rganton. han ender med en smoothede kategorier uden decimaler, der ligger semit?t p? den tidligere smoothede version
+
+# #uklart hvad der sker her #sp?rganton. han ender med en smoothede kategorier uden decimaler, der ligger semit?t p? den tidligere smoothede version
 # beskaeftigede.smooth             <- beskaeftigede.smooth[, aar %in% periode]
 # beskaeftigede.smooth             <- round(beskaeftigede.smooth)
-#View(beskaeftigede.smooth)
-#write.table(beskaeftigede, file="./statistik/R/moneca/vores/output_emil/beskaeftigede.smooth2.csv", sep = ";", fileEncoding = "UTF-8", col.names=NA)
-beskaeftigede                    <- beskaeftigede[, aar %in% periode]
-beskaeftigede.andel              <- beskaeftigede.andel[, aar %in% periode]
-# beskaeftigede.andel.smooth       <- beskaeftigede.andel.smooth[, aar %in% periode]
+# #View(beskaeftigede.smooth)
+# #write.table(beskaeftigede, file="./statistik/R/moneca/vores/output_emil/beskaeftigede.smooth2.csv", sep = ";", fileEncoding = "UTF-8", col.names=NA)
+# beskaeftigede                    <- beskaeftigede[, aar %in% periode]
+# beskaeftigede.andel              <- beskaeftigede.andel[, aar %in% periode]
+# # beskaeftigede.andel.smooth       <- beskaeftigede.andel.smooth[, aar %in% periode]
 
 
 ###################### mobilitetsberegninger ################################      

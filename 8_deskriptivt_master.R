@@ -1,20 +1,32 @@
 
+DescTools::Desc(df$klasse_egp11)
+
+
+
+
+view(segment.quality(seg,final=TRUE))
 
 
 
 
 
-view(df)
+view(mob.mat)
+
+mobmat(
+
+  view(cbind(names(mob.mat),mob.mat))
+
+
 view(as.numeric(as.character(seg.df$disco_s))
 view(as.numeric(as.character(df$disco_s)))
 
-aabn_xls("./statistik/R/moneca/vores/00_emilspeciale_output/dataframes/df.xlsx")
-aabn_xls("./statistik/R/moneca/vores/00_emilspeciale_output/dataframes/seg.df.xlsx")
 
 
-recode(df,    =`2: Nodes`
 
 
+
+
+median(seg.df$within.mob.seg)
 
 df %>%  mutate(`2: Nodes` = ifelse(is.na(`2: Nodes`), c(1), na.rm = T), `2: Nodes`))
 
@@ -29,6 +41,10 @@ view(df %>%  mutate(`2: Nodes` = ifelse(is.na(`2: Nodes`), c(1), `2: Nodes`)) %>
 mean(tmp$tmp)
 
 
+view(seg.df$within.mob.beregn)
+mean(seg.df$within.mob.seg)
+
+
 
 
 
@@ -36,6 +52,9 @@ mean(tmp$tmp)
 view(df %>% filter(membership==3.33) %>%    arrange(`2: Segment`,disco) %>%   select(`2: Segment`, share.total.size, Nodes, disco, timelon.mean.gns, timelon.sd.gns, ledighed.mean.gns, ledighed.sd.gns, koen.gns.kvinder.andel, koen.gns.kvinder.andel.sd, alder.mean.gns, alder.sd.gns, membership ))
 
 view(seg.df %>% filter(membership==3.33) %>%  select(membership,Nodes,within.mob.seg,share.total.size, within.mob.sd.beregn, ledighed.mean.gns.beregn, ledighed.sd.gns.beregn, timelon.mean.gns.beregn, timelon.sd.gns.beregn, koen.gns.kvinder.mean.beregn ,koen.gns.kvinder.sd.beregn))
+valg.seg <-  c("3.24")
+view(DST_fagbet %>% filter(membership==valg.seg) %>% select(`2: Segment`,fagbet_tekst, disco, membership, skillvl) %>% arrange(`2: Segment`,disco))
+
 
 
 
@@ -49,7 +68,7 @@ round(apply(mean.df,2 ,median),4)
 
 
 
-valg.seg <-  c("3.33")
+valg.seg <-  c("3.24")
 view(DST_fagbet %>% filter(membership==valg.seg) %>% select(`2: Segment`,fagbet_tekst, disco, membership, skillvl) %>% arrange(`2: Segment`,disco))
 
 df %>% filter(membership==valg.seg) %>% arrange(beskaeft.andel.gns) %>% select(disco)   %>%   print(n=40)
@@ -138,6 +157,74 @@ view(seg.df)
 view(seg.qual)
 
 
+
+
+####  Delanalyse 3: Sociale klasser med Oesch   ##########
+
+
+####  Metodeafsnit 2: Disco                   ###############
+
+
+# bortfald 
+
+
+############### tidsserier for beskæftigelse ##############
+
+library(ggthemes)
+bortfald.df <- read_excel("./statistik/R/moneca/vores/00_emilspeciale_output/fraDST/bortfaldsanalyse.xlsx")
+plot.df <- bortfald.df %>%    gather(key,value,-grp) 
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/tidsserier/frafald_beskaeft.pdf", height = 10, width = 15)
+ggplot(plot.df, aes(x=key, y=value, colour=as.matrix(plot.df[,1]), group=as.matrix(plot.df[,1]))) +
+                      geom_line(size=2) +
+                      # geom_point(size=2) + 
+                     xlab("") + ylab("") +
+                     theme_tufte() +                     
+                     theme(panel.grid.major= element_line(colour="black", size=0.05),text=element_text(size=20)) +
+                      scale_colour_manual(values=sample(iwanthue)) +
+                      geom_rangeframe(color="black",na.rm=TRUE) +
+                      scale_y_continuous(breaks =extended_range_breaks()(plot.df$value))
+dev.off()
+
+
+
+
+
+
+
+####### treemap 
+library(treemap)
+library(highcharter)
+
+tree.df <- select(df, disco_1cifret, disco,beskaeft.andel.gns)
+DescTools::Desc(tree.df$beskaeft.andel.gns*100)
+tree.df$label <- paste(tree.df$disco,"(",sep=" ")
+tree.df$label <- paste(tree.df$label,round2(tree.df$beskaeft.andel.gns*100,1),"%",")",sep="")
+tree.df$label[tree.df$beskaeft.andel.gns <= 0.0025 ] <- c("SAMLET: Erhvervsgrupper med en andel af beskæftigede under 2,5 %") 
+# tree.df$label[tree.df$beskaeft.andel.gns >= 0.0025 ] <- c("under") 
+cairo_pdf(filename = "./statistik/R/moneca/vores/00_emilspeciale_output/treemaps/DISCO_hovedgrp_beskaeft.pdf", height = 25, width = 25)
+tree.map <- treemap(tree.df, index = c("disco_1cifret","label"), vSize = "beskaeft.andel.gns", palette = "HCL",force.print.labels = TRUE,fontsize.labels = c(30,18), title="")
+dev.off()
+
+
+#andel beskæftigede i disco 
+ discodata %>% group_by(disco_1cifret) %>% summarise(summie=sum(beskaeft.andel.gns))  %>% arrange(desc(summie))
+
+DescTools::Desc(tmp$summie*100)
+
+
+sum(mob.mat[-274,-274])
+
+
+
+# TEST_ <- treemap(select(df, disco,beskaeft.andel.gns), index = "disco", vSize = "beskaeft.andel.gns", palette = "Spectral",type="index")
+# hTEST_hc <- highchart() %>% hctreemap(TEST_, name = "urine", layoutAlgorithm = "squarified") %>% 
+#   hc_title(text = "Composition of human urine (50 g  dry weight / L)")
+
+
+
+
+
+
 # nøgletal for intern mobilitet (delanalyse1)
 view(seg.opsummering)
 view(seg.qual.final)
@@ -172,13 +259,19 @@ format(round(quantile(seg.df$within.mob.seg, quants, na.rm=TRUE), digits=3), big
 under68.df <- filter(df, within.mob.seg <= .68)
 view(under68.df)
 
-# relativ risiko (delanalyse1)
+# relativ risiko (delanalyse1) - UDEN diagonalen 
 
 
 Hmisc::describe(relativrisiko.vector)
-quants <- seq(0.9,1,0.005)
-format(round(quantile(relativrisiko.vector, quants, na.rm=TRUE), digits=3), big.mark=".",decimal.mark=",",nsmall=0)
+quants <- seq(0,1,0.01)
+format(round2(quantile(relativrisiko.vector, quants, na.rm=TRUE), digits=3), big.mark=".",decimal.mark=",",nsmall=0)
 
+# kunne være sjovt at lave det her plot, og så zoome ind på området med den høje stigning #todoir
+
+sort(relativrisiko.vector)
+
+ggplot() + geom_point(aes(x=seq_along(sort(relativrisiko.vector)), y=sort(relativrisiko.vector)),alpha=.1,size=0.5)
+ggplot() + geom_line(aes(x=seq_along(sort(relativrisiko.vector)[500:length(relativrisiko.vector)]), y=sort(relativrisiko.vector)[500:length(relativrisiko.vector)]))
 
 
 
@@ -223,8 +316,14 @@ view(tmp)
 lavdens.df <- filter(df, Density <= .52)
 view(lavdens.df)
 
+############## delanalyse 3: Klasse ###########
 
 
+nabo.out          <- neighborhood.share.of(seg, stor/sum(stor), small.cell.reduction = 5, mode = "out")
+view(nabo.out)
+
+
+view(stor)
 
 
 ############## delanalyse 2: Bringin' it All back Home ###########
@@ -373,13 +472,13 @@ aabn_xls("./statistik/R/moneca/vores/00_emilspeciale_output/dataframes/seg.df_le
 
 
 
-###################### delanalyse 2: køn ########################
+###################### delanalyse 2: køen ########################
 
 
 discodata %>%    group_by(seg.koen.fordeling) %>%   summarise(sum=sum(beskaeft.andel.gns*100))
 # 1/4 er i delmarkeder hvor der kun er jobs med en overvægt af kvinder eller mænd, og 2/4 er i miks. 
 
-
+view(df)
 
 # ledelse
 

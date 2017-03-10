@@ -1,6 +1,6 @@
 
 
-
+install.packages("Cairo")
 
 install.packages("lubridate")
 install.packages("plotly")
@@ -12,9 +12,24 @@ install.packages("raster")
 install.packages("RgoogleMaps")
 
 
+install.packages("knitr")
 
 
 
+#to install rPlotter 
+sudo apt-get install libfftw3-dev libfftw3-3 libfftw3-dev libtiff5-dev
+## EBImage
+source("http://bioconductor.org/biocLite.R")
+biocLite("EBImage")
+biocLite("fftwtools")
+                                                                   
+
+## Packages on GitHub
+devtools::install_github("ramnathv/rblocks")
+
+## And finally ...
+  devtools::install_github("woobe/rPlotter")
+ 
 
 
 ## for at få devtools op at køre installer følgende

@@ -1,0 +1,216 @@
+
+
+ma.motor.uni.df <- function(x,klasse_label=c("ikke_angivet")) {
+klynger <- x
+
+#til test
+ # klynger <- manuelle.klynger.lav
+
+
+
+klynger <- klynger[grep("^1.*", klynger, invert = TRUE)]
+
+
+#
+mat.e.result <- mob.mat[-274,-274]
+mat.e.result <- mat.e
+# etest(mat.e)
+
+klynge.liste.samlet.indeks <- list()
+for (name in sort(klynger)) {
+klynge.liste.samlet.indeks[name]  <-  klynge.liste.niveau.5[name]
+}
+# klynge.liste.samlet.indeks
+work.list.foer.sub <-  sort(as.vector(unlist(df %>% filter(membership %in% klynger) %>%     select(indeks)))) #det samme, det ene som liste og det andet som vector 
+sort(as.vector(unlist(klynge.liste.samlet.indeks)))==work.list.foer.sub # yes de skal være ens det er de 
+
+# find  de disco der går 
+# 1. fra segmenter af interesse
+aug.work.list.foer.sub <- sort(unique(unlist(lapply(work.list.foer.sub, function(x) which(mat.e[x,] != 0)))))
+# 2. til segmenter af interesse 
+# aug.work.list.foer.sub <- sort(unique(unlist(lapply(work.list.foer.sub, function(x) which(mat.e[,x] != 0)))))
+
+
+# liste til aggregering af disco 
+klynge.liste.e.seg.manuel.til.fra <- Reduce(function(x, y) replace(x, x[x %in% y], min(y)), c(list(seq_len(273)), unname(klynge.liste.samlet.indeks)))
+
+
+# det store aggregeringsnummer 
+mat.e.result <- t(rowsum(t(rowsum(mat.e.result, klynge.liste.e.seg.manuel.til.fra)), klynge.liste.e.seg.manuel.til.fra))
+
+
+# ncol(mat.e.result) 
+# # view(mat.e.result)# her lagt sammen med den anden 
+# etest(mat.e.result)
+# view(mat.e.result)
+# sum(mat.e.result)
+
+
+# de her to skal være ens, ellers er noget galt: 
+length(unique(which(diag(mat.e.result) == 0)))==length(which(diag(mat.e.result) == 0))
+# view(mat.e.result)
+# max(as.vector(mat.e.result))
+# min(colSums(mat.e.result))
+# etest(mat.e.result)
+#view(mat.e.result)
+# sum(mat.e.result)
+
+
+# diagonaler til at identificere elementer 
+
+diag.submatrix <- diag(mat.e.result)
+
+diag.seg.df <- diag(e.mobmat.seg.niveau.5)
+
+diag.discodata <- diag(mob.mat[-274,-274])
+
+diag.seg.df.udisco <-diag.seg.df[1:41] #hvis denne her bruges i which-statemenetet i 2. linje i nedenstående, istedet for diag.seg.df så kommer enkelt-grupperne fra 5-niveau med. men der er er noget der skal ordnes først, ikke aktuelt nu. \#todo
+
+
+seg.index <- which(!(diag.submatrix%in%diag.discodata))
+diag.submatrix.seg  <-  diag.submatrix[seg.index]
+which(names(diag.seg.df)[which(diag.seg.df %in% 	diag.submatrix.seg)] %in% klynger)==seq_len(length(klynger)) 
+# skal være sand for alle elementer 
+
+# find  de disco der går fra nye seg-index 
+work.list.efter.sub <- seg.index
+
+# 1. fra segmenter af interesse
+aug.work.list.efter.sub <- sort(unique(unlist(lapply(work.list.efter.sub, function(x) which(mat.e.result[x,] != 0)))))
+
+# test
+tmp1  <-  setdiff(aug.work.list.foer.sub,work.list.foer.sub) 
+test.list.1 <-  as.character(discodata$disco[tmp1])
+tmp1  <-  setdiff(aug.work.list.efter.sub,work.list.efter.sub) 
+test.list.2 <-  as.character(discodata$disco[tmp1])
+length(test.list.1)==length(test.list.2) # de her to skal være ens 
+
+
+mat.e.result <- mat.e.result[aug.work.list.efter.sub, aug.work.list.efter.sub]
+
+# diagonaler til at identificere elementer 
+
+diag.submatrix <- diag(mat.e.result)
+seg.index <- which(!(diag.submatrix%in%diag.discodata))
+diag.submatrix.seg  <-  diag.submatrix[seg.index]
+which(names(diag.seg.df.udisco)[which(diag.seg.df.udisco %in% 	diag.submatrix.seg)] %in% klynger)==seq_len(length(klynger)) # skal være sand for alle elementer 
+
+
+# find ud af hvilket indeks der passer med diverse segmenter etc 
+ikke.seg.index.i.disco <-  as.numeric(names(diag.submatrix[which((diag.submatrix%in%diag.discodata))]))
+ikke.seg.index.i.submatrix <-  which((diag.submatrix%in%diag.discodata))
+
+
+colnames(mat.e.result)[ikke.seg.index.i.submatrix] <- as.character(discodata$disco[ikke.seg.index.i.disco])
+rownames(mat.e.result)[ikke.seg.index.i.submatrix] <- as.character(discodata$disco[ikke.seg.index.i.disco])
+colnames(mat.e.result)[ 
+	which(diag.submatrix %in% diag.seg.df.udisco)] <-
+				 names(diag.seg.df.udisco)[
+                   which(diag.seg.df.udisco %in% diag.submatrix.seg)]
+rownames(mat.e.result)[ 
+	which(diag.submatrix %in% diag.seg.df.udisco)] <-
+				 names(diag.seg.df.udisco)[
+                   which(diag.seg.df.udisco %in% diag.submatrix.seg)]
+ncol(mat.e.result)				
+# view(mat.e.result)
+# max(as.vector(mat.e.result))
+
+tmp.order  <-  append(colnames(mat.e.result) [seg.index] , colnames(mat.e.result)[ikke.seg.index.i.submatrix ] )
+korrekt <-  match(tmp.order,colnames(mat.e.result))
+mat.e.result <-  mat.e.result[korrekt, korrekt]
+# head(colnames(mat.e.result)) # yes (gør ikke noget der også er nogle discogrupper med, det vigtige er at der er er de segmenter der skal være)
+
+
+
+# ncol(mat.e.result)
+# view(mat.e.result) #og her, det er desuden korrekte dimnames
+# max(as.vector(mat.e.result))
+# min(colSums(mat.e.result))
+# etest(mat.e.result)
+
+
+
+# diagonaler til at identificere elementer 
+
+diag.submatrix <- diag(mat.e.result)
+seg.index <- which(!(diag.submatrix%in%diag.discodata))
+diag.submatrix.seg  <-  diag.submatrix[seg.index]
+ikke.seg.index.i.submatrix <-  which((diag.submatrix%in%diag.discodata))
+ikke.seg.index.i.disco <-  which((diag.discodata%in%diag.submatrix))
+
+ which(names(diag.seg.df.udisco)[which(diag.seg.df.udisco %in% 	diag.submatrix.seg)] %in% klynger)==seq_len(length(klynger)) 
+
+
+
+
+
+mat.e.result[ikke.seg.index.i.submatrix,ikke.seg.index.i.submatrix] <- 0 
+
+
+#fjerner interne ties i segmenter af interesse (hvis vi bare vil se hvor de går hen)
+# etest(mat.e.result) # yep 
+
+diag.mat.e.result <- diag(mat.e.result)  # for later use 
+mat.e.result[ikke.seg.index.i.submatrix,seg.index] <- 0
+
+########## for aggregerede submatricer shit ############
+
+
+
+
+
+# de tre matricer af interesse 
+
+mat.e.result.seg.fra <-  mat.e.result[seg.index,seg.index]
+
+
+mat.e.result  <-  mat.e.result[seg.index,ikke.seg.index.i.submatrix]
+
+# slå segmenter af interesse sammen til forsimpling 
+
+mat.e.result <-  rbind(mat.e.result,colSums(mat.e.result))
+mat.e.result <-  mat.e.result[nrow(mat.e.result),]
+
+
+# test.af.restgruppe <-   sum(mat.e.result)
+
+
+### restgrupper 
+test.af.mat.e.result <-   sum(mat.e.result)
+
+colnames.tmp <-  discodata$indeks[which(discodata$disco %in% names(mat.e.result))]
+colnames.tmp <-  as.character(discodata$membership[which(discodata$disco %in% names(mat.e.result))])
+names(mat.e.result) <- colnames.tmp
+mat.e.result  <-  mat.e.result[order(names(mat.e.result))]
+
+colnames.tmp <- names(mat.e.result)
+
+mat.e.result <- tbl_df(mat.e.result) 
+
+
+mat.e.result <-  cbind(mat.e.result, sort(colnames.tmp))
+colnames(mat.e.result)[2] <- c("membership")
+mat.e.result <-  aggregate(mat.e.result[, seq_len(ncol(mat.e.result)-1)], list(mat.e.result$membership), sum)
+colnames.tmp <-  mat.e.result$Group.1
+rownames(mat.e.result) <-  mat.e.result$Group.1
+
+mat.e.result <- rename(mat.e.result,membership=Group.1,without.mob=x) %>% mutate(without.mob.andel=without.mob/sum(without.mob)) %>%  mutate(without.mob.andel.seg.tot=without.mob/(sum(without.mob)+sum(mat.e.result.seg.fra)))
+
+sum(mat.e.result$without.mob.andel.seg.tot)== sum(mat.e.result$without.mob)  / (sum(mat.e.result$without.mob) + sum(mat.e.result.seg.fra)) #yestest
+
+
+mat.e.result <-  seg.df %>% left_join(mat.e.result,.)
+
+view(mat.e.result)
+
+
+mat.e.result <-  mat.e.result %>% add_row(.,membership=c("fokussegmenter"),without.mob=sum(mat.e.result.seg.fra), without.mob.andel.seg.tot= sum(mat.e.result.seg.fra)  / (sum(mat.e.result$without.mob) + sum(mat.e.result.seg.fra)),klasse_begtrupbright1=klasse_label)
+
+	
+
+return(mat.e.result)
+
+
+
+
+}

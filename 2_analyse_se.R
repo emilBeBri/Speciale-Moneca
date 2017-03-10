@@ -16,8 +16,8 @@ set.controls.for.the.heart.of.the.sun <- 4 #her betyder 6 *OVER* det første niv
   
 
 # alle beskaeftigede 250 kat
-# save(seg, file="./statistik/R/moneca/vores/voresdata/seg_objekter/objekt_seg_allebeskaeftigede_250kat.Rdatata")
-load(file="./statistik/R/moneca/vores/voresdata/seg_objekter/objekt_seg_allebeskaeftigede_250kat.Rdata")
+# save(seg, file="./statistik/R/moneca/vores/voresdata/objekt_seg_allebeskaeftigede_250kat.Rdata")
+load(file="./statistik/R/moneca/vores/voresdata/objekt_seg_allebeskaeftigede_250kat.Rdata")
 seg.original  <- seg
 
 #save(seg, file="./statistik/R/moneca/vores/voresdata/seg_objekter/objekt_seg_allebeskaeftigede_250kat_test.Rdata")
@@ -76,13 +76,6 @@ seg$segment.list[[3]][[39]] <- append(seg$segment.list[[2]][[31]],seg$segment.li
 
 
 
-
-
-
-
-
-
-
 # # politiarbejde i 4.7
 # seg$segment.list[[4]][[7]] <- append(seg$segment.list[[4]][[7]],c(162)) 
 
@@ -98,6 +91,185 @@ seg$segment.list[[3]][[39]] <- append(seg$segment.list[[2]][[31]],seg$segment.li
 # #10 1227 Ledelse af hovedaktiviteten i virksomheder inden for forretningsservice i 3.4 
 # seg$segment.list[[3]][[4]] <- append(seg$segment.list[[3]][[4]],c(10,26))
 # # view(segment.quality(seg,final.solution=TRUE))
+
+
+############################################
+
+# HER START 
+
+#############################################
+
+
+
+# ### ændre 2-5 niveau matricerne så de passer til nye seg$segment.list
+
+# i = 5
+
+# for (i in seq(2:5)) {
+
+
+# grp.list.1 <- seg$segment.list[[1]]
+# grp.list.2 <- seg$segment.list[[2]]
+# grp.list.3 <- seg$segment.list[[3]]
+# grp.list.4 <- seg$segment.list[[4]]
+# grp.list.5 <- seg$segment.list[[5]]
+
+
+
+# grp.list.1 <- c(1,2,3,4,5,6,7,8,9)
+# grp.list.2 <- c(2,3,4,5,6,7,8,9  )
+# grp.list.3 <- c(3,4,5,6,7,8,9    )
+# grp.list.4 <- c(4,5,6,7,8,9      )
+# grp.list.5 <- c(5,6,7,8,9	     )
+
+# level.1: 1,2,3,4,5,6,7,8,9
+# level.1 <- list(1,2,3,4,5,6,7,8,9)
+
+
+# level.2.1: 1
+# level.2.2: 2,3,4,5,6,7,8,9
+# level.2 <- list(c(2,4,6,8),c(3,5,7,9))
+
+# level.3-1:   1
+# level.3-2:   2
+# level.3-3:   3,4,5,6,7,8,9
+
+
+
+# level.4-1:   1
+# level.4-2:   2
+# level.4-3:   3
+# level.4-4:   4,5,6,7,8,9
+
+
+# level.5-1:   1
+# level.5-2:   2
+# level.5-3:   3
+# level.5-4:   4
+# level.5-5:   5,6,7,8,9
+
+
+
+
+# grp.1 <- unlist(seg$segment.list[[1]])
+# grp.2 <- unlist(seg$segment.list[[2]])
+# grp.3 <- unlist(seg$segment.list[[3]])
+# grp.4 <- unlist(seg$segment.list[[4]])
+# grp.5 <- unlist(seg$segment.list[[5]])
+
+
+
+# # set
+
+
+# # help(all.equal)
+
+# setA<-c("a", "b", "c", "d", "e")
+# setB<-c("d", "e", "f", "g")
+# setA
+# setB
+# # # dvs det man f?r tilbage er de s?rlige elementer der kun findes i x og ikke i y, her det der findes i setA og ikke i setB
+
+
+
+# setdiff(setA,setB)
+
+
+# group.list <- list(grp1=c(1, 2), grp2=c(3, 4))
+
+# groups <- Reduce(function(x, y) replace(x, x[x %in% y], min(y)),
+#                  c(list(groups), unname(group.list)))
+
+
+# setdiff(grp.list.5,grp.list.4)
+# setdiff(grp.list.4,grp.list.5)
+
+# lapply(grp.list.1,function(x) all(match(x,unlist(grp.list.2))))
+# lapply(grp.list.1,function(x) all(setdiff(x,unlist(grp.list.2))))
+
+
+
+
+# grp.2.3 <-  setdiff(grp.2,grp.3)
+# grp.3.4 <-  setdiff(grp.3,grp.4)
+# grp.4.5 <-  setdiff(grp.4,grp.5)
+
+
+
+# grp.2.3 <-  setdiff(grp.2,grp.4)
+
+
+
+# grp.23.4 <- (setdiff())
+# grp.234.5
+
+
+
+# view(df)
+
+
+# intersect(grp.list.4,grp.list.5)
+ 
+
+#  which(grp.list.4 %in% grp.list.5)
+
+
+
+
+
+# # # her er x og y vendt om ,dvs vi f?r det s?rlige, der kun findes i y - setB - med
+# setdiff(setB,setA)
+#  A = c("Dog", "Cat", "Mouse")
+#  B = c("Tiger","Lion","Cat")
+#  A %in% B
+#  intersect(A,B)
+#  setdiff(A,B)
+#  setdiff(B,A)
+
+# view(seq_len(273))
+
+# view(segment.quality(seg,final.solution=TRUE))
+
+
+# tmp  <- tbl_df(segment.quality(seg,final.solution=FALSE))
+# tmp <- select(tmp,-contains("share"),-contains("Density"),-contains("Max"),-contains("within"))
+# view(tmp)
+
+
+# view(seg.grp)
+
+# unlist(grp.list)
+
+# grp.list <- seg$segment.list[[2]]
+# grp <- seq_len(274)
+# seg.grp <- Reduce(function(x, y) replace(x, x[x %in% y], min(y)), c(list(grp), unname(grp.list)))
+# sort(seg.grp)
+# test <- t(rowsum(t(rowsum(seg$mat.list[[1]], seg.grp)), seg.grp))
+# view(test)
+
+# # seg.grp <- Reduce(function(x, y) replace(x, x[x %in% y], min(y)), c(list(seq_len(274)), unname(grp.list <- seg$segment.list[[i]])))
+# seg$mat.list[[4]] <- t(rowsum(t(rowsum(seg$mat.list[[1]], seg.grp)), seg.grp))
+# }
+# # nrow(seg$mat.list[[5]]) 
+
+
+# # help
+
+# # view(seg$mat.list[[5]])
+# # view(df)
+#  view(segment.quality(seg,final.solution=FALSE))
+#  view(segment.quality(seg,final.solution=TRUE))
+# # view(label)
+
+# # label[99]
+# # seg$mat.list[[1]][99,99]/sum(seg$mat.list[[1]][99,])
+
+############################################
+
+# HER SLUT 
+
+#############################################
+
 
 ############
 
@@ -211,7 +383,38 @@ seg$segment.list[[3]][[39]] <- append(seg$segment.list[[2]][[31]],seg$segment.li
 
 seg.b         <- seg
 
+
+
 seg.mem       <- segment.membership(seg) 
+
+
+# segmenter <-  seg
+# niveau = seq(segmenter$segment.list)
+
+
+
+# function (segmenter, niveau = seq(segmenter$segment.list)) 
+# {
+#     org.name <- rownames(segmenter$mat.list[[1]])
+#     org.name <- org.name[-length(org.name)]
+#     position <- vector(length = length(org.name))
+#     for (niv in niveau) {
+#         seg.niv <- segmenter$segment.list[[niv]]
+#         for (i in 1:length(seg.niv)) {
+#             position[seg.niv[[i]]] <- rep(paste(niv, i, sep = "."), 
+#                 length(seg.niv[[i]]))
+#         }
+#     }
+#     out.mat <- data.frame(name = org.name, membership = position)
+#     out.mat
+
+
+
+# view(position)
+
+
+
+
 #moneca-funktion. iflg beskrivelsen: "A dataframe with the segment membership for each category". Men der er da flere niveauer, hvilket niveau er der tale om? Det sidste niveau, dvs. det "det laveste niveau" de kunne danne klike p?? #sp?rganton 
 #View(seg.mem)
 #write.table(seg.mem, file="./statistik/R/moneca/vores/output/seg.mem.csv", sep = ";", fileEncoding = "UTF-8") #output
@@ -228,7 +431,6 @@ seg.mem       <- segment.membership(seg)
 #qual.list       <- lapply(seg.list, segment.quality)
 #qual.final.list <- lapply(seg.list, segment.quality, final.solution = TRUE)
 seg.qual        <- segment.quality(seg)
-# view(seg.qual)
 seg.qual.final  <- segment.quality(seg, final.solution = TRUE)
 #View(seg.qual.final)
 #write.table(seg.qual.final, file="./statistik/R/moneca/vores/output/seg.qual.final.csv", sep = ";", fileEncoding = "UTF-8") #output
@@ -298,17 +500,17 @@ stor.mob.seg                     <- aggregate.membership(stor.mob, seg.mem[, 2])
 
 
 # juli 2016 warning message på 351 kat version
-# beskaeftigede.seg                 <- apply(beskaeftigede.smooth[-l, ], 2, aggregate.membership, y = seg.mem[, 2])  #fjerner column totals fra beskaeftigede.smooth, applier aggregate.membership-funktionen p? columns i beskaeftigede.smooth, og s?tter y til at v?re column 2 (ud af to) i seg.mem, dvs den column der indeholder segment.membership, og som bruges af aggregate.membership.
+beskaeftigede.seg                 <- apply(beskaeftigede.smooth[-l, ], 2, aggregate.membership, y = seg.mem[, 2])  #fjerner column totals fra beskaeftigede.smooth, applier aggregate.membership-funktionen p? columns i beskaeftigede.smooth, og s?tter y til at v?re column 2 (ud af to) i seg.mem, dvs den column der indeholder segment.membership, og som bruges af aggregate.membership.
 #View(beskaeftigede.seg)
 #beskaeftigede.seg
 
-# beskaeftigede.andel.seg           <- t(t(beskaeftigede.seg) / c(beskaeftigede.smooth[l,])) #Det giver nogle absurd lave v?rdier, fordi beskaeftigede.seg ikke indeholder v?rdier, men bare segment-niveauer, nu som v?rdier i matricen. Det tror jeg virkelig ikke er meningen. #sp?rganton #l?st p? s?rens pc, tjek op p? om det virker p? din egen
+beskaeftigede.andel.seg           <- t(t(beskaeftigede.seg) / c(beskaeftigede.smooth[l,])) #Det giver nogle absurd lave v?rdier, fordi beskaeftigede.seg ikke indeholder v?rdier, men bare segment-niveauer, nu som v?rdier i matricen. Det tror jeg virkelig ikke er meningen. #sp?rganton #l?st p? s?rens pc, tjek op p? om det virker p? din egen
 #View(beskaeftigede.andel.seg)
 
 #samme historie som ovenst?ende.
 beskaeftigede.seg.unsmooth        <- apply(beskaeftigede[-l, ], 2, aggregate.membership, y = seg.mem[, 2])
 #beskaeftigede.seg.unsmooth
-#beskaeftigede.andel.seg.unsmooh   <- t(t(beskaeftigede.seg.unsmooth) / c(beskaeftigede[l,]))
+# beskaeftigede.andel.seg.unsmooh   <- t(t(beskaeftigede.seg.unsmooth) / c(beskaeftigede[l,]))
 beskaeftigede.andel.seg.unsmooth   <- t(t(beskaeftigede.seg.unsmooth) / c(beskaeftigede[l,])) #stavefejl i koden som den stod ovenfor
 
 

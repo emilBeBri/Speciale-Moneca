@@ -1,7 +1,23 @@
 # startdokument
 
+aabn_xls("./statistik/R/moneca/vores/voresdata/Segment_labels_250kat.xlsx")
 
 aabn_xls("tegnet_ny.xlsx")
+
+
+
+aabn_xls("./statistik/R/moneca/vores/00_emilspeciale_output/dataframes/df.xlsx")
+view(seg.df)
+aabn_xls("./statistik/R/moneca/vores/00_emilspeciale_output/dataframes/seg.df.xlsx")
+aabn_xls("./statistik/R/moneca/vores/00_emilspeciale_output/dataframes/mob.mat.xlsx")
+aabn_xls("./statistik/R/moneca/vores/00_emilspeciale_output/dataframes/mob.mat.original.xlsx")
+
+
+aabn_xls("./latexopgave/tabel/00_outputtilExcel_LATEX.xlsx")
+
+
+
+
 
 # ############ source files #########
 
@@ -14,7 +30,6 @@ aabn_xls("tegnet_ny.xlsx")
 setwd("/home/emil/Dropbox/Speciale/Emil_Soeren")
 setwd("C:/Users/emil/Dropbox/Speciale/Emil_Soeren")
 setwd("//VBOXSVR/Emil_Soeren")
-
 getwd()
 checkpoint::checkpoint("2015-06-25")
 
@@ -25,6 +40,13 @@ library(XLConnect)
 rm(list=ls())
 ###
 source("./statistik/R/moneca/vores/vorescripts/0_funktioner_og_pakker.R")
+source("./statistik/R/moneca/vores/vorescripts/0_funktion_mobilitetsanalysemotor.multi.R")
+source("./statistik/R/moneca/vores/vorescripts/0_funktion_mobilitetsanalysemotor.uni.R")
+source("./statistik/R/moneca/vores/vorescripts/0_funktion_mobilitetsanalysemotor.uni.desc.R")
+source("./statistik/R/moneca/vores/vorescripts/0_funktion_mobilitetsanalysemotor.uni.df.R")
+
+
+
 #### selectors ####
 
 #HOVEDKORT
@@ -44,7 +66,7 @@ rm(list=ls())
 load("./foerdplyr.Rdata")
 # Dplyr datasaet essentials 
 source("./statistik/R/moneca/vores/vorescripts/6_skab_dplyrdatasaet_essentials.R")
-# Dplyr datasaet 
+ # Dplyr datasaet
 source("./statistik/R/moneca/vores/vorescripts/6_skab_dplyrdatasaet_udvidet.R")
 # Dplyr datasaet klasser
 source("./statistik/R/moneca/vores/vorescripts/6_skab_dplyrdatasaet_klasser.R")
@@ -52,16 +74,24 @@ source("./statistik/R/moneca/vores/vorescripts/6_skab_dplyrdatasaet_klasser.R")
 # source("./statistik/R/moneca/vores/vorescripts/6_skab_dplyrdatasaet.seg.baggrund.R")
 #ekstra
 source("./statistik/R/moneca/vores/vorescripts/6_skab_dplyrdatasaet_efterbehandling.R")
+source("./statistik/R/moneca/vores/vorescripts/6_skab_dplyrdatasaet_labelsandstuff.R")
+source("./statistik/R/moneca/vores/vorescripts/6_skab_dplyrdatasaet_efterbehandling2_klyngeliste.R")
 nrow(discodata) == 273
 nrow(seg.df) == 47 #fra 54 til 47
-
 discodata <- tbl_df(discodata)
 discodata_bak  <-  discodata 
+#klassefraktioner 
 
 
+
+ 
 #0 
 ### load ovenstaende 
 save.image("./statistik/R/moneca/vores/voresdata/WORKINGPROGRESS_allebeskaeft250.Rdata")
+d <- 5+7
+aegteja <- 6+6
+
+
 setwd("/home/emil/Dropbox/Speciale/Emil_Soeren")
 setwd("//VBOXSVR/Emil_Soeren")
 
@@ -72,20 +102,14 @@ source("./statistik/R/moneca/vores/vorescripts/0_funktioner_og_pakker.R")
 load("./statistik/R/moneca/vores/voresdata/WORKINGPROGRESS_allebeskaeft250.Rdata")
  
 source("./statistik/R/moneca/vores/vorescripts/7_komma_nul_defaultsoglayout.R")
-
-help(arrow)
-
-  ############3 til gamle igraph, 
+  
+############3 til gamle igraph, 
 
 # defaults til ggplot2 kort 
 
 # d. 08/09/2016 lavet på Ubuntu med nyeste moneca og igraph 
 save.image("./statistik/R/moneca/vores/voresdata/dplyrdata_allebeskaeft250_oldmoneca.Rdata")
 load("./statistik/R/moneca/vores/voresdata/dplyrdata_allebeskaeft250_oldmoneca.Rdata")
-
-
-
-
 
 
 

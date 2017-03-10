@@ -29,6 +29,11 @@ beta.var.df <- cbind.data.frame(discodata$membership,beta.var.df)
 colnames(beta.var.df)[1] <- c("membership")
 
 
+# rækkefølgen i index
+discodata$indeks <- seq(1,273,1)
+seg.selector.df  <-       discodata %>%     select(membership,indeks) 
+seg.selector.df$membership <-  as.character(seg.selector.df$membership)
+
 
 # delete <- which(roede.helepop$disco_s == 3450 | roede.helepop$disco_s == 5162 )
 # roede.helepop[delete,2:ncol(roede.helepop)] <- NA
@@ -51,10 +56,12 @@ standard.percentiler = c(10,25,50,75,90,100)/100
 
 discodata$membership <- as.factor(discodata$membership)
 
-til.df.1 <-  discodata %>% group_by(membership) %>% summarise_each(funs(sd), timelon.sd.gns.beregn=timelon.mean.gns, koen.gns.kvinder.sd.beregn=koen.gns.kvinder.andel,ledighed.sd.gns.beregn=ledighed.mean.gns, within.mob.sd.beregn=within.mob, alder.sd.gns.beregn=alder.mean.gns,roede.sd.gns.beregn=roede.mean.gns,gule.sd.gns.beregn=gule.mean.gns)
+til.df.1 <-  discodata %>% group_by(membership) %>% summarise_each(funs(mean), timelon.mean.gns.beregn=timelon.mean.gns, koen.gns.kvinder.mean.beregn=koen.gns.kvinder.andel,ledighed.mean.gns.beregn=ledighed.mean.gns, alder.mean.gns.beregn=alder.mean.gns,roede.mean.gns.beregn=roede.mean.gns,gule.mean.gns.beregn=gule.mean.gns,within.mob.beregn=within.mob)
 
 
-til.df.2 <-  discodata %>% group_by(membership) %>% summarise_each(funs(mean), timelon.mean.gns.beregn=timelon.mean.gns, koen.gns.kvinder.mean.beregn=koen.gns.kvinder.andel,ledighed.mean.gns.beregn=ledighed.mean.gns, alder.mean.gns.beregn=alder.mean.gns,roede.mean.gns.beregn=roede.mean.gns,gule.mean.gns.beregn=gule.mean.gns)
+til.df.2 <-  discodata %>% group_by(membership) %>% summarise_each(funs(sd), timelon.sd.gns.beregn=timelon.mean.gns, koen.gns.kvinder.sd.beregn=koen.gns.kvinder.andel,ledighed.sd.gns.beregn=ledighed.mean.gns, within.mob.sd.beregn=within.mob, alder.sd.gns.beregn=alder.mean.gns,roede.sd.gns.beregn=roede.mean.gns,gule.sd.gns.beregn=gule.mean.gns)
+
+
 
 til.df.3 <-  discodata %>% group_by(membership) %>% summarise_each(funs(sum), beskaeft.andel.gns.beregn=beskaeft.andel.gns, beskaeft.gns.beregn=beskaeft.gns)
 
@@ -114,11 +121,7 @@ discodata <-  inner_join(discodata,beta.var.df)
 
 
 
-df  <- discodata %>% 	select(-contains("200"),-contains("199")) %>% 	select(disco,membership,disco_s,within.mob,within.mob.seg,within.mob.dif,Density,Nodes,max.path,share.of.mob,contains("gns"),ends_with("cifret"),everything()) %>% 	tbl_df()
 
-
-df <- tbl_df(df)
-# view(df)
 
 # # tmp <-  select(df,disco_s,membership)
 # # tmp$label <- as.numeric(factor(tmp$membership))
@@ -141,6 +144,80 @@ natur.interval.ledighed.quantile.cut = classInt::classIntervals(discodata$ledigh
 natur.interval.ledighed.kmeans = classInt::classIntervals(discodata$ledighed.mean.gns.cutoff, n = 8, style = 'kmeans')$brks
 
 
+
+# mere info til segmenter 
+
+beskaeft.andel.tid.df <- inner_join(beskaeft.andel.tid.df,select(discodata,disco,membership,klasse_oesch16,klasse_oesch8, contains("begtrupbright"))) %>% 	select(disco,membership,everything())
+
+
+
+### omkodninger af klasser ud fra segmenter 
+
+
+## nye klasser begtrupbright 1 og 2, lister 
+
+# seg.df %>% group_by(klasse_begtrupbright2) %>% summarise(tet=sum(beskaeft.andel.gns.beregn*100)) %>% arrange(desc(tet))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ # manuelt arbejde
+# klynger = c("5.2","5.1","4.4","4.8","3.9","3.25","3.24","3.15")
+# work.list.manuel <-  sort(as.vector(unlist(discodata %>% filter(membership %in% klynger | (grepl("^1.*", membership) & klasse_oesch8=="4 Manuelle arbejdere" )) %>%     select(indeks))))
+# discodata$manuel_nonmanuel <- ifelse(discodata$indeks %in% work.list.manuel, c("manuelt arbejde"), c("ikke manuelt arbejde"))
+
+
+# manuelt/ikke manuelt KUN på disco-niveau
+work.list.manuel.hoj <-  sort(as.vector(unlist(discodata %>% filter(klasse_oesch16=="7 Manuelle arbejdere, hoejt niveau") %>%     select(indeks))))
+work.list.manuel.lav <-  sort(as.vector(unlist(discodata %>% filter(klasse_oesch16=="8 Manuelle arbejdere, lavt niveau") %>%     select(indeks))))
+discodata$manuel_nonmanuel <- ifelse(discodata$indeks %in% work.list.manuel.hoj, c("7 Manuelle arbejdere, hoejt niveau"), ifelse(discodata$indeks %in% work.list.manuel.lav, c("8 Manuelle arbejdere, lavt niveau"), c("Andre klasser")))
+
+
+
+# manuelle segmenttyper 
+
+
+
+manuelle.klynger.alle <- c(   "3.25",   "3.9", "5.1",  #lav manuel
+ "1.204", "2.40", "3.14", "3.15", "4.8", "5.2",   #høj manuel 
+ "4.4" #blandet manuelt # "2.79", "3.24", "3.30", "4.2", "4.10", "3.25",   #blandet )
+)
+manuelle.klynger.lav <- c(   "3.25",   "3.9", "5.1")
+manuelle.klynger.hoj <- c("1.204", "2.40", "3.14", "3.15", "4.8", "5.2")
+manuelle.klynger.blandet <- c("4.4")
+manuelle.klynger.mix <- c("2.79", "3.24", "3.30", "4.2", "4.10", "3.25"   )
+
+seg.df$manuel.klassemix.seg <- 
+	ifelse(seg.df$membership %in% manuelle.klynger.hoj, c("7 Manuelle arbejdere, hoejere"), 
+	ifelse(seg.df$membership %in% manuelle.klynger.lav, c("8 Manuelle arbejdere, lavere"),   
+	ifelse(seg.df$membership %in% manuelle.klynger.mix, c("Manuelt blandet med andre klasser"),   
+	ifelse(seg.df$membership %in% manuelle.klynger.blandet, c("7/8 Manuelt blandet"),   
+		c("99 Andet")))))
+
+
+
+seg.df$indeks.seg	<- seq_len(nrow(seg.df))
+discodata <-  inner_join(discodata,seg.df)
+
+
+
+######## DF ########### 
+
+df  <- discodata %>% 	select(-contains("200"),-contains("199")) %>% 	select(disco,membership,disco_s,within.mob,within.mob.seg,within.mob.dif,Density,Nodes,max.path,share.of.mob,contains("gns"),ends_with("cifret"),ends_with("beregn"),everything()) %>% 	tbl_df()
+
+
+df <- tbl_df(df)
+# view(df)
 
 
 
@@ -279,9 +356,12 @@ seg.opsummering <- list(level1,level2,level3,level4,level5)
 
 
 cut.off.default <-  1 #skal måske ikke være 1 her jo
-wm1            <- weight.matrix(mob.mat, cut.off = cut.off.default, symmetric = FALSE, small.cell.reduction = small.cell.default, diagonal=TRUE)
+rrwm1            <- weight.matrix(mob.mat, cut.off = cut.off.default, symmetric = FALSE, small.cell.reduction = small.cell.default, diagonal=TRUE)
 # wm1[is.na(wm1)] <- 0
-relativrisiko.vector  <-  as.vector(t(wm1))
+
+diag(rrwm1)[] <- NA
+
+relativrisiko.vector  <-  as.vector(t(rrwm1))
 
 
 
@@ -294,8 +374,7 @@ relativrisiko.vector  <-  as.vector(t(wm1))
 ########## DST fagbetegnelser register ###########
 
 DST_fagbet   <- read.csv2("./statistik/R/moneca/vores/voresdata/DST_fagbetegnelser_DISCO88.csv", sep = ";")
-discogmem  <- select(discodata,disco,disco_4cifret, membership,`2: Segment`,skillvl)
-
+discogmem  <- select(discodata,disco,disco_4cifret, membership,membership,`2: Segment`,skillvl,contains("klasse"))
 
 discogmem$disco_4cifret <-  as.numeric(as.character(discogmem$disco_4cifret))
 DST_fagbet$disco_4cifret <-  as.numeric(DST_fagbet$disco_4cifret)
@@ -374,6 +453,9 @@ discodata <- left_join(discodata,seg.df.mix.koen)
 #view(discodata)
 
 
+
+
+
 ### delanalyse 2 om ledighed 
 
 discodata <- discodata %>%  mutate(ledighed.over.median = ledighed.mean.gns > median(discodata$ledighed.mean.gns))
@@ -391,7 +473,7 @@ discodata <- left_join(discodata,seg.df.mix.ledig)
 
 
 
-
+################### 
 
 
 

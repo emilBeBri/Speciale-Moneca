@@ -1,0 +1,15 @@
+<snippet>
+	<content><![CDATA[
+save.image("./statistik/R/moneca/vores/voresdata/tmp$1_allebeskaeft250.Rdata")
+rm(list=ls())
+load("./statistik/R/moneca/vores/voresdata/tmp$1_allebeskaeft250.Rdata")
+
+
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>rsave</tabTrigger> 
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

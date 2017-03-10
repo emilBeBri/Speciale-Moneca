@@ -1,0 +1,279 @@
+ # seg.df$manuel.klassemix.seg
+
+tmp.df.1 <- e.mobility(klynger) %>% filter(!(membership %in%  manuelle.klynger.alle)) %>% select(disco,klasse_oesch16,membership,membership_lab,without.mob.andel,without.mob,without.mob.andel.tot) %>% arrange(desc(without.mob.andel))
+view(tmp.df.1)
+
+
+
+
+
+# view(tmp.df.1)
+
+
+#hvor mange til hvilke typer segmenter? (du skal lave afgørense af segmenter, må lave en slags)
+
+tmp.df.2 <-  
+e.mobility(klynger) %>%
+ # filter((manuel.klassemix.seg=="7/8 Manuelt blandet" | manuel.klassemix.seg=="8 Manuelle arbejdere, lavere")) %>% 
+select(disco,klasse_oesch16,membership,membership_lab,without.mob.andel,without.mob,without.mob.andel.tot,manuel.klassemix.seg) %>% arrange(desc(without.mob.andel)) %>%
+ # group_by(manuel.klassemix.seg) %>% 
+ group_by(klasse_oesch16) %>% 
+  summarise(without.mob.andel.grp=sum(without.mob.andel)*100) %>% arrange(desc(without.mob.andel.grp)) 
+
+
+Desc(seg.df$manuel.klassemix.seg,plotit=FALSE)
+
+
+# filter(without.mob.andel.seg>=(2.5/100)) %>%
+
+tmp.df <- e.mobility(klynger) %>% filter(!(membership %in%  manuelle.klynger.alle)) %>% select(disco,klasse_oesch16,membership,membership_lab,without.mob.andel,without.mob,without.mob.andel.tot) %>% arrange(desc(without.mob.andel))
+
+
+
+
+# view(tmp.df)
+
+
+
+
+
+
+# tmp.df
+
+
+
+
+
+
+
+# tmp.df %>% group_by(membership) %>% summarise_each(
+#   funs(sum), 
+#   without.mob.andel.seg=without.mob.andel,
+#   without.mob.seg=without.mob,
+#   without.mob.andel.tot.seg=without.mob.andel.tot) %>%  
+# # filter(without.mob.andel.seg>=(2.5/100)) %>%
+
+#  mutate_each( funs(tilprocent),
+#   without.mob.andel.seg=without.mob.andel.seg,
+#   without.mob.seg=without.mob.seg,
+#   without.mob.andel.tot.seg=without.mob.andel.tot.seg) %>%
+#   arrange(desc(without.mob.andel.seg)) %>% print(.,n=100)
+
+
+
+```
+Aha! De fleste ender i :
+
+* service-og kontorarbejde lavere niveau, 
+* vagt- og sikkerhedsarbejde,
+* restaurationsbranchen 
+* varetransport
+* Tekniker/ingeniør (DET ER GODT!)
+* persontransport mm. (hmm)
+* Børnepasning og rejseleder
+
+meget få går til landbruget, der alligevel også er for nedadgående. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+mobilitetanalysemotor(manuelle.klynger.alle,CW=30,CH=50)
+```{r, echo=FALSE}
+
+
+tmp.df <-   filter(beskaeft.tid.seg.df,beskaeft.tid.seg.df$membership %in% manuelle.klynger.alle) 
+
+ colSums(tmp.df[,-1])*100
+ (colSums(tmp.df[,-1])[1] - colSums(tmp.df[,-1])[14]) *100
+```
+I de klynger, hvor der er manuelle arbejdere, er andelen af beskæftigede faldet med 4,2 %.
+
+
+```{r, echo=FALSE}
+tmp.df <-  discodata %>%    filter(discodata$klasse_oesch8=="4 Manuelle arbejdere")  %>%   select(indeks,disco,)
+
+
+
+manuelle.klynger.alle
+
+
+manuel.liste <-  tmp.df$indeks
+tmp.df <- beskaeft.andel.tid.df[manuel.liste,]
+ colSums(tmp.df[,3:16])*100
+ (colSums(tmp.df[,3:16])[1] - colSums(tmp.df[,3:16])[14]) *100
+```
+
+
+
+
+Blandt de manuelle arbejdere selv, er andelen af beskæftigede faldet med 4,3 %. Der er enkelte manuelle jobs der går op, men det er tydeligt, at faldet i beskæftigelse har ramt klassespecifikt på de manuelle arbejdere. Dette især eftersom de klynger - og dem er der som bekendt ikke mange af - hvor der findes jobs af andre typer, falder beskæftigelsen også! Undtagen i transport-klyngen. 
+
+Vi ser desuden at landarbejdere i Oesch terminologi ikke har deres egen klasse. Dette kunne muligvis antaget som problematisk, men det er tydeligt, at de ikke fylder meget, og særligt gennem 00erne er denne specifiekke type manuelle arbejde skrumpet gevaldigt ind. Samme billede viser Andrade, og gennemgår årsagerne til dette indgående, skulle man have interesse for årsagerne til landbrugets forfald som beskættigelsessektor. 
+
+
+
+ 
+
+**Spørgsmål melder sig: Hvor går de manuelle arbejdere så hen?** 
+
+```{r, echo=FALSE}
+
+cut.off.default <- 1
+wm1            <- weight.matrix(mob.mat, cut.off = cut.off.default, symmetric = FALSE, small.cell.reduction = small.cell.default, diagonal=TRUE) 
+wm1[is.na(wm1)] <- 0
+mat.e <- wm1
+# vælg segmenter af interesse 
+klynger = c("3.24")
+# forberedelse 
+work.list <-  sort(as.vector(unlist(df %>% filter(membership %in% klynger) %>%     select(indeks))))
+
+
+# 2. til segmenter af interesse 
+aug.work.list <- sort(unique(unlist(lapply(work.list, function(x) which(mat.e[,x] != 0)))))
+
+# find dem! 
+gylden.liste <-  setdiff(aug.work.list,work.list)
+# df <- rename(df,klasse_oesch8=klasse_oesch_8) #hotfix
+tmp.df <- discodata %>% filter(indeks %in% gylden.liste) %>% 	select(disco,membership,klasse_oesch16,klasse_oesch8,indeks)
+
+#se dem!
+count(tmp.df, membership) %>% filter(n>=2) %>%  arrange(desc(n)) 
+count(tmp.df, klasse_oesch8) %>% filter(n>=2) %>% arrange(desc(n)) %>% print(n=nrow(.))
+count(tmp.df, klasse_oesch16) %>% filter(n>=2) %>% arrange(desc(n)) %>% print(n=nrow(.))
+count(tmp.df, klasse_oesch16,membership) %>% filter(n>=2) %>% arrange(desc(membership),desc(n)) %>% print(n=nrow(.))
+
+```
+
+
+
+Det ses at langt de fleste af de for nedadgående manuelle hverv flygter til de mere serviceorientede hverv. kommer fra de manuelle arbejderklynge eller enkelte fra mad- og restaurationsklyngen, 3.8
+
+
+
+Hvor mange skift er der tale om (mobilitet):
+
+
+```{r, echo=FALSE}
+
+mat.e <- wm1
+
+klynger <- manuelle.klynger.alle
+work.list <-  sort(as.vector(unlist(df %>% filter(membership %in% klynger) %>%     select(indeks))))
+
+# 2. til segmenter af interesse 
+aug.work.list <- sort(unique(unlist(lapply(work.list, function(x) which(mat.e[,x] != 0)))))
+
+# find dem! 
+gylden.liste <-  setdiff(aug.work.list,work.list)
+# df <- rename(df,klasse_oesch8=klasse_oesch_8) #hotfix
+tmp.df <- discodata %>% filter(indeks %in% gylden.liste) %>% 	select(disco,membership,klasse_oesch16,klasse_oesch8,indeks)
+
+```
+
+asdfsdf 
+
+
+```{r, echo=FALSE}
+#se dem!
+count(tmp.df, membership) %>% filter(n>=3) %>%  arrange(desc(n)) 
+```
+
+ryk til tekniker/ingenør-klyngen, overraskende, positivt, nok. 
+Derefter landbruget, der ikke ligefrem flyver, rent beskæftigelsesmæssigt. Men derefter, overraskende, EDB/IT klyngen! Spændende. Hvad mon der sker der? 
+
+
+```{r, echo=FALSE}
+count(tmp.df, klasse_oesch8) %>% filter(n>=3) %>% arrange(desc(n)) %>% print(n=nrow(.))
+```
+
+Der er mange der bliver teknikere. Noget fungerer altså i omskolingen fra manuelt arbejde. 
+
+
+```{r, echo=FALSE}
+count(tmp.df, klasse_oesch16) %>% filter(n>=3) %>% arrange(desc(n)) %>% print(n=nrow(.))
+```
+Særligt lavt-rangs teknikere. Men derefter faktisk tekniske eksperter. Så manuelle arbejdere, og servicearbejde. 
+
+
+
+
+```{r, echo=FALSE}
+count(tmp.df, klasse_oesch16,membership) %>% filter(n>=2) %>% arrange(desc(membership),desc(n)) %>% print(n=nrow(.))
+```
+
+
+Det er tydeligvis et sted som teknikere og andre at der sker skift. Men hvor stærk er mobiliteten til de forskellige erhvervsgrupper og segmenter? 
+
+
+
+
+
+Hvordan klarer disse segmenter sig så? 
+
+```{r,echo=FALSE}
+
+library(ggthemes)
+
+tmp.df <- e.mobility(klynger)
+tmp.df <-  tmp.df %>% group_by(membership) %>% summarise_each(
+	funs(sum), 
+  without.mob.andel.seg=without.mob.andel,
+  without.mob.seg=without.mob,
+  without.mob.andel.tot.seg=without.mob.andel.tot
+  ) %>% filter(without.mob.andel.seg>=(5/100)) %>%  arrange(desc(without.mob.andel.seg)) 
+
+
+tmp.liste <- as.character(tmp.df$membership)
+
+plot.df <-   beskaeft.tid.seg.df %>%  filter(beskaeft.tid.seg.df$membership %in% tmp.liste) %>% gather(key, value, -membership) %>%   rename(segmenter=membership) 
+
+
+
+ggplot(plot.df, aes(x=key, y=value, colour=as.matrix(plot.df[,1]), group=as.matrix(plot.df[,1]))) + geom_line(size=1.3) + xlab("") + ylab("") + theme_tufte() + theme(panel.grid.major= element_line(colour="grey70", size=0.05)) + scale_colour_manual(values=colorRampPalette(xmen)(length(unique(as.matrix(plot.df[,1]))))) + geom_rangeframe(color="black") + scale_y_continuous(label=percent, breaks = extended_range_breaks()(plot.df$value))
+
+```
+
+
+Beskæftigelse blandt den manuelle klasses segmenter og antal 
+
+```{r,echo=FALSE}
+
+tmp.df <-  seg.df %>% group_by(manuel.klassemix.seg) %>% summarise_each(funs(sum), beskaeft.andel.gns.beregn.klassemix.manuel=beskaeft.andel.gns.beregn) %>% mutate(manuel.klassemix.seg=strtrim(manuel.klassemix.seg, 3)) %>% round_df(.,3)
+tmp.df
+DescTools::Desc(seg.df$manuel.klassemix.seg,plotit=FALSE)
+DescTools::Desc(discodata$manuel.klassemix.seg,plotit=FALSE)
+
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
